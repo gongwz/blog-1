@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="版本1在这个版本中，首先创建了RouterConfig对象，其构造方法创建了tornado.web.Application()并赋值为self.Application，在每个Handler上添加`@app.route装饰器，对应的就是RouterConfig下面的route对象，其中Handler实例会被赋值到handler参数中，最后把URL和Handler对应关系添加到路由表中，URL在每个H">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用装饰器自动注册Tornado路由">
+<meta property="og:url" content="https://blog.ansheng.me/article/automatically-register-tornado-routes-with-decorators/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="版本1在这个版本中，首先创建了RouterConfig对象，其构造方法创建了tornado.web.Application()并赋值为self.Application，在每个Handler上添加`@app.route装饰器，对应的就是RouterConfig下面的route对象，其中Handler实例会被赋值到handler参数中，最后把URL和Handler对应关系添加到路由表中，URL在每个H">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.057Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用装饰器自动注册Tornado路由">
+<meta name="twitter:description" content="版本1在这个版本中，首先创建了RouterConfig对象，其构造方法创建了tornado.web.Application()并赋值为self.Application，在每个Handler上添加`@app.route装饰器，对应的就是RouterConfig下面的route对象，其中Handler实例会被赋值到handler参数中，最后把URL和Handler对应关系添加到路由表中，URL在每个H">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>使用装饰器自动注册Tornado路由</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/django-rest-framework-token-expiring/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/nfs-network-file-system/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#版本1"><span class="toc-number">1.</span> <span class="toc-text">版本1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#版本2"><span class="toc-number">2.</span> <span class="toc-text">版本2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#版本3"><span class="toc-number">3.</span> <span class="toc-text">版本3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试"><span class="toc-number">4.</span> <span class="toc-text">测试</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        使用装饰器自动注册Tornado路由
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+    <div class="postdate">
+        <time datetime="2017-05-23T16:00:00.000Z" itemprop="datePublished">2017-05-24</time>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="版本1"><a href="#版本1" class="headerlink" title="版本1"></a>版本1</h2><p>在这个版本中，首先创建了<code>RouterConfig</code>对象，其构造方法创建了<code>tornado.web.Application()</code>并赋值为<code>self.Application</code>，在每个<code>Handler</code>上添加<a href="mailto:`@app.route" target="_blank" rel="noopener">`@app.route</a><code>装饰器，对应的就是</code>RouterConfig<code>下面的</code>route<code>对象，其中</code>Handler<code>实例会被赋值到</code>handler<code>参数中，最后把</code>URL<code>和</code>Handler<code>对应关系添加到路由表中，</code>URL<code>在每个</code>Handler`中创建的属性。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># _*_ coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Created by 安生 on 2017/2/9</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tornado</span><br><span class="line"><span class="keyword">import</span> tornado.web</span><br><span class="line"><span class="keyword">import</span> tornado.ioloop</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RouterConfig</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.Application = tornado.web.Application()  <span class="comment"># 创建路由对象</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">route</span><span class="params">(self, handler)</span>:</span></span><br><span class="line">        self.Application.add_handlers(<span class="string">'.*$'</span>, [(handler.URL, handler)])  <span class="comment"># 路有关系映射添加到路由表中</span></span><br><span class="line"></span><br><span class="line">app = RouterConfig()  <span class="comment"># 创建路由</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainHandler</span><span class="params">(tornado.web.RequestHandler)</span>:</span></span><br><span class="line">    URL = <span class="string">r'/'</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        self.write(<span class="string">'Hello, 安生'</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainHandler</span><span class="params">(tornado.web.RequestHandler)</span>:</span></span><br><span class="line">    URL = <span class="string">r'/hi'</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        self.write(<span class="string">'hi, 安生'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    app.Application.listen(<span class="number">8000</span>)</span><br><span class="line">    print(<span class="string">"http://127.0.0.1:8000/"</span>)</span><br><span class="line">    tornado.ioloop.IOLoop.instance().start()</span><br></pre></td></tr></table></figure>
+<h2 id="版本2"><a href="#版本2" class="headerlink" title="版本2"></a>版本2</h2><p>创建<code>Route</code>对象，然后再<code>Handler</code>上加上装饰器<code>@route(r&#39;/&#39;)</code>，并把<code>URL</code>传递进来，其中对应到<code>__call__</code>方法中的<code>url</code>参数，然后把路由对应关系以元祖的方式添加到列表中，待所有的路由都添加完成之后，创建Tornado的路有对象，然后把路由表放进去，最后完成注册。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># _*_ coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Created by 安生 on 2017/2/9</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tornado.ioloop</span><br><span class="line"><span class="keyword">import</span> tornado.web</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Route</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">""" 把每个URL与Handler的关系保存到一个元组中，然后追加到列表内，列表内包含了所有的Handler """</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.urls = list()  <span class="comment"># 路由列表</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, url, *args, **kwargs)</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">register</span><span class="params">(cls)</span>:</span></span><br><span class="line">            self.urls.append((url, cls))  <span class="comment"># 把路由的对应关系表添加到路由列表中</span></span><br><span class="line">            <span class="keyword">return</span> cls</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> register</span><br><span class="line"></span><br><span class="line">route = Route()  <span class="comment"># 创建路由表对象</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@route(r'/')</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainHandler</span><span class="params">(tornado.web.RequestHandler)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        self.write(<span class="string">'Hello, 安生'</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@route(r'/hi')</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainHandler</span><span class="params">(tornado.web.RequestHandler)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        self.write(<span class="string">'hi, 安生'</span>)</span><br><span class="line"></span><br><span class="line">application = tornado.web.Application(route.urls)  <span class="comment"># 创建app，并且把路有关系放入到Application对象中</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    application.listen(<span class="number">8000</span>)</span><br><span class="line">    print(<span class="string">"http://127.0.0.1:%s/"</span> % <span class="number">8000</span>)</span><br><span class="line">    tornado.ioloop.IOLoop.instance().start()</span><br></pre></td></tr></table></figure>
+<h2 id="版本3"><a href="#版本3" class="headerlink" title="版本3"></a>版本3</h2><p>这个版本也是我现在在使用版本，原理都一样，这里的特点就是继承Tornado路由对象</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># _*_ coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Created by 安生 on 2017/2/9</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tornado.web</span><br><span class="line"><span class="keyword">import</span> tornado.ioloop</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RouterConfig</span><span class="params">(tornado.web.Application)</span>:</span></span><br><span class="line">    <span class="string">""" 重置Tornado自带的路有对象 """</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">route</span><span class="params">(self, url)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :param url: URL地址</span></span><br><span class="line"><span class="string">        :return: 注册路由关系对应表的装饰器</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">register</span><span class="params">(handler)</span>:</span></span><br><span class="line">            <span class="string">"""</span></span><br><span class="line"><span class="string">            :param handler: URL对应的Handler</span></span><br><span class="line"><span class="string">            :return: Handler</span></span><br><span class="line"><span class="string">            """</span></span><br><span class="line">            self.add_handlers(<span class="string">".*$"</span>, [(url, handler)])  <span class="comment"># URL和Handler对应关系添加到路由表中</span></span><br><span class="line">            <span class="keyword">return</span> handler</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> register</span><br><span class="line"></span><br><span class="line">app = RouterConfig(cookie_secret=<span class="string">'ulb7bEIZmwpV545Z'</span>)  <span class="comment"># 创建Tornado路由对象，默认路由表为空</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(r'/')</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainHandler</span><span class="params">(tornado.web.RequestHandler)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        self.write(<span class="string">'Hello, 安生'</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(r'/hi')</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainHandler</span><span class="params">(tornado.web.RequestHandler)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        self.write(<span class="string">'hi, 安生'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    app.listen(<span class="number">8000</span>)</span><br><span class="line">    print(<span class="string">"http://127.0.0.1:%s/"</span> % <span class="number">8000</span>)</span><br><span class="line">    tornado.ioloop.IOLoop.instance().start()</span><br></pre></td></tr></table></figure>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>以上一个版本中，测试方法及输出都是一样的，可以用<code>requests</code>模块模拟HTTP请求</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> requests</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>requests.get(<span class="string">'http://127.0.0.1:8000/'</span>).text</span><br><span class="line"><span class="string">'Hello, 安生'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>requests.get(<span class="string">'http://127.0.0.1:8000/hi'</span>).text</span><br><span class="line"><span class="string">'hi, 安生'</span></span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#版本1"><span class="toc-number">1.</span> <span class="toc-text">版本1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#版本2"><span class="toc-number">2.</span> <span class="toc-text">版本2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#版本3"><span class="toc-number">3.</span> <span class="toc-text">版本3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试"><span class="toc-number">4.</span> <span class="toc-text">测试</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

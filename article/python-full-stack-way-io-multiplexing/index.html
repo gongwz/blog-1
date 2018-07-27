@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="What is IO Multiplexing?IO多路复用是指内核一旦发现进程指定的一个或者多个IO条件准备读取，它就通知该进程。 举例说明 你是一名老师(线程)，上课了(启动线程)，这节课是自习课，学生都在自习，你也在教室里面坐着，只看着这帮学生，什么也不干(休眠状态)，课程进行到一半时，A同学(socket)突然拉肚子，举手说：老湿我要上厕所(read)，然后你就让他去了，过了一会，B同学">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python全栈之路系列之IO多路复用">
+<meta property="og:url" content="https://blog.ansheng.me/article/python-full-stack-way-io-multiplexing/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="What is IO Multiplexing?IO多路复用是指内核一旦发现进程指定的一个或者多个IO条件准备读取，它就通知该进程。 举例说明 你是一名老师(线程)，上课了(启动线程)，这节课是自习课，学生都在自习，你也在教室里面坐着，只看着这帮学生，什么也不干(休眠状态)，课程进行到一半时，A同学(socket)突然拉肚子，举手说：老湿我要上厕所(read)，然后你就让他去了，过了一会，B同学">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://blog.ansheng.me/images/2016/12/1483022063.png">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.077Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python全栈之路系列之IO多路复用">
+<meta name="twitter:description" content="What is IO Multiplexing?IO多路复用是指内核一旦发现进程指定的一个或者多个IO条件准备读取，它就通知该进程。 举例说明 你是一名老师(线程)，上课了(启动线程)，这节课是自习课，学生都在自习，你也在教室里面坐着，只看着这帮学生，什么也不干(休眠状态)，课程进行到一半时，A同学(socket)突然拉肚子，举手说：老湿我要上厕所(read)，然后你就让他去了，过了一会，B同学">
+<meta name="twitter:image" content="https://blog.ansheng.me/images/2016/12/1483022063.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Python全栈之路系列之IO多路复用</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/python-full-stack-way-object-operator-overload/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/python-full-stack-way-object-oriented-advanced/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-IO-Multiplexing"><span class="toc-number">1.</span> <span class="toc-text">What is IO Multiplexing?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-a-select"><span class="toc-number">2.</span> <span class="toc-text">What is a select?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-a-poll"><span class="toc-number">3.</span> <span class="toc-text">What is a poll?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-a-epoll"><span class="toc-number">4.</span> <span class="toc-text">What is a epoll?</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Python全栈之路系列之IO多路复用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="/images/2016/12/1483022063.png" alt="io-multiplexing-01"></p>
+<h2 id="What-is-IO-Multiplexing"><a href="#What-is-IO-Multiplexing" class="headerlink" title="What is IO Multiplexing?"></a>What is IO Multiplexing?</h2><p>IO多路复用是指内核一旦发现进程指定的一个或者多个IO条件准备读取，它就通知该进程。</p>
+<p>举例说明</p>
+<p>你是一名老师(线程)，上课了(启动线程)，这节课是自习课，学生都在自习，你也在教室里面坐着，只看着这帮学生，什么也不干(休眠状态)，课程进行到一半时，A同学(socket)突然拉肚子，举手说：老湿我要上厕所(read)，然后你就让他去了，过了一会，B同学(socket)在自习的过程中有个问题不太懂，就请你过去帮她解答下(write)，然后你就过去帮他解答了。</p>
+<p>上述这种情况就是IO多路复用，你就是一个IO，那么你解决了A同学的问题和B同学的问题，这就是复用，多路网络连接复用一个io线程。</p>
+<p>与多进程和多线程技术相比，I/O多路复用技术的最大优势是系统开销小，系统不必创建进程/线程，也不必维护这些进程/线程，从而大大减小了系统的开销。</p>
+<p>目前常见支持I/O多路复用的系统调用有 select，poll，epoll，I/O多路复用就是通过一种机制，一个进程可以监视多个描述符，一旦某个描述符就绪（一般是读就绪或者写就绪），能够通知程序进行相应的读写操作</p>
+<h2 id="What-is-a-select"><a href="#What-is-a-select" class="headerlink" title="What is a select?"></a>What is a select?</h2><p>select 监视的文件描述符分3类，分别是writefds、readfds和exceptfds，程序启动后select函数会阻塞，直到有描述符就绪（有数据 可读、可写、或者有except），或者超时（timeout指定等待时间，如果立即返回设为null即可），函数返回，当select函数返回后，可以通过遍历fdset，来找到就绪的描述符。</p>
+<ul>
+<li>特点</li>
+</ul>
+<ol>
+<li>select最大的缺陷就是单个进程所打开的FD是有一定限制的，它由FD_SETSIZE设置，默认值是1024；</li>
+<li>对socket进行扫描时是线性扫描，即采用轮询的方法，效率较低；</li>
+<li>需要维护一个用来存放大量fd的数据结构，这样会使得用户空间和内核空间在传递该结构时复制开销大；</li>
+</ol>
+<p>Python实现select模型代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># _*_coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> select</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">sk1 = socket.socket()</span><br><span class="line">sk1.bind((<span class="string">'127.0.0.1'</span>, <span class="number">8002</span>, ))</span><br><span class="line">sk1.listen()</span><br><span class="line"></span><br><span class="line">demo_li = [sk1]</span><br><span class="line">outputs = []</span><br><span class="line">message_dict = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    r_list, w_list, e_list = select.select(sk1, outputs, [], <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    print(len(demo_li),r_list)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> sk1_or_conn <span class="keyword">in</span> r_list:</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> sk1_or_conn == sk1:</span><br><span class="line">            conn, address = sk1_or_conn.accept()</span><br><span class="line">            demo_li.append(conn)</span><br><span class="line">            message_dict[conn] = []</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                data_bytes = sk1_or_conn.recv(<span class="number">1024</span>)</span><br><span class="line">                <span class="comment"># data_str = str(data_bytes, encoding="utf-8")</span></span><br><span class="line">                <span class="comment"># print(data_str)</span></span><br><span class="line">                <span class="comment"># sk1_or_conn.sendall(bytes(data_str+"good", encoding="utf-8"))</span></span><br><span class="line">            <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">                demo_li.remove(sk1_or_conn)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                data_str = str(data_bytes, encoding=<span class="string">"utf-8"</span>)</span><br><span class="line">                message_dict[sk1_or_conn].append(data_str)</span><br><span class="line">                outputs.append(sk1_or_conn)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> conn <span class="keyword">in</span> w_list:</span><br><span class="line">        recv_str = message_dict[conn][<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">del</span> message_dict[conn][<span class="number">0</span>]</span><br><span class="line">        conn.sendall(bytes(recv_str+<span class="string">"Good"</span>, encoding=<span class="string">"utf-8"</span>))</span><br><span class="line">        outputs.remove(conn)</span><br></pre></td></tr></table></figure>
+<h2 id="What-is-a-poll"><a href="#What-is-a-poll" class="headerlink" title="What is a poll?"></a>What is a poll?</h2><p><strong>基本原理：</strong></p>
+<p>poll本质上和select没有区别，它将用户传入的数组拷贝到内核空间，然后查询每个fd对应的设备状态，如果设备就绪则在设备等待队列中加入一项并继续遍历，如果遍历完所有fd后没有发现就绪设备，则挂起当前进程，直到设备就绪或者主动超时，被唤醒后它又要再次遍历fd。这个过程经历了多次无谓的遍历。</p>
+<p>它没有最大连接数的限制，原因是它是基于链表来存储的，但是同样有一个缺点：</p>
+<ol>
+<li>大量的fd的数组被整体复制于用户态和内核地址空间之间，而不管这样的复制是不是有意义。</li>
+<li>poll还有一个特点是“水平触发”，如果报告了fd后，没有被处理，那么下次poll时会再次报告该fd。</li>
+</ol>
+<h2 id="What-is-a-epoll"><a href="#What-is-a-epoll" class="headerlink" title="What is a epoll?"></a>What is a epoll?</h2><p>poll是在2.6内核中提出的，是之前的select和poll的增强版本。相对于select和poll来说，epoll更加灵活，没有描述符限制。epoll使用一个文件描述符管理多个描述符，将用户关系的文件描述符的事件存放到内核的一个事件表中，这样在用户空间和内核空间的copy只需一次。</p>
+<p><strong>基本原理：</strong></p>
+<p>epoll支持水平触发和边缘触发，最大的特点在于边缘触发，它只告诉进程哪些fd刚刚变为就绪态，并且只会通知一次。还有一个特点是，epoll使用“事件”的就绪通知方式，通过epoll_ctl注册fd，一旦该fd就绪，内核就会采用类似callback的回调机制来激活该fd，epoll_wait便可以收到通知。</p>
+<p><strong>epoll的优点：</strong></p>
+<ol>
+<li>没有最大并发连接的限制，能打开的FD的上限远大于1024（1G的内存上能监听约10万个端口）。</li>
+<li>效率提升，不是轮询的方式，不会随着FD数目的增加效率下降。只有活跃可用的FD才会调用callback函数；即Epoll最大的优点就在于它只管你“活跃”的连接，而跟连接总数无关，因此在实际的网络环境中，Epoll的效率就会远远高于select和poll。</li>
+<li>内存拷贝，利用mmap()文件映射内存加速与内核空间的消息传递；即epoll使用mmap减少复制开销。</li>
+</ol>
+<p>epoll对文件描述符的操作有两种模式：LT（level trigger）和ET（edge trigger）。LT模式是默认模式，LT模式与ET模式的区别如下：</p>
+<p><strong>LT模式：</strong>当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序可以不立即处理该事件。下次调用epoll_wait时，会再次响应应用程序并通知此事件。</p>
+<p><strong>ET模式：</strong>当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序必须立即处理该事件。如果不处理，下次调用epoll_wait时，不会再次响应应用程序并通知此事件。</p>
+<p><strong>LT模式</strong><br>LT(level triggered)是缺省的工作方式，并且同时支持block和no-block socket。在这种做法中，内核告诉你一个文件描述符是否就绪了，然后你可以对这个就绪的fd进行IO操作。如果你不作任何操作，内核还是会继续通知你的。</p>
+<p><strong>ET模式</strong><br>ET(edge-triggered)是高速工作方式，只支持no-block socket。在这种模式下，当描述符从未就绪变为就绪时，内核通过epoll告诉你。然后它会假设你知道文件描述符已经就绪，并且不会再为那个文件描述符发送更多的就绪通知，直到你做了某些操作导致那个文件描述符不再为就绪状态了(比如，你在发送，接收或者接收请求，或者发送接收的数据少于一定量时导致了一个EWOULDBLOCK 错误）。但是请注意，如果一直不对这个fd作IO操作(从而导致它再次变成未就绪)，内核不会发送更多的通知(only once)。ET模式在很大程度上减少了epoll事件被重复触发的次数，因此效率要比LT模式高。epoll工作在ET模式的时候，必须使用非阻塞套接口，以避免由于一个文件句柄的阻塞读/阻塞写操作把处理多个文件描述符的任务饿死。</p>
+<p>在select/poll中，进程只有在调用一定的方法后，内核才对所有监视的文件描述符进行扫描，而epoll事先通过epoll_ctl()来注册一个文件描述符，一旦基于某个文件描述符就绪时，内核会采用类似callback的回调机制，迅速激活这个文件描述符，当进程调用epoll_wait()时便得到通知。(此处去掉了遍历文件描述符，而是通过监听回调的的机制。这正是epoll的魅力所在。)</p>
+
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-IO-Multiplexing"><span class="toc-number">1.</span> <span class="toc-text">What is IO Multiplexing?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-a-select"><span class="toc-number">2.</span> <span class="toc-text">What is a select?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-a-poll"><span class="toc-number">3.</span> <span class="toc-text">What is a poll?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-a-epoll"><span class="toc-number">4.</span> <span class="toc-text">What is a epoll?</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

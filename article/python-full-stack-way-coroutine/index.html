@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="What is the association?与子例程一样，协程也是一种程序组件。 相对子例程而言，协程更为一般和灵活，但在实践中使用没有子例程那样广泛。 协程源自Simula和Modula-2语言，但也有其他语言支持。 协程更适合于用来实现彼此熟悉的程序组件，如合作式多任务，迭代器，无限列表和管道。  来自维基百科 https://zh.wikipedia.org/wiki/协程  协程拥有自">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python全栈之路系列之协程">
+<meta property="og:url" content="https://blog.ansheng.me/article/python-full-stack-way-coroutine/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="What is the association?与子例程一样，协程也是一种程序组件。 相对子例程而言，协程更为一般和灵活，但在实践中使用没有子例程那样广泛。 协程源自Simula和Modula-2语言，但也有其他语言支持。 协程更适合于用来实现彼此熟悉的程序组件，如合作式多任务，迭代器，无限列表和管道。  来自维基百科 https://zh.wikipedia.org/wiki/协程  协程拥有自">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.075Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python全栈之路系列之协程">
+<meta name="twitter:description" content="What is the association?与子例程一样，协程也是一种程序组件。 相对子例程而言，协程更为一般和灵活，但在实践中使用没有子例程那样广泛。 协程源自Simula和Modula-2语言，但也有其他语言支持。 协程更适合于用来实现彼此熟悉的程序组件，如合作式多任务，迭代器，无限列表和管道。  来自维基百科 https://zh.wikipedia.org/wiki/协程  协程拥有自">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Python全栈之路系列之协程</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/python-full-stack-way-file-operations/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/python-full-stack-way-dict-data-type/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-the-association"><span class="toc-number">1.</span> <span class="toc-text">What is the association?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实现协程实例"><span class="toc-number">1.1.</span> <span class="toc-text">实现协程实例</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Python全栈之路系列之协程
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="What-is-the-association"><a href="#What-is-the-association" class="headerlink" title="What is the association?"></a>What is the association?</h2><p>与子例程一样，协程也是一种程序组件。 相对子例程而言，协程更为一般和灵活，但在实践中使用没有子例程那样广泛。 协程源自Simula和Modula-2语言，但也有其他语言支持。 协程更适合于用来实现彼此熟悉的程序组件，如合作式多任务，迭代器，无限列表和管道。</p>
+<blockquote>
+<p>来自维基百科 <a href="https://zh.wikipedia.org/wiki/协程" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/协程</a></p>
+</blockquote>
+<p>协程拥有自己的寄存器上下文和栈，协程调度切换时，将寄存器上下文和栈保存到其他地方，在切回来的时候，恢复先前保存的寄存器上下文和栈。因此：协程能保留上一次调用时的状态（即所有局部状态的一个特定组合），每次过程重入时，就相当于进入上一次调用的状态，换种说法：进入上一次离开时所处逻辑流的位置。</p>
+<p>协程的优缺点：</p>
+<p>优点</p>
+<ol>
+<li>无需线程上下文切换的开销</li>
+<li>无需原子操作锁定及同步的开销(更改一个变量)</li>
+<li>方便切换控制流，简化编程模型</li>
+<li>高并发+高扩展性+低成本：一个CPU支持上万的协程都不是问题。所以很适合用于高并发处理。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>无法利用多核资源：协程的本质是个单线程,它不能多核，协程需要和进程配合才能运行在多CPU上，当然我们日常所编写的绝大部分应用都没有这个必要，除非是CPU密集型应用。</li>
+<li>进行阻塞（Blocking）操作（如IO时）会阻塞掉整个程序</li>
+</ol>
+<h3 id="实现协程实例"><a href="#实现协程实例" class="headerlink" title="实现协程实例"></a>实现协程实例</h3><p>yield</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">consumer</span><span class="params">(name)</span>:</span></span><br><span class="line">    print(<span class="string">"---&gt;starting eating baozi..."</span>)</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        new_baozi = <span class="keyword">yield</span>  <span class="comment"># 直接返回</span></span><br><span class="line">        print(<span class="string">"[%s] is eating baozi %s"</span> % (name, new_baozi))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">producer</span><span class="params">()</span>:</span></span><br><span class="line">    r = con.__next__()</span><br><span class="line">    r = con2.__next__()</span><br><span class="line">    n = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> n &lt; <span class="number">5</span>:</span><br><span class="line">        n += <span class="number">1</span></span><br><span class="line">        con.send(n)  <span class="comment"># 唤醒生成器的同时传入一个参数</span></span><br><span class="line">        con2.send(n)</span><br><span class="line">        print(<span class="string">"\033[32;1m[producer]\033[0m is making baozi %s"</span> % n)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    con = consumer(<span class="string">"c1"</span>)</span><br><span class="line">    con2 = consumer(<span class="string">"c2"</span>)</span><br><span class="line">    p = producer()</span><br></pre></td></tr></table></figure>
+<p>Greenlet</p>
+<p>安装greenlet</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip3 install greenlet</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> greenlet <span class="keyword">import</span> greenlet</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func1</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="number">12</span>)</span><br><span class="line">    gr2.switch()</span><br><span class="line">    print(<span class="number">34</span>)</span><br><span class="line">    gr2.switch()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func2</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="number">56</span>)</span><br><span class="line">    gr1.switch()</span><br><span class="line">    print(<span class="number">78</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建两个携程</span></span><br><span class="line">gr1 = greenlet(func1)</span><br><span class="line">gr2 = greenlet(func2)</span><br><span class="line">gr1.switch()  <span class="comment"># 手动切换</span></span><br></pre></td></tr></table></figure>
+<p>Gevent </p>
+<p>Gevent可以实现并发同步或异步编程，在gevent中用到的主要模式是Greenlet， 它是以C扩展模块形式接入Python的轻量级协程，Greenlet全部运行在主程序操作系统进程的内部，但它们被协作式地调度。</p>
+<p>安装Gevent</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip3 install gevent</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> gevent</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'Running in foo'</span>)</span><br><span class="line">    gevent.sleep(<span class="number">2</span>)</span><br><span class="line">    print(<span class="string">'Explicit context switch to foo again'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'Explicit context to bar'</span>)</span><br><span class="line">    gevent.sleep(<span class="number">3</span>)</span><br><span class="line">    print(<span class="string">'Implicit context switch back to bar'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 自动切换</span></span><br><span class="line">gevent.joinall([</span><br><span class="line">    gevent.spawn(foo),  <span class="comment"># 启动一个协程</span></span><br><span class="line">    gevent.spawn(bar),</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+<p>页面抓取</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> request</span><br><span class="line"><span class="keyword">from</span> gevent <span class="keyword">import</span> monkey</span><br><span class="line"><span class="keyword">import</span> gevent</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">monkey.patch_all()  <span class="comment"># 当前程序中只要设置到IO操作的都做上标记</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wget</span><span class="params">(url)</span>:</span></span><br><span class="line">    print(<span class="string">'GET: %s'</span> % url)</span><br><span class="line">    resp = request.urlopen(url)</span><br><span class="line">    data = resp.read()</span><br><span class="line">    print(<span class="string">'%d bytes received from %s.'</span> % (len(data), url))</span><br><span class="line"></span><br><span class="line">urls = [</span><br><span class="line">    <span class="string">'https://www.python.org/'</span>,</span><br><span class="line">    <span class="string">'https://www.python.org/'</span>,</span><br><span class="line">    <span class="string">'https://github.com/'</span>,</span><br><span class="line">    <span class="string">'https://blog.ansheng.me/'</span>,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 串行抓取</span></span><br><span class="line">start_time = time.time()</span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> urls:</span><br><span class="line">    wget(n)</span><br><span class="line">print(<span class="string">"串行抓取使用时间："</span>, time.time() - start_time)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 并行抓取</span></span><br><span class="line">ctrip_time = time.time()</span><br><span class="line">gevent.joinall([</span><br><span class="line">    gevent.spawn(wget, <span class="string">'https://www.python.org/'</span>),</span><br><span class="line">    gevent.spawn(wget, <span class="string">'https://www.python.org/'</span>),</span><br><span class="line">    gevent.spawn(wget, <span class="string">'https://github.com/'</span>),</span><br><span class="line">    gevent.spawn(wget, <span class="string">'https://blog.ansheng.me/'</span>),</span><br><span class="line">])</span><br><span class="line">print(<span class="string">"并行抓取使用时间："</span>, time.time() - ctrip_time)</span><br></pre></td></tr></table></figure>
+<p>输出<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">C:\Python\Python35\python.exe E:/MyCodeProjects/协程/s4.py</span><br><span class="line">GET: https://www.python.org/</span><br><span class="line"><span class="number">47424</span> bytes received <span class="keyword">from</span> https://www.python.org/.</span><br><span class="line">GET: https://www.python.org/</span><br><span class="line"><span class="number">47424</span> bytes received <span class="keyword">from</span> https://www.python.org/.</span><br><span class="line">GET: https://github.com/</span><br><span class="line"><span class="number">25735</span> bytes received <span class="keyword">from</span> https://github.com/.</span><br><span class="line">GET: https://blog.ansheng.me/</span><br><span class="line"><span class="number">82693</span> bytes received <span class="keyword">from</span> https://blog.ansheng.me/.</span><br><span class="line">串行抓取使用时间： <span class="number">15.143015384674072</span></span><br><span class="line">GET: https://www.python.org/</span><br><span class="line">GET: https://www.python.org/</span><br><span class="line">GET: https://github.com/</span><br><span class="line">GET: https://blog.ansheng.me/</span><br><span class="line"><span class="number">25736</span> bytes received <span class="keyword">from</span> https://github.com/.</span><br><span class="line"><span class="number">47424</span> bytes received <span class="keyword">from</span> https://www.python.org/.</span><br><span class="line"><span class="number">82693</span> bytes received <span class="keyword">from</span> https://blog.ansheng.me/.</span><br><span class="line"><span class="number">47424</span> bytes received <span class="keyword">from</span> https://www.python.org/.</span><br><span class="line">并行抓取使用时间： <span class="number">3.781306266784668</span></span><br><span class="line"></span><br><span class="line">Process finished <span class="keyword">with</span> exit code <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-the-association"><span class="toc-number">1.</span> <span class="toc-text">What is the association?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实现协程实例"><span class="toc-number">1.1.</span> <span class="toc-text">实现协程实例</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

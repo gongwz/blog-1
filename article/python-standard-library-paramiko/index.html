@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Paramiko是一个Python实施SSHv2的协议，提供客户端和服务器的功能。虽然它利用一个Python C扩展低级别加密的paramiko本身就是围绕SSH联网概念的纯Python接口。 Paramiko官网：http://www.paramiko.org/ 安装Paramikopip3 install paramiko 安装之后进入python解释器导入模块，如果导入成功则安装成功，否则安">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python标准库系列之Paramiko模块">
+<meta property="og:url" content="https://blog.ansheng.me/article/python-standard-library-paramiko/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="Paramiko是一个Python实施SSHv2的协议，提供客户端和服务器的功能。虽然它利用一个Python C扩展低级别加密的paramiko本身就是围绕SSH联网概念的纯Python接口。 Paramiko官网：http://www.paramiko.org/ 安装Paramikopip3 install paramiko 安装之后进入python解释器导入模块，如果导入成功则安装成功，否则安">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.087Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python标准库系列之Paramiko模块">
+<meta name="twitter:description" content="Paramiko是一个Python实施SSHv2的协议，提供客户端和服务器的功能。虽然它利用一个Python C扩展低级别加密的paramiko本身就是围绕SSH联网概念的纯Python接口。 Paramiko官网：http://www.paramiko.org/ 安装Paramikopip3 install paramiko 安装之后进入python解释器导入模块，如果导入成功则安装成功，否则安">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Python标准库系列之Paramiko模块</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/python-standard-library-mysqldb/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/python-standard-library-memcache/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Paramiko"><span class="toc-number">1.</span> <span class="toc-text">安装Paramiko</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用用户名与密码的方式连接"><span class="toc-number">2.</span> <span class="toc-text">使用用户名与密码的方式连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用密钥的方式连接"><span class="toc-number">3.</span> <span class="toc-text">使用密钥的方式连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件上传与下载"><span class="toc-number">4.</span> <span class="toc-text">文件上传与下载</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Python标准库系列之Paramiko模块
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><code>Paramiko</code>是一个Python实施<code>SSHv2</code>的协议，提供客户端和服务器的功能。虽然它利用一个Python C扩展低级别加密的paramiko本身就是围绕SSH联网概念的纯Python接口。</p>
+<p>Paramiko官网：<a href="http://www.paramiko.org/" target="_blank" rel="noopener">http://www.paramiko.org/</a></p>
+<h2 id="安装Paramiko"><a href="#安装Paramiko" class="headerlink" title="安装Paramiko"></a>安装Paramiko</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip3 install paramiko</span><br></pre></td></tr></table></figure>
+<p>安装之后进入python解释器导入模块，如果导入成功则安装成功，否则安装失败.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">C:\Users\Administrator&gt;python</span><br><span class="line">Python <span class="number">3.5</span><span class="number">.2</span> (v3<span class="number">.5</span><span class="number">.2</span>:<span class="number">4</span>def2a2901a5, Jun <span class="number">25</span> <span class="number">2016</span>, <span class="number">22</span>:<span class="number">18</span>:<span class="number">55</span>) [MSC v<span class="number">.1900</span> <span class="number">64</span> bit (AMD64)] on win32</span><br><span class="line">Type <span class="string">"help"</span>, <span class="string">"copyright"</span>, <span class="string">"credits"</span> <span class="keyword">or</span> <span class="string">"license"</span> <span class="keyword">for</span> more information.</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> paramiko</span><br></pre></td></tr></table></figure>
+<h2 id="使用用户名与密码的方式连接"><a href="#使用用户名与密码的方式连接" class="headerlink" title="使用用户名与密码的方式连接"></a>使用用户名与密码的方式连接</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 导入paramiko模块</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> paramiko</span><br><span class="line"><span class="comment"># 创建SSHClient对象</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ssh = paramiko.SSHClient()</span><br><span class="line"><span class="comment"># 如果是一个新主机连接，会出现yes/no，AutoAddPolicy自动填写yes的</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())</span><br><span class="line"><span class="comment"># 连接服务器</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ssh.connect(hostname=<span class="string">'192.168.56.100'</span>, port=<span class="number">22</span>, username=<span class="string">'root'</span>, password=<span class="string">'123456'</span>)</span><br><span class="line"><span class="comment"># 执行命令</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>stdin, stdout, stderr = ssh.exec_command(<span class="string">'df -h'</span>)</span><br><span class="line"><span class="comment"># 获取正确的输出</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>result = stdout.read()</span><br><span class="line"><span class="comment"># 关闭连接</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ssh.close()</span><br><span class="line"><span class="comment"># 获取到的值</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>result</span><br><span class="line"><span class="string">b'Filesystem      Size  Used Avail Use% Mounted on\n/dev/sda3        48G  3.3G   45G   7% /\ndevtmpfs        984M     0  984M   0% /dev\ntmpfs           993M     0  993M   0% /dev/shm\ntmpfs           993M  8.9M  984M   1% /run\ntmpfs           993M     0  993M   0% /sys/fs/cgroup\n/dev/sda1       197M  137M   60M  70% /boot\ntmpfs           199M     0  199M   0% /run/user/0\n'</span></span><br></pre></td></tr></table></figure>
+<h2 id="使用密钥的方式连接"><a href="#使用密钥的方式连接" class="headerlink" title="使用密钥的方式连接"></a>使用密钥的方式连接</h2><p>在使用密钥的方面连接之前我们需要先做<code>ssh-key</code>认证，步骤如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@linux-node1 ~]<span class="comment"># ssh-keygen -t rsa -f ~/.ssh/id_rsa -P ''</span></span><br><span class="line">[root@linux-node1 ~]<span class="comment"># cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</span></span><br><span class="line">[root@linux-node1 ~]<span class="comment"># chmod 600 ~/.ssh/authorized_keys</span></span><br></pre></td></tr></table></figure>
+<p>然后下载<code>/root/.ssh/id_rsa</code>下载下来，复制到<code>E:\python-intensive-training\</code>目录系，下面是在<code>windows</code>下使用<code>paramiko</code>连接脚本如下<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/use/bin/env python</span></span><br><span class="line"><span class="comment"># _*_ coding: utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> paramiko</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定密钥的文件</span></span><br><span class="line">private_key = paramiko.RSAKey.from_private_key_file(<span class="string">'E:\python-intensive-training\id_rsa'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建SSH对象</span></span><br><span class="line">ssh = paramiko.SSHClient()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 允许连接不在know_hosts文件中的主机，要不然一台新机器去连接它的时候会让你输入yes/no</span></span><br><span class="line">ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接服务器</span></span><br><span class="line">ssh.connect(hostname=<span class="string">'192.168.56.100'</span>, port=<span class="number">22</span>, username=<span class="string">'root'</span>, pkey=private_key)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行命令</span></span><br><span class="line">stdin, stdout, stderr = ssh.exec_command(<span class="string">'df -h'</span>)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">stdin：标准输入</span></span><br><span class="line"><span class="string">stdout：标准输出</span></span><br><span class="line"><span class="string">stderr：错误输出</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取命令执行的正确结果</span></span><br><span class="line">result = stdout.read()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭连接</span></span><br><span class="line">ssh.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出执行结果</span></span><br><span class="line">print(str(result, encoding=<span class="string">'utf-8'</span>))</span><br></pre></td></tr></table></figure></p>
+<h2 id="文件上传与下载"><a href="#文件上传与下载" class="headerlink" title="文件上传与下载"></a>文件上传与下载</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> paramiko</span><br><span class="line"></span><br><span class="line">t = paramiko.Transport((<span class="string">'192.168.56.100'</span>, <span class="number">22</span>))</span><br><span class="line"></span><br><span class="line">t.connect(username=<span class="string">"root"</span>, password=<span class="string">"123456"</span>)</span><br><span class="line"></span><br><span class="line">sftp = paramiko.SFTPClient.from_transport(t)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 远程目录</span></span><br><span class="line">remotepath = <span class="string">'/tmp/id_rsa'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 本地文件</span></span><br><span class="line">localpath = <span class="string">'id_rsa'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 上传文件</span></span><br><span class="line">sftp.put(localpath, remotepath)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载文件</span></span><br><span class="line"><span class="comment"># sftp.get(remotepath, localpath)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭连接</span></span><br><span class="line">t.close()</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Paramiko"><span class="toc-number">1.</span> <span class="toc-text">安装Paramiko</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用用户名与密码的方式连接"><span class="toc-number">2.</span> <span class="toc-text">使用用户名与密码的方式连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用密钥的方式连接"><span class="toc-number">3.</span> <span class="toc-text">使用密钥的方式连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件上传与下载"><span class="toc-number">4.</span> <span class="toc-text">文件上传与下载</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

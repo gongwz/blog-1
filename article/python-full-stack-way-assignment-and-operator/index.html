@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="在继续下面的文章之前我们先来浏览一下Python为我们提供的几种运算符，定义两个变量，分别是a和b，a的值是10，b的值是20。 算术运算符   运算符 描述 实例     + 加,两个对象相加 a+b=30   - 减,两个对象相减,可能会得到负数 a-b=-10   * 乘,两数相称或是返回一个被重复若干次的字符串 a*b=200   / 除，两个对象相除 b/a=2   % 取膜,返回除法的">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python全栈之路系列之赋值与运算符">
+<meta property="og:url" content="https://blog.ansheng.me/article/python-full-stack-way-assignment-and-operator/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="在继续下面的文章之前我们先来浏览一下Python为我们提供的几种运算符，定义两个变量，分别是a和b，a的值是10，b的值是20。 算术运算符   运算符 描述 实例     + 加,两个对象相加 a+b=30   - 减,两个对象相减,可能会得到负数 a-b=-10   * 乘,两数相称或是返回一个被重复若干次的字符串 a*b=200   / 除，两个对象相除 b/a=2   % 取膜,返回除法的">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.074Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python全栈之路系列之赋值与运算符">
+<meta name="twitter:description" content="在继续下面的文章之前我们先来浏览一下Python为我们提供的几种运算符，定义两个变量，分别是a和b，a的值是10，b的值是20。 算术运算符   运算符 描述 实例     + 加,两个对象相加 a+b=30   - 减,两个对象相减,可能会得到负数 a-b=-10   * 乘,两数相称或是返回一个被重复若干次的字符串 a*b=200   / 除，两个对象相除 b/a=2   % 取膜,返回除法的">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Python全栈之路系列之赋值与运算符</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/python-full-stack-way-basics/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/python-full-stack-way-Iterators-and-generators/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#算术运算符"><span class="toc-number">1.</span> <span class="toc-text">算术运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#比较运算符"><span class="toc-number">2.</span> <span class="toc-text">比较运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#赋值运算符"><span class="toc-number">3.</span> <span class="toc-text">赋值运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#逻辑运算符"><span class="toc-number">4.</span> <span class="toc-text">逻辑运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#成员运算符"><span class="toc-number">5.</span> <span class="toc-text">成员运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#赋值语句的语法"><span class="toc-number">6.</span> <span class="toc-text">赋值语句的语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例"><span class="toc-number">7.</span> <span class="toc-text">实例</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Python全栈之路系列之赋值与运算符
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>在继续下面的文章之前我们先来浏览一下Python为我们提供的几种运算符，定义两个变量，分别是a和b，a的值是10，b的值是20。</p>
+<h2 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">运算符</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">实例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">+</td>
+<td style="text-align:left">加,两个对象相加</td>
+<td style="text-align:left">a+b=30</td>
+</tr>
+<tr>
+<td style="text-align:left">-</td>
+<td style="text-align:left">减,两个对象相减,可能会得到负数</td>
+<td style="text-align:left">a-b=-10</td>
+</tr>
+<tr>
+<td style="text-align:left">*</td>
+<td style="text-align:left">乘,两数相称或是返回一个被重复若干次的字符串</td>
+<td style="text-align:left">a*b=200</td>
+</tr>
+<tr>
+<td style="text-align:left">/</td>
+<td style="text-align:left">除，两个对象相除</td>
+<td style="text-align:left">b/a=2</td>
+</tr>
+<tr>
+<td style="text-align:left">%</td>
+<td style="text-align:left">取膜,返回除法的余数</td>
+<td style="text-align:left">b%a=0</td>
+</tr>
+<tr>
+<td style="text-align:left">**</td>
+<td style="text-align:left">幂,返回x的y次幂</td>
+<td style="text-align:left">a**b=100000000000000000000L</td>
+</tr>
+<tr>
+<td style="text-align:left">//</td>
+<td style="text-align:left">整除余,返回商的整数部分</td>
+<td style="text-align:left">a//b=0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="比较运算符"><a href="#比较运算符" class="headerlink" title="比较运算符"></a>比较运算符</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">运算符</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">实例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">==</td>
+<td style="text-align:left">等于，比较两个对象是否相等</td>
+<td style="text-align:left">a==b返回False</td>
+</tr>
+<tr>
+<td style="text-align:left">!=</td>
+<td style="text-align:left">不等于，比较两个对象是否不相等</td>
+<td style="text-align:left">a!=b返回True</td>
+</tr>
+<tr>
+<td style="text-align:left">&lt;&gt;</td>
+<td style="text-align:left">不等于，比较两个对象是否不相等</td>
+<td style="text-align:left">a&lt;&gt;b返回True</td>
+</tr>
+<tr>
+<td style="text-align:left">&gt;</td>
+<td style="text-align:left">大于，比较x是否大于y，</td>
+<td style="text-align:left">a&gt;b返回False</td>
+</tr>
+<tr>
+<td style="text-align:left">&lt;</td>
+<td style="text-align:left">小于，比较x是否小于y</td>
+<td style="text-align:left">a&lt;b返回True</td>
+</tr>
+<tr>
+<td style="text-align:left">&gt;=</td>
+<td style="text-align:left">大于等于，比较x是否大于等于y</td>
+<td style="text-align:left">a&gt;=b返回False</td>
+</tr>
+<tr>
+<td style="text-align:left">&lt;=</td>
+<td style="text-align:left">小于等于，比较x是否小于等于y</td>
+<td style="text-align:left">a&lt;=b返回True</td>
+</tr>
+</tbody>
+</table>
+<h2 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">运算符</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">实例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">=</td>
+<td style="text-align:left">赋值运算符</td>
+<td style="text-align:left">c=a+b,将a+b的运算结果赋值给c</td>
+</tr>
+<tr>
+<td style="text-align:left">+=</td>
+<td style="text-align:left">加法赋值运算符</td>
+<td style="text-align:left">c += a等效于c = c + a</td>
+</tr>
+<tr>
+<td style="text-align:left">-=</td>
+<td style="text-align:left">减法赋值运算符</td>
+<td style="text-align:left">c -= a等效于c = c - a</td>
+</tr>
+<tr>
+<td style="text-align:left">*=</td>
+<td style="text-align:left">乘法赋值运算符</td>
+<td style="text-align:left">c <em>= a等效于c = c </em> a</td>
+</tr>
+<tr>
+<td style="text-align:left">/=</td>
+<td style="text-align:left">除法赋值运算符</td>
+<td style="text-align:left">c /= a等效于c = c / a</td>
+</tr>
+<tr>
+<td style="text-align:left">%=</td>
+<td style="text-align:left">取模赋值运算符</td>
+<td style="text-align:left">c %= a等效于c = c % a</td>
+</tr>
+<tr>
+<td style="text-align:left">**=</td>
+<td style="text-align:left">幂赋值运算符</td>
+<td style="text-align:left">c <strong>= a等效于c = c </strong> a</td>
+</tr>
+<tr>
+<td style="text-align:left">//=</td>
+<td style="text-align:left">取整除赋值运算符</td>
+<td style="text-align:left">c //= a等效于c = c // a</td>
+</tr>
+</tbody>
+</table>
+<h2 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">运算符</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">实例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">and</td>
+<td style="text-align:left">“与”</td>
+<td style="text-align:left">a and b返回true</td>
+</tr>
+<tr>
+<td style="text-align:left">or</td>
+<td style="text-align:left">“或”</td>
+<td style="text-align:left">a or b返回true</td>
+</tr>
+<tr>
+<td style="text-align:left">not</td>
+<td style="text-align:left">“非”</td>
+<td style="text-align:left">no(a and b)返回false</td>
+</tr>
+</tbody>
+</table>
+<h2 id="成员运算符"><a href="#成员运算符" class="headerlink" title="成员运算符"></a>成员运算符</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">运算符</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">in</td>
+<td style="text-align:left">如果在指定的序列中找到值返回True，否则返回False</td>
+</tr>
+<tr>
+<td style="text-align:left">not in</td>
+<td style="text-align:left">如果在指定的序列中没有找到值返回True，否则返回false</td>
+</tr>
+</tbody>
+</table>
+<h2 id="赋值语句的语法"><a href="#赋值语句的语法" class="headerlink" title="赋值语句的语法"></a>赋值语句的语法</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">运算</th>
+<th style="text-align:left">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">spam=’Spam’</td>
+<td style="text-align:left">基本形式</td>
+</tr>
+<tr>
+<td style="text-align:left">spam, ham=’yum’, ‘YUM’</td>
+<td style="text-align:left">元组赋值运算</td>
+</tr>
+<tr>
+<td style="text-align:left">[spam, han]=[‘yum’, ‘YUM’]</td>
+<td style="text-align:left">列表赋值运算</td>
+</tr>
+<tr>
+<td style="text-align:left">a,b,c,d=’spam’</td>
+<td style="text-align:left">序列赋值运算，通用性</td>
+</tr>
+<tr>
+<td style="text-align:left">a, *b=’spam’</td>
+<td style="text-align:left">扩展的序列解包</td>
+</tr>
+<tr>
+<td style="text-align:left">spam = ham = ‘hello’</td>
+<td style="text-align:left">多目标赋值运算</td>
+</tr>
+<tr>
+<td style="text-align:left">spams += 42</td>
+<td style="text-align:left">增强赋值运算</td>
+</tr>
+</tbody>
+</table>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>序列运算</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>nudge = <span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>wink = <span class="number">2</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>A, B = nudge, wink</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>A,B</span><br><span class="line">(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"><span class="comment"># 嵌套的方式</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>((a, b), c) = (<span class="string">'SP'</span>, <span class="string">'AM'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a, b, c</span><br><span class="line">(<span class="string">'S'</span>, <span class="string">'P'</span>, <span class="string">'AM'</span>)</span><br></pre></td></tr></table></figure>
+<p>扩展的序列解包</p>
+<p>一个列表赋给了带星号的名称，该列表收集了序列中没有赋值给其他名称的所有项。</p>
+<p>先定义一个seq序列用于测试:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>seq = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br></pre></td></tr></table></figure>
+<p><code>a</code>匹配序列中的第一项，<code>b</code>匹配剩下的内容</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a, *b = seq</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a, b</span><br><span class="line">(<span class="number">1</span>, [<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br></pre></td></tr></table></figure>
+<p><code>b</code>匹配序列中的最后一项，<code>a</code>匹配序列中最后一项之前的所有内容</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>*a, b = seq</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a,b</span><br><span class="line">([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<p>第一项和最后一项分别赋值给了<code>a</code>和<code>c</code>，而<code>b</code>获取了二者之间的所有内容。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a, *b, c = seq</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a,b,c</span><br><span class="line">(<span class="number">1</span>, [<span class="number">2</span>, <span class="number">3</span>], <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<p>带星号的名称可能只匹配单个的项，但是，总会向其赋值一个列表，如果没有剩下的内容可以匹配那么会返回一个空列表：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a,b,c,*d = seq</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(a,b,c,d)</span><br><span class="line"><span class="number">1</span> <span class="number">2</span> <span class="number">3</span> [<span class="number">4</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a,b,c,d,*e = seq</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(a,b,c,d,e)</span><br><span class="line"><span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> []</span><br></pre></td></tr></table></figure>
+<p>多目标赋值语句就是直接把所有提供的变量名都赋值给右侧的对象</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = b = c = <span class="string">'As'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a,b,c</span><br><span class="line">(<span class="string">'As'</span>, <span class="string">'As'</span>, <span class="string">'As'</span>)</span><br><span class="line"><span class="comment"># 所引用的值也都是同一个</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>id(a),id(b),id(c)</span><br><span class="line">(<span class="number">4331109208</span>, <span class="number">4331109208</span>, <span class="number">4331109208</span>)</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#算术运算符"><span class="toc-number">1.</span> <span class="toc-text">算术运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#比较运算符"><span class="toc-number">2.</span> <span class="toc-text">比较运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#赋值运算符"><span class="toc-number">3.</span> <span class="toc-text">赋值运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#逻辑运算符"><span class="toc-number">4.</span> <span class="toc-text">逻辑运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#成员运算符"><span class="toc-number">5.</span> <span class="toc-text">成员运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#赋值语句的语法"><span class="toc-number">6.</span> <span class="toc-text">赋值语句的语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例"><span class="toc-number">7.</span> <span class="toc-text">实例</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="镜像操作 搜索镜像  $ docker search centos  下载镜像  $ docker pll centos  导入镜像  $ docker load &amp;lt; ./docker/image/centos.tar.gz  导出镜像  $ docker save centos &amp;gt; /tmp/centos.tar.gz  删除镜像  如果这个镜像创建了容器不会被删除 $ docker">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker快速入门指南">
+<meta property="og:url" content="https://blog.ansheng.me/article/docker-quick-start-guide/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="镜像操作 搜索镜像  $ docker search centos  下载镜像  $ docker pll centos  导入镜像  $ docker load &amp;lt; ./docker/image/centos.tar.gz  导出镜像  $ docker save centos &amp;gt; /tmp/centos.tar.gz  删除镜像  如果这个镜像创建了容器不会被删除 $ docker">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.064Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker快速入门指南">
+<meta name="twitter:description" content="镜像操作 搜索镜像  $ docker search centos  下载镜像  $ docker pll centos  导入镜像  $ docker load &amp;lt; ./docker/image/centos.tar.gz  导出镜像  $ docker save centos &amp;gt; /tmp/centos.tar.gz  删除镜像  如果这个镜像创建了容器不会被删除 $ docker">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Docker快速入门指南</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/send-an-e-mail-message-in-the-django-application/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/tcp-ip-three-handshakes-and-four-waving/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#镜像操作"><span class="toc-number">1.</span> <span class="toc-text">镜像操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#容器操作"><span class="toc-number">2.</span> <span class="toc-text">容器操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网络"><span class="toc-number">3.</span> <span class="toc-text">网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存储"><span class="toc-number">4.</span> <span class="toc-text">存储</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据卷"><span class="toc-number">4.1.</span> <span class="toc-text">数据卷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据卷容器"><span class="toc-number">4.2.</span> <span class="toc-text">数据卷容器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构建Docker镜像"><span class="toc-number">5.</span> <span class="toc-text">构建Docker镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他操作"><span class="toc-number">6.</span> <span class="toc-text">其他操作</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Docker快速入门指南
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+    <div class="postdate">
+        <time datetime="2017-05-23T16:00:00.000Z" itemprop="datePublished">2017-05-24</time>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="镜像操作"><a href="#镜像操作" class="headerlink" title="镜像操作"></a>镜像操作</h2><ul>
+<li>搜索镜像</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker search centos</span><br></pre></td></tr></table></figure>
+<ul>
+<li>下载镜像</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker pll centos</span><br></pre></td></tr></table></figure>
+<ul>
+<li>导入镜像</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker load &lt; ./docker/image/centos.tar.gz</span><br></pre></td></tr></table></figure>
+<ul>
+<li>导出镜像</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker save centos &gt; /tmp/centos.tar.gz</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除镜像</li>
+</ul>
+<p>如果这个镜像创建了容器不会被删除</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker rmi centos</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看当前拥有的镜像</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">centos              latest              a8493f5f50ff        2 weeks ago         192MB</span><br><span class="line">nginx               latest              5766334bdaa0        2 weeks ago         183MB</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">选项</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">REPOSITORY</td>
+<td style="text-align:left">所属仓库</td>
+</tr>
+<tr>
+<td style="text-align:left">TAG</td>
+<td style="text-align:left">标签</td>
+</tr>
+<tr>
+<td style="text-align:left">IMAGE ID</td>
+<td style="text-align:left">进项ID</td>
+</tr>
+<tr>
+<td style="text-align:left">CREATED</td>
+<td style="text-align:left">创建时间</td>
+</tr>
+<tr>
+<td style="text-align:left">SIZE</td>
+<td style="text-align:left">镜像创建时间</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>删除所有的镜像</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker rmi $(docker images -q)</span><br></pre></td></tr></table></figure>
+<h2 id="容器操作"><a href="#容器操作" class="headerlink" title="容器操作"></a>容器操作</h2><ul>
+<li>启动一个新容器</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker run -i -t centos /bin/bash</span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动一个已经存在的容器</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker start 4253385a9655</span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动一个容器退出时不关闭</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker run --name mydocker -t -i centos /bin/bash</span><br><span class="line">[root@5324897fb034 /]<span class="comment"># ps -aux|grep -v "ps -aux" # 可以看到只启动了一个/bin/bash进程</span></span><br><span class="line">USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span><br><span class="line">root         1  0.0  0.0  11776  3084 ?        Ss   05:49   0:00 /bin/bash</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">–name</td>
+<td style="text-align:left">镜像的名字</td>
+</tr>
+<tr>
+<td style="text-align:left">-t</td>
+<td style="text-align:left">分配一个伪终端</td>
+</tr>
+<tr>
+<td style="text-align:left">-i</td>
+<td style="text-align:left">容器标准输入保持打开状态</td>
+</tr>
+</tbody>
+</table>
+<p>通过容器的ID我们可以发现和容器里面的主机名是一致的</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker ps -a | grep <span class="string">"5324897fb034"</span></span><br><span class="line">5324897fb034        centos              <span class="string">"/bin/bash"</span>              6 minutes ago       Up 6 minutes                                    mydocker</span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动一个容器在退出的时候自动删除这个容器</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker run --rm -it centos /bin/bash</span><br></pre></td></tr></table></figure>
+<ul>
+<li>进入一个已经运行的容器</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 这种方式启动，如果退出容器，则这个容器就会被退出，如果其他人登陆这个容器，则操作是同步的</span></span><br><span class="line">$ docker attach 5324897fb034</span><br></pre></td></tr></table></figure>
+<p>通过<code>nsenter</code>访问容器且推出时不销毁容器</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 获取容器的PID</span></span><br><span class="line">$ docker inspect --format <span class="string">"&#123;&#123;.State.Pid&#125;&#125;"</span> 5324897fb034</span><br><span class="line">15434</span><br><span class="line"><span class="comment"># 指定PID进入容器</span></span><br><span class="line">$ nsenter -t 15434 -u -i -n -p</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>nsenter访问的是一个进程的命名空间</p>
+</blockquote>
+<ul>
+<li>查看所有的容器</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</span><br><span class="line">4253385a9655        centos              <span class="string">"/bin/bash"</span>         6 minutes ago       Up 4 minutes                            thirsty_visvesvaraya</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">选项</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">CONTAINER ID</td>
+<td style="text-align:left">容器的ID</td>
+</tr>
+<tr>
+<td style="text-align:left">IMAGE</td>
+<td style="text-align:left">通过哪个镜像来运行的</td>
+</tr>
+<tr>
+<td style="text-align:left">COMMAND</td>
+<td style="text-align:left">最后执行的命令</td>
+</tr>
+<tr>
+<td style="text-align:left">CREATED</td>
+<td style="text-align:left">创建时间</td>
+</tr>
+<tr>
+<td style="text-align:left">STATUS</td>
+<td style="text-align:left">状态</td>
+</tr>
+<tr>
+<td style="text-align:left">PORTS</td>
+<td style="text-align:left">启动的端口</td>
+</tr>
+<tr>
+<td style="text-align:left">NAMES</td>
+<td style="text-align:left">容器的名称，名称默认是自动生成的</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>删除一个容器</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker rm 307f7b240273</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除一个正在运行的容器</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker rm -f 9dc6a6940ce1</span><br></pre></td></tr></table></figure>
+<ul>
+<li>停止所有正在运行的容器</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">kill</span> $(sudo docker ps -a -q)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除所有容器</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker <span class="built_in">kill</span> $(docker ps -a -q)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除状态为退出的所有容器</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker rm $(docker ps -a -f status=exited -qa)</span><br></pre></td></tr></table></figure>
+<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><ul>
+<li>随机端口映射</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 启动容器</span></span><br><span class="line">$ docker run -d -P nginx</span><br><span class="line"><span class="comment"># 查看Nginx访问日志</span></span><br><span class="line">$ docker logs c506ed2a4e65</span><br></pre></td></tr></table></figure>
+<ul>
+<li>指定端口映射</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -d -p 81:80 nginx</span><br></pre></td></tr></table></figure>
+<h2 id="存储"><a href="#存储" class="headerlink" title="存储"></a>存储</h2><h3 id="数据卷"><a href="#数据卷" class="headerlink" title="数据卷"></a>数据卷</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">指令</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-v /data</td>
+<td style="text-align:left">自动生成目标目录</td>
+</tr>
+<tr>
+<td style="text-align:left">-v src :dst :rw</td>
+<td style="text-align:left">指定目录挂载，并指定挂载目录的权限</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker run -i -t --name volume-test1 -v /data centos /bin/bash</span><br><span class="line"><span class="comment"># ls /data</span></span><br><span class="line"><span class="comment"># 查看挂载的目录</span></span><br><span class="line">$ docker inspect 80cef0fbd4f1</span><br></pre></td></tr></table></figure>
+<p>指定目录挂载</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo docker run -i -t -v /opt:/opt centos   </span><br><span class="line"><span class="comment"># df -h | grep "/opt"</span></span><br><span class="line">/dev/sda2       457G   62G  373G  15% /opt</span><br></pre></td></tr></table></figure>
+<h3 id="数据卷容器"><a href="#数据卷容器" class="headerlink" title="数据卷容器"></a>数据卷容器</h3><p>一个容器访问另一个容器的数据卷</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker run --name nfs -it -d -v /data centos</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-d</td>
+<td style="text-align:left">让容器在后台运行</td>
+</tr>
+</tbody>
+</table>
+<p>启动其他的容器，使用nfs容器里面的卷</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker run -it --name test1 --volumes-from nfs centos</span><br></pre></td></tr></table></figure>
+<h2 id="构建Docker镜像"><a href="#构建Docker镜像" class="headerlink" title="构建Docker镜像"></a>构建Docker镜像</h2><ul>
+<li>手动构建</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker run -i -t --name webserver centos</span><br><span class="line"><span class="comment"># cd /etc/yum.repos.d/</span></span><br><span class="line"><span class="comment"># rpm -ivh https://mirrors.aliyun.com/centos/7.3.1611/os/x86_64/Packages/wget-1.14-13.el7.x86_64.rpm</span></span><br><span class="line"><span class="comment"># wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span></span><br><span class="line"><span class="comment"># wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</span></span><br><span class="line"><span class="comment"># yum -y install nginx</span></span><br><span class="line"><span class="comment"># vi /etc/nginx/nginx.conf</span></span><br><span class="line">daemon off;</span><br><span class="line"><span class="comment"># exit</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker commit -m <span class="string">"webserver"</span> a6e5ab54bf16 ansheng/webserver:v1</span><br><span class="line">$ docker images | grep <span class="string">"webserver"</span></span><br><span class="line">webserver           v1                  bd32c3d82378        39 seconds ago      363MB</span><br><span class="line">$ docker run -d -p 80:80 webserver:v1 nginx</span><br><span class="line">$ curl -I 127.0.0.1:82</span><br><span class="line">HTTP/1.1 200 OK</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通过DockerFile构建</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /tmp/</span><br><span class="line">$ mkdir webserver</span><br><span class="line">$ <span class="built_in">cd</span> webserver/</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"Hello, World!"</span> &gt; index.html</span><br><span class="line">$ vim Dockerfile</span><br><span class="line"><span class="comment"># This docker file</span></span><br><span class="line"><span class="comment"># VERSION</span></span><br><span class="line"><span class="comment"># Author: An Sheng</span></span><br><span class="line"><span class="comment"># Base image</span></span><br><span class="line">FROM centos</span><br><span class="line"></span><br><span class="line"><span class="comment">#Maintainer</span></span><br><span class="line">MAINTAINER ansheng ianshengme@gmail.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># Commands</span></span><br><span class="line">RUN rpm -ivh https://mirrors.aliyun.com/centos/7.3.1611/os/x86_64/Packages/wget-1.14-13.el7.x86_64.rpm</span><br><span class="line">RUN wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</span><br><span class="line">RUN wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line">RUN yum install nginx -y</span><br><span class="line">ADD index.html /usr/share/nginx/html/index.html</span><br><span class="line">RUN <span class="built_in">echo</span> <span class="string">"daemon off;"</span> &gt;&gt; /etc/nginx/nginx.conf</span><br><span class="line">EXPOSE 80</span><br><span class="line">CMD [<span class="string">"nginx"</span>]</span><br><span class="line">$ docker build -t webserver:v2 ./</span><br></pre></td></tr></table></figure>
+<p>运行容器</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker run -d -p 80:80 webserver:v2</span><br><span class="line">$ curl -I 127.0.0.1:80</span><br><span class="line">HTTP/1.1 200 OK</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Dockerfile描述</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">指令</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">FROM</td>
+<td style="text-align:left">指定基础镜像</td>
+</tr>
+<tr>
+<td style="text-align:left">MAINTAINER</td>
+<td style="text-align:left">维护者信息</td>
+</tr>
+<tr>
+<td style="text-align:left">RUN</td>
+<td style="text-align:left">执行的命令</td>
+</tr>
+<tr>
+<td style="text-align:left">ADD</td>
+<td style="text-align:left">把本地文件copy到镜像中</td>
+</tr>
+<tr>
+<td style="text-align:left">WORKDIR</td>
+<td style="text-align:left">指定工作目录</td>
+</tr>
+<tr>
+<td style="text-align:left">VOLUME</td>
+<td style="text-align:left">目录挂载</td>
+</tr>
+<tr>
+<td style="text-align:left">EXPOSE</td>
+<td style="text-align:left">启动的端口</td>
+</tr>
+<tr>
+<td style="text-align:left">CMD</td>
+<td style="text-align:left">最后执行的指令</td>
+</tr>
+</tbody>
+</table>
+<h2 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h2><ul>
+<li>时区问题</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@d4e104c000c2 ~]<span class="comment"># date</span></span><br><span class="line">Sat Apr 29 08:51:51 UTC 2017</span><br><span class="line">[root@d4e104c000c2 ~]<span class="comment"># ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime</span></span><br><span class="line">[root@d4e104c000c2 ~]<span class="comment"># date</span></span><br><span class="line">Sat Apr 29 16:52:28 CST 2017</span><br></pre></td></tr></table></figure>
+<ul>
+<li>字符集问题</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">LANG=en_US.UTF-8</span><br></pre></td></tr></table></figure>
+<ul>
+<li>普通用户使用docker</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo gpasswd -a <span class="variable">$&#123;USER&#125;</span> docker</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#镜像操作"><span class="toc-number">1.</span> <span class="toc-text">镜像操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#容器操作"><span class="toc-number">2.</span> <span class="toc-text">容器操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网络"><span class="toc-number">3.</span> <span class="toc-text">网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存储"><span class="toc-number">4.</span> <span class="toc-text">存储</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据卷"><span class="toc-number">4.1.</span> <span class="toc-text">数据卷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据卷容器"><span class="toc-number">4.2.</span> <span class="toc-text">数据卷容器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构建Docker镜像"><span class="toc-number">5.</span> <span class="toc-text">构建Docker镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他操作"><span class="toc-number">6.</span> <span class="toc-text">其他操作</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="当程序出现错误的时候，进行捕捉，然后根据捕捉到的错误信息进行对应的处理 Even if a statement or expression is syntactically correct, it may cause an error when an attempt is made to execute it. Errors detected during execution are called">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python全栈之路系列之异常处理">
+<meta property="og:url" content="https://blog.ansheng.me/article/python-full-stack-way-exception-handling/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="当程序出现错误的时候，进行捕捉，然后根据捕捉到的错误信息进行对应的处理 Even if a statement or expression is syntactically correct, it may cause an error when an attempt is made to execute it. Errors detected during execution are called">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.076Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python全栈之路系列之异常处理">
+<meta name="twitter:description" content="当程序出现错误的时候，进行捕捉，然后根据捕捉到的错误信息进行对应的处理 Even if a statement or expression is syntactically correct, it may cause an error when an attempt is made to execute it. Errors detected during execution are called">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Python全栈之路系列之异常处理</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/python-full-stack-way-list-data-type/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/python-full-stack-way-digital-data-type/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#初识异常处理"><span class="toc-number">1.</span> <span class="toc-text">初识异常处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异常分类"><span class="toc-number">2.</span> <span class="toc-text">异常分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#错误异常的基本结构"><span class="toc-number">3.</span> <span class="toc-text">错误异常的基本结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主动出发异常"><span class="toc-number">4.</span> <span class="toc-text">主动出发异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#断言"><span class="toc-number">5.</span> <span class="toc-text">断言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义异常"><span class="toc-number">6.</span> <span class="toc-text">自定义异常</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Python全栈之路系列之异常处理
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>当程序出现错误的时候，进行捕捉，然后根据捕捉到的错误信息进行对应的处理</p>
+<p>Even if a statement or expression is syntactically correct, it may cause an error when an attempt is made to execute it. Errors detected during execution are called exceptions and are not unconditionally fatal: you will soon learn how to handle them in Python programs.</p>
+<h2 id="初识异常处理"><a href="#初识异常处理" class="headerlink" title="初识异常处理"></a>初识异常处理</h2><p>如下面的例子：</p>
+<p>让用户进行输入，提示用户输入一个数字，如果输入的事一个数字那个就把输入的数字转换为<code>int</code>类型，然后输出用户输入的而数字，如果用户输入的不是一个数字，那么类型转换就会出错，如果出错，就提示用户”输入类型错误，你因该输入的是一个数字。”</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># _*_coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    n = int(input(<span class="string">"请输出一个数字&gt;&gt;&gt; "</span>))</span><br><span class="line">    print(<span class="string">"你输入的数字是"</span>,n)</span><br><span class="line"><span class="comment"># e是Exception的对象，Exception是一个类</span></span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    print(<span class="string">"输入类型错误，你因该输入的是一个数字。"</span>)</span><br></pre></td></tr></table></figure>
+<p>输出<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ansheng@Darker:~$ python3 /home/ansheng/文档/Python_code/sublime/Week06/Day04/s2.py</span><br><span class="line">请输出一个数字&gt;&gt;&gt; 123</span><br><span class="line">你输入的数字是 123</span><br><span class="line">ansheng@Darker:~$ python3 /home/ansheng/文档/Python_code/sublime/Week06/Day04/s2.py</span><br><span class="line">请输出一个数字&gt;&gt;&gt; abc</span><br><span class="line">输入类型错误，你因该输入的是一个数字。</span><br></pre></td></tr></table></figure></p>
+<h2 id="异常分类"><a href="#异常分类" class="headerlink" title="异常分类"></a>异常分类</h2><p>常用异常</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">异常名</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">AttributeError</td>
+<td style="text-align:left">试图访问一个对象没有的树形，比如foo.x，但是foo没有属性x</td>
+</tr>
+<tr>
+<td style="text-align:center">IOError</td>
+<td style="text-align:left">输入/输出异常；基本上是无法打开文件</td>
+</tr>
+<tr>
+<td style="text-align:center">ImportError</td>
+<td style="text-align:left">无法引入模块或包；基本上是路径问题或名称错误</td>
+</tr>
+<tr>
+<td style="text-align:center">IndentationError</td>
+<td style="text-align:left">语法错误（的子类） ；代码没有正确对齐</td>
+</tr>
+<tr>
+<td style="text-align:center">IndexError</td>
+<td style="text-align:left">下标索引超出序列边界，比如当x只有三个元素，却试图访问x[5]</td>
+</tr>
+<tr>
+<td style="text-align:center">KeyError</td>
+<td style="text-align:left">试图访问字典里不存在的键</td>
+</tr>
+<tr>
+<td style="text-align:center">KeyboardInterrupt</td>
+<td style="text-align:left">Ctrl+C被按下</td>
+</tr>
+<tr>
+<td style="text-align:center">NameError</td>
+<td style="text-align:left">使用一个还未被赋予对象的变量</td>
+</tr>
+<tr>
+<td style="text-align:center">SyntaxError</td>
+<td style="text-align:left">Python代码非法，代码不能编译(个人认为这是语法错误，写错了）</td>
+</tr>
+<tr>
+<td style="text-align:center">TypeError</td>
+<td style="text-align:left">传入对象类型与要求的不符合</td>
+</tr>
+<tr>
+<td style="text-align:center">UnboundLocalError</td>
+<td style="text-align:left">试图访问一个还未被设置的局部变量，基本上是由于另有一个同名的全局变量，导致你以为正在访问它</td>
+</tr>
+<tr>
+<td style="text-align:center">ValueError</td>
+<td style="text-align:left">传入一个调用者不期望的值，即使值的类型是正确的</td>
+</tr>
+</tbody>
+</table>
+<p>对不同的异常进行不同的处理</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    n = int(input(<span class="string">"请输出一个数字&gt;&gt;&gt; "</span>))</span><br><span class="line"><span class="keyword">except</span> ValueError <span class="keyword">as</span> e:</span><br><span class="line">    print(<span class="string">"ValueError错误"</span>)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    print(<span class="string">"出现异常"</span>)</span><br></pre></td></tr></table></figure>
+<p>输出<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ansheng@Darker:~$ python3 /home/ansheng/文档/Python_code/sublime/Week06/Day04/s2.py</span><br><span class="line">请输出一个数字&gt;&gt;&gt; 123</span><br><span class="line">ansheng@Darker:~$ python3 /home/ansheng/文档/Python_code/sublime/Week06/Day04/s2.py</span><br><span class="line">请输出一个数字&gt;&gt;&gt; asd</span><br><span class="line">ValueError错误</span><br></pre></td></tr></table></figure></p>
+<p>在处理异常时，如果出现错误，那么会首先匹配<code>ValueError</code>，然后在匹配<code>Exception</code>。</p>
+<p>捕获多个错误</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">raise</span> IndexError(<span class="string">'出错了'</span>)</span><br><span class="line"><span class="keyword">except</span> (IndexError, NameError) <span class="keyword">as</span> e:  <span class="comment"># 捕获括号内的错误，并把错误信息赋值给e</span></span><br><span class="line">    print(e)</span><br></pre></td></tr></table></figure>
+<h2 id="错误异常的基本结构"><a href="#错误异常的基本结构" class="headerlink" title="错误异常的基本结构"></a>错误异常的基本结构</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment"># 主代码块</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="keyword">except</span> KeyError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="comment"># 异常时，执行该块</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="comment"># 主代码块执行完，执行该块</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    <span class="comment"># 无论异常与否，最终执行该块</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<p><strong>执行流程：</strong></p>
+<ol>
+<li>如果出现错误，那么就执行<code>except</code>代码块，然后在执行<code>finally</code></li>
+<li>如果没有出现错误，那么就执行<code>else</code>代码块，然后再执行<code>finally</code></li>
+<li>不管有没有出现异常都会执行<code>finally</code></li>
+</ol>
+<h2 id="主动出发异常"><a href="#主动出发异常" class="headerlink" title="主动出发异常"></a>主动出发异常</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># _*_coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment"># raise表示主动出发异常，然后创建一个Exception对象，Exception括号内的值就是Exception对象的值</span></span><br><span class="line">    <span class="keyword">raise</span> Exception(<span class="string">"主动出发的异常"</span>)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="comment"># 输出Exception对象的值</span></span><br><span class="line">    print(e)</span><br></pre></td></tr></table></figure>
+<p>输出<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ansheng@Darker:~$ python3 /home/ansheng/文档/Python_code/sublime/Week06/Day04/s2.py</span><br><span class="line">主动出发的异常</span><br></pre></td></tr></table></figure></p>
+<p>如果需要捕获和处理一个异常，又不希望异常在程序中死掉，一般都会利用raise传递异常</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">try</span>:</span><br><span class="line"><span class="meta">... </span>    <span class="keyword">raise</span> IndexError(<span class="string">'Index'</span>)</span><br><span class="line"><span class="meta">... </span><span class="keyword">except</span> IndexError:</span><br><span class="line"><span class="meta">... </span>    print(<span class="string">'error'</span>)</span><br><span class="line"><span class="meta">... </span>    <span class="keyword">raise</span></span><br><span class="line"><span class="meta">... </span></span><br><span class="line">error</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">2</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">IndexError: Index</span><br></pre></td></tr></table></figure>
+<h2 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h2><p>如果条件成立则成立，如果条件不成立则报错。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># assert关键字，后面的是条件</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">assert</span> <span class="number">1</span> == <span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">assert</span> <span class="number">1</span> == <span class="number">2</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">AssertionError</span><br></pre></td></tr></table></figure>
+<h2 id="自定义异常"><a href="#自定义异常" class="headerlink" title="自定义异常"></a>自定义异常</h2><p>用户自定义的异常通过类编写，且通常需要继承<code>Exception</code>内置的异常类，基于类的异常允许脚本建立异常类型、继承行为以及附加状态信息。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">Bar</span><span class="params">(Exception)</span>:</span></span><br><span class="line"><span class="meta">... </span>    <span class="keyword">pass</span></span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">doomed</span><span class="params">()</span>:</span></span><br><span class="line"><span class="meta">... </span>    <span class="keyword">raise</span> Bar()</span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">try</span>:</span><br><span class="line"><span class="meta">... </span>    doomed()</span><br><span class="line"><span class="meta">... </span><span class="keyword">except</span> Bar <span class="keyword">as</span> e:</span><br><span class="line"><span class="meta">... </span>    print(<span class="string">'error'</span>)</span><br><span class="line"><span class="meta">... </span></span><br><span class="line">error</span><br></pre></td></tr></table></figure>
+<p>如果要自定义错误显示信息，我们只需要在类中定义字符串重载(<code>__str__</code>，<code>__repr__</code>)方法中的其中一个即可：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">MyError</span><span class="params">(Exception)</span>:</span></span><br><span class="line"><span class="meta">... </span>    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line"><span class="meta">... </span>        <span class="keyword">return</span> <span class="string">'出错啦.'</span></span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">try</span>:</span><br><span class="line"><span class="meta">... </span>    <span class="keyword">raise</span> MyError()</span><br><span class="line"><span class="meta">... </span><span class="keyword">except</span> MyError <span class="keyword">as</span> e:</span><br><span class="line"><span class="meta">... </span>    print(e)</span><br><span class="line"><span class="meta">... </span></span><br><span class="line">出错啦.</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#初识异常处理"><span class="toc-number">1.</span> <span class="toc-text">初识异常处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异常分类"><span class="toc-number">2.</span> <span class="toc-text">异常分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#错误异常的基本结构"><span class="toc-number">3.</span> <span class="toc-text">错误异常的基本结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主动出发异常"><span class="toc-number">4.</span> <span class="toc-text">主动出发异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#断言"><span class="toc-number">5.</span> <span class="toc-text">断言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义异常"><span class="toc-number">6.</span> <span class="toc-text">自定义异常</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

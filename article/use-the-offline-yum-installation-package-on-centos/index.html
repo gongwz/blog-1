@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="下载软件包（有网络环境）创建下载的软件包存放目录 $ mkdir -p /root/download 获取createrepo和tmux安装包 $ yum install --downloadonly --downloaddir=/root/download createrepo tmux 安装createrepo $ yum install createrepo -y 初始化yum源的repod">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在CentOS上使用离线YUM安装软件包">
+<meta property="og:url" content="https://blog.ansheng.me/article/use-the-offline-yum-installation-package-on-centos/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="下载软件包（有网络环境）创建下载的软件包存放目录 $ mkdir -p /root/download 获取createrepo和tmux安装包 $ yum install --downloadonly --downloaddir=/root/download createrepo tmux 安装createrepo $ yum install createrepo -y 初始化yum源的repod">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.095Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在CentOS上使用离线YUM安装软件包">
+<meta name="twitter:description" content="下载软件包（有网络环境）创建下载的软件包存放目录 $ mkdir -p /root/download 获取createrepo和tmux安装包 $ yum install --downloadonly --downloaddir=/root/download createrepo tmux 安装createrepo $ yum install createrepo -y 初始化yum源的repod">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>在CentOS上使用离线YUM安装软件包</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/docker-deploy-django/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/ssh-tunnel/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载软件包（有网络环境）"><span class="toc-number">1.</span> <span class="toc-text">下载软件包（有网络环境）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装软件包（无网络环境）"><span class="toc-number">2.</span> <span class="toc-text">安装软件包（无网络环境）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">3.</span> <span class="toc-text">参考</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        在CentOS上使用离线YUM安装软件包
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+    <div class="postdate">
+        <time datetime="2017-11-21T16:00:00.000Z" itemprop="datePublished">2017-11-22</time>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="下载软件包（有网络环境）"><a href="#下载软件包（有网络环境）" class="headerlink" title="下载软件包（有网络环境）"></a>下载软件包（有网络环境）</h2><p>创建下载的软件包存放目录</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ mkdir -p /root/download</span><br></pre></td></tr></table></figure>
+<p>获取<code>createrepo</code>和<code>tmux</code>安装包</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ yum install --downloadonly --downloaddir=/root/download createrepo tmux</span><br></pre></td></tr></table></figure>
+<p>安装<code>createrepo</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ yum install createrepo -y</span><br></pre></td></tr></table></figure>
+<p>初始化<code>yum</code>源的<code>repodata</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ createrepo -pdo /root/download /root/download</span><br><span class="line">$ createrepo --update /root/download</span><br></pre></td></tr></table></figure>
+<p>打包<code>download</code>目录并把打包之后的文件放到没有网络的服务器上</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ tar zcf download.tar.gz download/</span><br></pre></td></tr></table></figure>
+<h2 id="安装软件包（无网络环境）"><a href="#安装软件包（无网络环境）" class="headerlink" title="安装软件包（无网络环境）"></a>安装软件包（无网络环境）</h2><p>解压软件包</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ tar xf download.tar.gz</span><br></pre></td></tr></table></figure>
+<p>移除默认的repo配置</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /etc/yum.repos.d</span><br><span class="line">$ mkdir bak</span><br><span class="line">$ mv CentOS-* bak</span><br></pre></td></tr></table></figure>
+<p>进行yum客户端配置</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ vi /etc/yum.repos.d/localyum.repo</span><br><span class="line">[localyum]</span><br><span class="line">name=localyum</span><br><span class="line">baseurl=file:///root/download</span><br><span class="line"><span class="built_in">enable</span>=1</span><br><span class="line">gpgcheck=0</span><br></pre></td></tr></table></figure>
+<p>更新缓存</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ yum clean all</span><br><span class="line">$ yum makecache</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装createrepo</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ yum install createrepo</span><br></pre></td></tr></table></figure>
+<p>安装tmux</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ yum install tmux</span><br></pre></td></tr></table></figure>
+<p>如果<code>/root/download</code>下有新增的<code>rpm</code>安装包，请使用以下命令更新<code>repo</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ createrepo --update /root/download</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://my.oschina.net/u/3133713/blog/808441" target="_blank" rel="noopener">CentOS7 docker-engine 完全离线安装</a></li>
+</ul>
+
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载软件包（有网络环境）"><span class="toc-number">1.</span> <span class="toc-text">下载软件包（有网络环境）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装软件包（无网络环境）"><span class="toc-number">2.</span> <span class="toc-text">安装软件包（无网络环境）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">3.</span> <span class="toc-text">参考</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

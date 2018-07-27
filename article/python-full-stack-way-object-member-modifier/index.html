@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="成员修饰符就是设置类的成员有些是公开的有些是私有的，公开的是在外部通过对象或者类可以调用，但是私有的只能通过类的内部才可以调用。  静态字段修饰  #!/usr/bin/env python# _*_coding:utf-8 _*_class Foo:    # 公有的静态字段    ClassMembers = &quot;公开的&quot;    # 私有的静态字段    __ClassMembers = &quot;私有">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python全栈之路系列之面向对象成员修饰符">
+<meta property="og:url" content="https://blog.ansheng.me/article/python-full-stack-way-object-member-modifier/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="成员修饰符就是设置类的成员有些是公开的有些是私有的，公开的是在外部通过对象或者类可以调用，但是私有的只能通过类的内部才可以调用。  静态字段修饰  #!/usr/bin/env python# _*_coding:utf-8 _*_class Foo:    # 公有的静态字段    ClassMembers = &quot;公开的&quot;    # 私有的静态字段    __ClassMembers = &quot;私有">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.077Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python全栈之路系列之面向对象成员修饰符">
+<meta name="twitter:description" content="成员修饰符就是设置类的成员有些是公开的有些是私有的，公开的是在外部通过对象或者类可以调用，但是私有的只能通过类的内部才可以调用。  静态字段修饰  #!/usr/bin/env python# _*_coding:utf-8 _*_class Foo:    # 公有的静态字段    ClassMembers = &quot;公开的&quot;    # 私有的静态字段    __ClassMembers = &quot;私有">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Python全栈之路系列之面向对象成员修饰符</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/python-full-stack-way-process-control/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/python-full-stack-way-object-operator-overload/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#通过特殊的方法去访问类中的私有成员"><span class="toc-number">1.</span> <span class="toc-text">通过特殊的方法去访问类中的私有成员</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Python全栈之路系列之面向对象成员修饰符
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>成员修饰符就是设置类的成员有些是公开的有些是私有的，公开的是在外部通过对象或者类可以调用，但是私有的只能通过类的内部才可以调用。</p>
+<ul>
+<li>静态字段修饰</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># _*_coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>:</span></span><br><span class="line">    <span class="comment"># 公有的静态字段</span></span><br><span class="line">    ClassMembers = <span class="string">"公开的"</span></span><br><span class="line">    <span class="comment"># 私有的静态字段</span></span><br><span class="line">    __ClassMembers = <span class="string">"私有的"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行公有的静态字段</span></span><br><span class="line">print(Foo.ClassMembers)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行私有的静态字段</span></span><br><span class="line">print(Foo.__ClassMembers)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">/usr/bin/python3<span class="number">.5</span> /home/ansheng/文档/Python_code/sublime/Week06/Day04/s2.py</span><br><span class="line">公开的</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"/home/ansheng/文档/Python_code/sublime/Week06/Day04/s2.py"</span>, line <span class="number">14</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    print(Foo.__ClassMembers)</span><br><span class="line">AttributeError: type object <span class="string">'Foo'</span> has no attribute <span class="string">'__ClassMembers'</span></span><br><span class="line"></span><br><span class="line">Process finished <span class="keyword">with</span> exit code <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>私有的是不能够直接调用的，需要在类中进行调用，如下：<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># _*_coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 私有的静态字段</span></span><br><span class="line">    __ClassMembers = <span class="string">"私有的"</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 通过类中的方法调用私有的静态字段进行输出</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Members</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(Foo.__ClassMembers)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个对象</span></span><br><span class="line">obj = Foo()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行类中的Members方法</span></span><br><span class="line">obj.Members()</span><br></pre></td></tr></table></figure></p>
+<p>执行结果<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">/usr/bin/python3<span class="number">.5</span> /home/ansheng/文档/Python_code/sublime/Week06/Day04/s2.py</span><br><span class="line">私有的</span><br><span class="line"></span><br><span class="line">Process finished <span class="keyword">with</span> exit code <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>普通字段修饰</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># _*_coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 类的构造方法</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, url)</span>:</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 普通字段</span></span><br><span class="line">        self.url = url</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 私有普通字段</span></span><br><span class="line">        self.__Blog = url</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个对象，传入一个值</span></span><br><span class="line">obj = Foo(<span class="string">"http://ansheng.me"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 普通字段</span></span><br><span class="line">print(obj.url)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 私有的普通字段</span></span><br><span class="line">print(obj.__Blog)</span><br></pre></td></tr></table></figure>
+<p>输出<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">/usr/bin/python3<span class="number">.5</span> /home/ansheng/文档/Python_code/sublime/Week06/Day04/s2.py</span><br><span class="line">http://ansheng.me</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"/home/ansheng/文档/Python_code/sublime/Week06/Day04/s2.py"</span>, line <span class="number">22</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    print(obj.__Blog)</span><br><span class="line">AttributeError: <span class="string">'Foo'</span> object has no attribute <span class="string">'__Blog'</span></span><br><span class="line"></span><br><span class="line">Process finished <span class="keyword">with</span> exit code <span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<p>若要输出私有的普通字段，需要在类中调用私有的普通字段进行输出<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># _*_coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 类的构造方法</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, url)</span>:</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 私有普通字段</span></span><br><span class="line">        self.__Blog = url</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 直接在狗仔方法没输出传入的URL</span></span><br><span class="line">        print(self.__Blog)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个对象，传入一个值</span></span><br><span class="line">obj = Foo(<span class="string">"http://ansheng.me"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>输出结果<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ansheng@Darker:~$ python3 /home/ansheng/文档/Python_code/sublime/Week06/Day04/s2.py</span><br><span class="line">http://ansheng.me</span><br></pre></td></tr></table></figure></p>
+<p>对于私有的成员，只能够在类中进行访问，即使是继承关系也不可以，测试如下:<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># _*_coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 父类的构造方法</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 私有普通字段</span></span><br><span class="line">        self.__Blog = <span class="string">"http://ansheng.me"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Bar继承了Foo类，</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bar</span><span class="params">(Foo)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 由于Bar类没有构造方法，所以会执行他父类的构造方法</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 创建一个类方法fetch</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fetch</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 输出self.__Blog</span></span><br><span class="line">        print(self.__Blog)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个对象</span></span><br><span class="line">obj = Bar()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行类中的fetch方法</span></span><br><span class="line">obj.fetch()</span><br></pre></td></tr></table></figure></p>
+<p>输出<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ansheng@Darker:~$ python3 /home/ansheng/文档/Python_code/sublime/Week06/Day04/s2.py</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"/home/ansheng/文档/Python_code/sublime/Week06/Day04/s2.py"</span>, line 26, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    obj.fetch()</span><br><span class="line">  File <span class="string">"/home/ansheng/文档/Python_code/sublime/Week06/Day04/s2.py"</span>, line 20, <span class="keyword">in</span> fetch</span><br><span class="line">    <span class="built_in">print</span>(self.__Blog)</span><br><span class="line">AttributeError: <span class="string">'Bar'</span> object has no attribute <span class="string">'_Bar__Blog'</span></span><br></pre></td></tr></table></figure></p>
+<p>对于普通方法、静态方法类方法也是如此，只要成员前面加两个下划线就代表是私有的，即外部不能够访问，只有内部才可以访问。</p>
+<h2 id="通过特殊的方法去访问类中的私有成员"><a href="#通过特殊的方法去访问类中的私有成员" class="headerlink" title="通过特殊的方法去访问类中的私有成员"></a>通过特殊的方法去访问类中的私有成员</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># _*_coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 父类的构造方法</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 私有普通字段</span></span><br><span class="line">        self.__Blog = <span class="string">"http://ansheng.me"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个对象</span></span><br><span class="line">obj = Foo()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过特殊的方法访问</span></span><br><span class="line">print(obj._Foo__Blog)</span><br><span class="line"><span class="comment"># 一个下划线，一个类名，私有的变量名</span></span><br></pre></td></tr></table></figure>
+<p>输出<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ansheng@Darker:~$ python3 /home/ansheng/文档/Python_code/sublime/Week06/Day04/s2.py</span><br><span class="line">http://ansheng.me</span><br></pre></td></tr></table></figure></p>
+
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#通过特殊的方法去访问类中的私有成员"><span class="toc-number">1.</span> <span class="toc-text">通过特殊的方法去访问类中的私有成员</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

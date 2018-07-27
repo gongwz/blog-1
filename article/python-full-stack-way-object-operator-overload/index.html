@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="运算符重载的概念如下：  运算符重载让类拦截常规的Python运算； 类可重载所有Python表达式运算符； 类也可重载打印、函数调用、属性点号运算等内置运算； 重载是类实例的行为想内置类型； 重载是通过提供特殊名称的类方法来实现的；  常见的运算符重载方法   方法 重载 调用     __init__ 构造函数 对象建立：X = Class(args)   __del__ 解析函数 X对象收回">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python全栈之路系列之面向对象运算符重载">
+<meta property="og:url" content="https://blog.ansheng.me/article/python-full-stack-way-object-operator-overload/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="运算符重载的概念如下：  运算符重载让类拦截常规的Python运算； 类可重载所有Python表达式运算符； 类也可重载打印、函数调用、属性点号运算等内置运算； 重载是类实例的行为想内置类型； 重载是通过提供特殊名称的类方法来实现的；  常见的运算符重载方法   方法 重载 调用     __init__ 构造函数 对象建立：X = Class(args)   __del__ 解析函数 X对象收回">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.077Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python全栈之路系列之面向对象运算符重载">
+<meta name="twitter:description" content="运算符重载的概念如下：  运算符重载让类拦截常规的Python运算； 类可重载所有Python表达式运算符； 类也可重载打印、函数调用、属性点号运算等内置运算； 重载是类实例的行为想内置类型； 重载是通过提供特殊名称的类方法来实现的；  常见的运算符重载方法   方法 重载 调用     __init__ 构造函数 对象建立：X = Class(args)   __del__ 解析函数 X对象收回">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Python全栈之路系列之面向对象运算符重载</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/python-full-stack-way-object-member-modifier/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/python-full-stack-way-io-multiplexing/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常见的运算符重载方法"><span class="toc-number">1.</span> <span class="toc-text">常见的运算符重载方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#构造函数和表达式-init-和-sub"><span class="toc-number">1.1.</span> <span class="toc-text">构造函数和表达式:__init__和__sub__</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#索引和分片-getitem-和-setitem"><span class="toc-number">1.2.</span> <span class="toc-text">索引和分片: __getitem__和__setitem__</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#索引迭代：-getitem"><span class="toc-number">1.3.</span> <span class="toc-text">索引迭代：__getitem__</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#迭代器对象：-iter-和-next"><span class="toc-number">1.4.</span> <span class="toc-text">迭代器对象：__iter__和__next__</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#成员关系：-contains-、-iter-和-getitem"><span class="toc-number">1.5.</span> <span class="toc-text">成员关系：__contains__、__iter__和__getitem__</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#属性引用：-getattr-和-setattr"><span class="toc-number">1.6.</span> <span class="toc-text">属性引用：__getattr__和__setattr__</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#repr-和-str-会返回字符串表达式"><span class="toc-number">1.7.</span> <span class="toc-text">__repr__和__str__会返回字符串表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#右侧加法和原处加法-radd-和-iadd"><span class="toc-number">1.8.</span> <span class="toc-text">右侧加法和原处加法: __radd__和__iadd__</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Call表达式：-call"><span class="toc-number">1.9.</span> <span class="toc-text">Call表达式：__call__</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#比较-lt-gt-和其他方法"><span class="toc-number">1.10.</span> <span class="toc-text">比较:__lt__,__gt__和其他方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#布尔值测试：bool和len"><span class="toc-number">1.11.</span> <span class="toc-text">布尔值测试：bool和len</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象解析函数：-del"><span class="toc-number">1.12.</span> <span class="toc-text">对象解析函数：__del__</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Python全栈之路系列之面向对象运算符重载
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>运算符重载的概念如下：</p>
+<ol>
+<li>运算符重载让类拦截常规的Python运算；</li>
+<li>类可重载所有Python表达式运算符；</li>
+<li>类也可重载打印、函数调用、属性点号运算等内置运算；</li>
+<li>重载是类实例的行为想内置类型；</li>
+<li>重载是通过提供特殊名称的类方法来实现的；</li>
+</ol>
+<h2 id="常见的运算符重载方法"><a href="#常见的运算符重载方法" class="headerlink" title="常见的运算符重载方法"></a>常见的运算符重载方法</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">重载</th>
+<th style="text-align:left">调用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>__init__</code></td>
+<td style="text-align:left">构造函数</td>
+<td style="text-align:left">对象建立：X = Class(args)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__del__</code></td>
+<td style="text-align:left">解析函数</td>
+<td style="text-align:left">X对象收回</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__add__</code></td>
+<td style="text-align:left">运算符+</td>
+<td style="text-align:left">如果没有<code>__iadd__</code>,X+Y,X+=Y</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__or__</code></td>
+<td style="text-align:left">运算符或</td>
+<td style="text-align:left">如果没有<code>__ior__</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__repr__</code>,<code>__str__</code></td>
+<td style="text-align:left">打印、转换</td>
+<td style="text-align:left">print(X)、repr(X)、str(X)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__call__</code></td>
+<td style="text-align:left">函数调用</td>
+<td style="text-align:left">X(*args, **kwargs)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__getattr__</code></td>
+<td style="text-align:left">点号运算</td>
+<td style="text-align:left">X.undefined</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__setattr__</code></td>
+<td style="text-align:left">属性赋值语句</td>
+<td style="text-align:left">X.any = value</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__delattr__</code></td>
+<td style="text-align:left">属性删除</td>
+<td style="text-align:left">del X.any</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__getattribute__</code></td>
+<td style="text-align:left">属性获取</td>
+<td style="text-align:left">X.any</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__getitem__</code></td>
+<td style="text-align:left">索引运算</td>
+<td style="text-align:left">X[key]，X[i:j]，没<code>__iter__</code>时的for循环和其他迭代器</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__setitem__</code></td>
+<td style="text-align:left">索引赋值语句</td>
+<td style="text-align:left">X[key]=value,X[i:k]=sequence</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__delitem__</code></td>
+<td style="text-align:left">索引和分片删除</td>
+<td style="text-align:left">del X[key], del X[i:j]</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__len__</code></td>
+<td style="text-align:left">长度</td>
+<td style="text-align:left">len(X)，如果没有<code>__bool__</code>，真值测试</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__bool__</code></td>
+<td style="text-align:left">布尔测试</td>
+<td style="text-align:left">bool(X)，真测试</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__lt__</code>，<code>__gt__</code>，<code>__le__</code>，<code>__ge__</code>，<code>__eq__</code>，<code>__ne__</code></td>
+<td style="text-align:left">特定的比较</td>
+<td style="text-align:left">X&lt;Y，X&gt;Y…</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__radd__</code></td>
+<td style="text-align:left">右侧加法</td>
+<td style="text-align:left">Other + X</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__iadd__</code></td>
+<td style="text-align:left">增强的加法</td>
+<td style="text-align:left">X += Y</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__iter__</code>，<code>__next__</code></td>
+<td style="text-align:left">迭代环境</td>
+<td style="text-align:left">I=iter(X),next(I)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__contains__</code></td>
+<td style="text-align:left">成员关系测试</td>
+<td style="text-align:left">item in X(任何可迭代对象)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__index__</code></td>
+<td style="text-align:left">整数值</td>
+<td style="text-align:left">hex(X),bin(X),oct(X),o[X],O[X:]</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__enter__</code>,<code>__exit__</code></td>
+<td style="text-align:left">环境管理器</td>
+<td style="text-align:left">with obj as var:</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__get__</code>,<code>__set__</code>,<code>__delete__</code></td>
+<td style="text-align:left">描述符属性</td>
+<td style="text-align:left">X.attr，X.attr=Value,del X.attr</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>__new__</code></td>
+<td style="text-align:left">创建</td>
+<td style="text-align:left">在<code>__init__</code>之前创建对象</td>
+</tr>
+</tbody>
+</table>
+<p>所有重载方法的名称前后都有两个下划线字符，以便把同类中定义的变量名区别开来。</p>
+<h3 id="构造函数和表达式-init-和-sub"><a href="#构造函数和表达式-init-和-sub" class="headerlink" title="构造函数和表达式:__init__和__sub__"></a>构造函数和表达式:<code>__init__</code>和<code>__sub__</code></h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">Number</span>:</span></span><br><span class="line"><span class="meta">... </span>  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, start)</span>:</span></span><br><span class="line"><span class="meta">... </span>    self.data = start</span><br><span class="line"><span class="meta">... </span>  <span class="function"><span class="keyword">def</span> <span class="title">__sub__</span><span class="params">(self, other)</span>:</span></span><br><span class="line"><span class="meta">... </span>    <span class="keyword">return</span> Number(self.data - other)</span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>X = Number(<span class="number">5</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Y = X - <span class="number">2</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Y</span><br><span class="line">&lt;__main__.Number object at <span class="number">0x10224d550</span>&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Y.data</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h3 id="索引和分片-getitem-和-setitem"><a href="#索引和分片-getitem-和-setitem" class="headerlink" title="索引和分片: __getitem__和__setitem__"></a>索引和分片: <code>__getitem__</code>和<code>__setitem__</code></h3><p>基本索引</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">Index</span>:</span></span><br><span class="line"><span class="meta">... </span>    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, item)</span>:</span></span><br><span class="line"><span class="meta">... </span>        <span class="keyword">return</span> item ** <span class="number">2</span></span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line"><span class="meta">... </span>    I = Index()</span><br><span class="line"><span class="meta">... </span>    print(I[i], end=<span class="string">' '</span>)</span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="number">0</span> <span class="number">1</span> <span class="number">4</span> <span class="number">9</span> <span class="number">16</span></span><br></pre></td></tr></table></figure>
+<p>切片索引</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">Index</span>:</span></span><br><span class="line"><span class="meta">... </span>  data = [<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="meta">... </span>  <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, item)</span>:</span></span><br><span class="line"><span class="meta">... </span>    print(<span class="string">'getitem: '</span>, item)</span><br><span class="line"><span class="meta">... </span>    <span class="keyword">return</span> self.data[item]</span><br><span class="line"><span class="meta">... </span>  <span class="function"><span class="keyword">def</span> <span class="title">__setitem__</span><span class="params">(self, key, value)</span>:</span></span><br><span class="line"><span class="meta">... </span>    self.data[key] = value</span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>X = Index()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(X[<span class="number">1</span>:<span class="number">4</span>])</span><br><span class="line">getitem:  slice(<span class="number">1</span>, <span class="number">4</span>, <span class="keyword">None</span>)</span><br><span class="line">[<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>] </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>X[<span class="number">1</span>:<span class="number">4</span>] = (<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(X[<span class="number">1</span>:<span class="number">4</span>])</span><br><span class="line">getitem:  slice(<span class="number">1</span>, <span class="number">4</span>, <span class="keyword">None</span>)</span><br><span class="line">[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="索引迭代：-getitem"><a href="#索引迭代：-getitem" class="headerlink" title="索引迭代：__getitem__"></a>索引迭代：<code>__getitem__</code></h3><p>如果重载了这个方法，for循环每次循环时都会调用类的<strong>getitem</strong>方法；</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">stepper</span>:</span></span><br><span class="line"><span class="meta">... </span>    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, item)</span>:</span></span><br><span class="line"><span class="meta">... </span>        <span class="keyword">return</span> self.data[item].upper()</span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>X = stepper()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>X.data = <span class="string">'ansheng'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> item <span class="keyword">in</span> X:</span><br><span class="line"><span class="meta">... </span>    print(item)</span><br><span class="line"><span class="meta">... </span></span><br><span class="line">A</span><br><span class="line">N</span><br><span class="line">S</span><br><span class="line">H</span><br><span class="line">E</span><br><span class="line">N</span><br><span class="line">G</span><br></pre></td></tr></table></figure>
+<h3 id="迭代器对象：-iter-和-next"><a href="#迭代器对象：-iter-和-next" class="headerlink" title="迭代器对象：__iter__和__next__"></a>迭代器对象：<code>__iter__</code>和<code>__next__</code></h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">Squares</span>:</span></span><br><span class="line"><span class="meta">... </span>  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, start, stop)</span>:</span></span><br><span class="line"><span class="meta">... </span>        self.value = start - <span class="number">1</span></span><br><span class="line"><span class="meta">... </span>        self.stop = stop</span><br><span class="line"><span class="meta">... </span>  <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span><span class="params">(self)</span>:</span></span><br><span class="line"><span class="meta">... </span>        <span class="keyword">return</span> self</span><br><span class="line"><span class="meta">... </span>  <span class="function"><span class="keyword">def</span> <span class="title">__next__</span><span class="params">(self)</span>:</span></span><br><span class="line"><span class="meta">... </span>        <span class="keyword">if</span> self.value == self.stop:</span><br><span class="line"><span class="meta">... </span>            <span class="keyword">raise</span> StopIteration</span><br><span class="line"><span class="meta">... </span>        self.value += <span class="number">1</span></span><br><span class="line"><span class="meta">... </span>        <span class="keyword">return</span> self.value ** <span class="number">2</span></span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> i <span class="keyword">in</span> Squares(<span class="number">1</span>, <span class="number">5</span>):</span><br><span class="line"><span class="meta">... </span>  print(i)</span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="number">16</span></span><br><span class="line"><span class="number">25</span></span><br></pre></td></tr></table></figure>
+<h3 id="成员关系：-contains-、-iter-和-getitem"><a href="#成员关系：-contains-、-iter-和-getitem" class="headerlink" title="成员关系：__contains__、__iter__和__getitem__"></a>成员关系：<code>__contains__</code>、<code>__iter__</code>和<code>__getitem__</code></h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Iters</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, value)</span>:</span></span><br><span class="line">        self.data = value</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, item)</span>:</span></span><br><span class="line">        print(<span class="string">'get[%s]'</span> % item, end=<span class="string">''</span>)</span><br><span class="line">        <span class="keyword">return</span> self.data[item]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'iter&gt;=='</span>, end=<span class="string">''</span>)</span><br><span class="line">        self.ix = <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__next__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'next:'</span>, end=<span class="string">''</span>)</span><br><span class="line">        <span class="keyword">if</span> self.ix == len(self.data): <span class="keyword">raise</span> StopIteration</span><br><span class="line">        item = self.data[self.ix]</span><br><span class="line">        self.ix += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> item</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__contains__</span><span class="params">(self, item)</span>:</span></span><br><span class="line">        print(<span class="string">'contains: '</span>, end=<span class="string">' '</span>)</span><br><span class="line">        <span class="keyword">return</span> item <span class="keyword">in</span> self.data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">X = Iters([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line">print(<span class="number">3</span> <span class="keyword">in</span> X)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> X:</span><br><span class="line">    print(i, end=<span class="string">'|'</span>)</span><br><span class="line"></span><br><span class="line">print([i ** <span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> X])</span><br><span class="line">print(list(map(bin, X)))</span><br><span class="line"></span><br><span class="line">I = iter(X)</span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        print(next(I), end=<span class="string">' @'</span>)</span><br><span class="line">    <span class="keyword">except</span> StopIteration <span class="keyword">as</span> e:</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<h3 id="属性引用：-getattr-和-setattr"><a href="#属性引用：-getattr-和-setattr" class="headerlink" title="属性引用：__getattr__和__setattr__"></a>属性引用：<code>__getattr__</code>和<code>__setattr__</code></h3><p>当通过未定义的属性名称和实例通过点号进行访问时，就会用属性名称作为字符串调用这个方法，但如果类使用了继承，并且在超类中可以找到这个属性，那么就不会触发。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">empty</span>:</span></span><br><span class="line"><span class="meta">... </span>    <span class="function"><span class="keyword">def</span> <span class="title">__getattr__</span><span class="params">(self, item)</span>:</span></span><br><span class="line"><span class="meta">... </span>        <span class="keyword">if</span> item == <span class="string">'age'</span>:</span><br><span class="line"><span class="meta">... </span>            <span class="keyword">return</span> <span class="number">40</span></span><br><span class="line"><span class="meta">... </span>        <span class="keyword">else</span>:</span><br><span class="line"><span class="meta">... </span>            <span class="keyword">raise</span> AttributeError(item)</span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = empty()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(x.age)</span><br><span class="line"><span class="number">40</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(x.name)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">6</span>, <span class="keyword">in</span> __getattr__</span><br><span class="line">AttributeError: name</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">accesscontrol</span>:</span></span><br><span class="line"><span class="meta">... </span>    <span class="function"><span class="keyword">def</span> <span class="title">__setattr__</span><span class="params">(self, key, value)</span>:</span></span><br><span class="line"><span class="meta">... </span>        <span class="keyword">if</span> key == <span class="string">'age'</span>:</span><br><span class="line"><span class="meta">... </span>            self.__dict__[key] = value</span><br><span class="line"><span class="meta">... </span>        <span class="keyword">else</span>:</span><br><span class="line"><span class="meta">... </span>            <span class="keyword">raise</span> AttributeError(key + <span class="string">' not allowed'</span>)</span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = accesscontrol()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x.age = <span class="number">40</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(x.age)</span><br><span class="line"><span class="number">40</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x.name = <span class="string">'Hello'</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">6</span>, <span class="keyword">in</span> __setattr__</span><br><span class="line">AttributeError: name <span class="keyword">not</span> allowed</span><br></pre></td></tr></table></figure>
+<h3 id="repr-和-str-会返回字符串表达式"><a href="#repr-和-str-会返回字符串表达式" class="headerlink" title="__repr__和__str__会返回字符串表达式"></a><code>__repr__</code>和<code>__str__</code>会返回字符串表达式</h3><p><code>__repr__</code>和<code>__str__</code>都是为了更友好的显示，具体来说，如果在终端下print(Class)则会调用<code>__repr__</code>，非终端下会调用<code>__str__</code>方法，且这两个方法只能返回字符串；</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">adder</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, value=<span class="number">0</span>)</span>:</span></span><br><span class="line">        self.data = value</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__add__</span><span class="params">(self, other)</span>:</span></span><br><span class="line">        self.data += other</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'addrepr(%s)'</span> % self.data</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'N: %s'</span> % self.data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">x = adder(<span class="number">2</span>)</span><br><span class="line">x + <span class="number">1</span></span><br><span class="line">print(x)</span><br><span class="line">print((str(x), repr(x)))</span><br></pre></td></tr></table></figure>
+<h3 id="右侧加法和原处加法-radd-和-iadd"><a href="#右侧加法和原处加法-radd-和-iadd" class="headerlink" title="右侧加法和原处加法: __radd__和__iadd__"></a>右侧加法和原处加法: <code>__radd__</code>和<code>__iadd__</code></h3><p>只有当+右侧的对象是类实例，而左边对象不是类实例的时候，Python才会调用<code>__radd__</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Commuter</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, val)</span>:</span></span><br><span class="line">        self.val = val</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__add__</span><span class="params">(self, other)</span>:</span></span><br><span class="line">        print(<span class="string">'add'</span>, self.val, other)</span><br><span class="line">        <span class="keyword">return</span> self.val + other</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__radd__</span><span class="params">(self, other)</span>:</span></span><br><span class="line">        print(<span class="string">'radd'</span>, self.val, other)</span><br><span class="line">        <span class="keyword">return</span> other + self.val</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">x = Commuter(<span class="number">88</span>)</span><br><span class="line">y = Commuter(<span class="number">99</span>)</span><br><span class="line">print(x + <span class="number">1</span>)</span><br><span class="line">print(<span class="string">''</span>)</span><br><span class="line">print(<span class="number">1</span> + y)</span><br><span class="line">print(<span class="string">''</span>)</span><br><span class="line">print(x + y)</span><br></pre></td></tr></table></figure>
+<p>使用<code>__iadd__</code>进行原处加法</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Number</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, val)</span>:</span></span><br><span class="line">        self.val = val</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iadd__</span><span class="params">(self, other)</span>:</span></span><br><span class="line">        self.val += other</span><br><span class="line">        <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">x = Number(<span class="number">5</span>)</span><br><span class="line">x += <span class="number">1</span></span><br><span class="line">x += <span class="number">1</span></span><br><span class="line">print(x.val)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Number</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, val)</span>:</span></span><br><span class="line">        self.val = val</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__add__</span><span class="params">(self, other)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> Number(self.val + other)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">x = Number(<span class="number">5</span>)</span><br><span class="line">x += <span class="number">1</span></span><br><span class="line">x += <span class="number">1</span></span><br><span class="line">print(x.val)</span><br></pre></td></tr></table></figure>
+<h3 id="Call表达式：-call"><a href="#Call表达式：-call" class="headerlink" title="Call表达式：__call__"></a>Call表达式：<code>__call__</code></h3><p>当调用类实例时执行<code>__call__</code>方法</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Callee</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        print(<span class="string">'Callee:'</span>, args, kwargs)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">C = Callee()</span><br><span class="line">C(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">C(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, x=<span class="number">1</span>, y=<span class="number">2</span>, z=<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Prod</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, value)</span>:</span></span><br><span class="line">        self.value = value</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, other)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.value * other</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">x = Prod(<span class="number">3</span>)</span><br><span class="line">print(x(<span class="number">3</span>))</span><br><span class="line">print(x(<span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+<h3 id="比较-lt-gt-和其他方法"><a href="#比较-lt-gt-和其他方法" class="headerlink" title="比较:__lt__,__gt__和其他方法"></a>比较:<code>__lt__</code>,<code>__gt__</code>和其他方法</h3><p>类可以定义方法来捕获所有的6种比较运算符：&lt;、&gt;、&lt;=、&gt;=、==和!=</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span>:</span></span><br><span class="line">    data = <span class="string">'spam'</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__gt__</span><span class="params">(self, other)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.data &gt; other</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__lt__</span><span class="params">(self, other)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.data &lt; other</span><br><span class="line"></span><br><span class="line">x = C()</span><br><span class="line">print(x &gt; <span class="string">'han'</span>)</span><br><span class="line">print(x &lt; <span class="string">'han'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="布尔值测试：bool和len"><a href="#布尔值测试：bool和len" class="headerlink" title="布尔值测试：bool和len"></a>布尔值测试：<strong>bool</strong>和<strong>len</strong></h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Truth</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__bool__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">X = Truth()</span><br><span class="line"><span class="keyword">if</span> X: print(<span class="string">'yes'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Truth</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__bool__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line">X = Truth()</span><br><span class="line">print(bool(X))</span><br></pre></td></tr></table></figure>
+<p>如果没有这个方法，Python退而求其次的求长度，因为一个非空对象看作是真:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">Truth</span>:</span></span><br><span class="line"><span class="meta">... </span>  <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span> <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>X = Truth()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">if</span> <span class="keyword">not</span> X: print(<span class="string">'no'</span>)</span><br><span class="line"><span class="meta">... </span></span><br><span class="line">no</span><br></pre></td></tr></table></figure>
+<p>如果两个方法都有，<code>__bool__</code>会胜过<code>__len__</code>：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">Truth</span>:</span></span><br><span class="line"><span class="meta">... </span>  <span class="function"><span class="keyword">def</span> <span class="title">__bool__</span><span class="params">(self)</span>:</span> <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line"><span class="meta">... </span>  <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span> <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>X = Truth()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bool(X)</span><br><span class="line"><span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+<p>如果两个方法都没有定义，对象毫无疑义的看作为真：<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">Truth</span>:</span> <span class="keyword">pass</span></span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bool(Truth)</span><br><span class="line"><span class="keyword">True</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="对象解析函数：-del"><a href="#对象解析函数：-del" class="headerlink" title="对象解析函数：__del__"></a>对象解析函数：<code>__del__</code></h3><p>每当实例产生时，就会调用<strong>init</strong>构造函数，每当实例空间被收回时，它的对立面<code>__del__</code>，也就是解析函数，就会自动执行；</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Life</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name=<span class="string">'unknown'</span>)</span>:</span></span><br><span class="line">        print(<span class="string">'Hello, '</span>, name)</span><br><span class="line">        self.name = name</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__del__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'Goodbye'</span>, self.name)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">brian = Life(<span class="string">'Brian'</span>)</span><br><span class="line">brian = <span class="string">'loretta'</span></span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常见的运算符重载方法"><span class="toc-number">1.</span> <span class="toc-text">常见的运算符重载方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#构造函数和表达式-init-和-sub"><span class="toc-number">1.1.</span> <span class="toc-text">构造函数和表达式:__init__和__sub__</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#索引和分片-getitem-和-setitem"><span class="toc-number">1.2.</span> <span class="toc-text">索引和分片: __getitem__和__setitem__</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#索引迭代：-getitem"><span class="toc-number">1.3.</span> <span class="toc-text">索引迭代：__getitem__</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#迭代器对象：-iter-和-next"><span class="toc-number">1.4.</span> <span class="toc-text">迭代器对象：__iter__和__next__</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#成员关系：-contains-、-iter-和-getitem"><span class="toc-number">1.5.</span> <span class="toc-text">成员关系：__contains__、__iter__和__getitem__</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#属性引用：-getattr-和-setattr"><span class="toc-number">1.6.</span> <span class="toc-text">属性引用：__getattr__和__setattr__</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#repr-和-str-会返回字符串表达式"><span class="toc-number">1.7.</span> <span class="toc-text">__repr__和__str__会返回字符串表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#右侧加法和原处加法-radd-和-iadd"><span class="toc-number">1.8.</span> <span class="toc-text">右侧加法和原处加法: __radd__和__iadd__</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Call表达式：-call"><span class="toc-number">1.9.</span> <span class="toc-text">Call表达式：__call__</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#比较-lt-gt-和其他方法"><span class="toc-number">1.10.</span> <span class="toc-text">比较:__lt__,__gt__和其他方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#布尔值测试：bool和len"><span class="toc-number">1.11.</span> <span class="toc-text">布尔值测试：bool和len</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象解析函数：-del"><span class="toc-number">1.12.</span> <span class="toc-text">对象解析函数：__del__</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

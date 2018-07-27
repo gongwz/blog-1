@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="What is redis?Redis is an open source (BSD licensed), in-memory data structure store, used as database, cache and message broker. It supports data structures such as strings, hashes, lists, sets, sort">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python标准库系列之Redis模块">
+<meta property="og:url" content="https://blog.ansheng.me/article/python-standard-library-redis/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="What is redis?Redis is an open source (BSD licensed), in-memory data structure store, used as database, cache and message broker. It supports data structures such as strings, hashes, lists, sets, sort">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://blog.ansheng.me/images/2016/12/1483068298.gif">
+<meta property="og:image" content="https://blog.ansheng.me/images/2016/12/1483068252.gif">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.088Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python标准库系列之Redis模块">
+<meta name="twitter:description" content="What is redis?Redis is an open source (BSD licensed), in-memory data structure store, used as database, cache and message broker. It supports data structures such as strings, hashes, lists, sets, sort">
+<meta name="twitter:image" content="https://blog.ansheng.me/images/2016/12/1483068298.gif">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Python标准库系列之Redis模块</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/python-standard-library-requests/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/python-standard-library-mysqldb/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-redis"><span class="toc-number">1.</span> <span class="toc-text">What is redis?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Redis"><span class="toc-number">2.</span> <span class="toc-text">安装Redis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装redis-py"><span class="toc-number">3.</span> <span class="toc-text">安装redis-py</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#入门及使用"><span class="toc-number">4.</span> <span class="toc-text">入门及使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#API"><span class="toc-number">5.</span> <span class="toc-text">API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#String-API"><span class="toc-number">5.1.</span> <span class="toc-text">String API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hash-API"><span class="toc-number">5.2.</span> <span class="toc-text">Hash API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ListAPI"><span class="toc-number">5.3.</span> <span class="toc-text">ListAPI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SET-API"><span class="toc-number">5.4.</span> <span class="toc-text">SET API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ordered-set-API"><span class="toc-number">5.5.</span> <span class="toc-text">Ordered set API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Global-API"><span class="toc-number">5.6.</span> <span class="toc-text">Global API</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#管道"><span class="toc-number">6.</span> <span class="toc-text">管道</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#发布订阅"><span class="toc-number">7.</span> <span class="toc-text">发布订阅</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例"><span class="toc-number">8.</span> <span class="toc-text">实例</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Python标准库系列之Redis模块
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="What-is-redis"><a href="#What-is-redis" class="headerlink" title="What is redis?"></a>What is redis?</h2><p>Redis is an open source (BSD licensed), in-memory data structure store, used as database, cache and message broker. It supports data structures such as strings, hashes, lists, sets, sorted sets with range queries, bitmaps, hyperloglogs and geospatial indexes with radius queries. Redis has built-in replication, Lua scripting, LRU eviction, transactions and different levels of on-disk persistence, and provides high availability via Redis Sentinel and automatic partitioning with Redis Cluster.</p>
+<p>Redis官网：<a href="http://redis.io/" target="_blank" rel="noopener">http://redis.io/</a></p>
+<blockquote>
+<p>以上摘自官网介绍</p>
+</blockquote>
+<h2 id="安装Redis"><a href="#安装Redis" class="headerlink" title="安装Redis"></a>安装Redis</h2><p>安装</p>
+<p>模块GitHub地址：<a href="https://github.com/WoLpH/redis-py" target="_blank" rel="noopener">https://github.com/WoLpH/redis-py</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@anshengme ~]<span class="comment"># yum -y install redis</span></span><br></pre></td></tr></table></figure>
+<p>配置绑定的IP</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@anshengme ~]<span class="comment"># vim /etc/redis.conf </span></span><br><span class="line"><span class="built_in">bind</span> 0.0.0.0</span><br></pre></td></tr></table></figure>
+<p>启动并设置开机自启动</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@anshengme ~]<span class="comment"># systemctl start redis</span></span><br><span class="line">[root@anshengme ~]<span class="comment"># systemctl enable redis</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/redis.service to /usr/lib/systemd/system/redis.service.</span><br></pre></td></tr></table></figure>
+<p>检查</p>
+<p>查看端口</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@anshengme ~]# netstat -tlnp | grep &quot;redis&quot;</span><br><span class="line">tcp        0      0 0.0.0.0:6379            0.0.0.0:*               LISTEN      1439/redis-server 0</span><br></pre></td></tr></table></figure>
+<p>数据写入测试</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@anshengme ~]<span class="comment"># /usr/bin/redis-cli </span></span><br><span class="line">127.0.0.1:6379&gt; <span class="built_in">set</span> url https://blog.ansheng.me</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get url</span><br><span class="line"><span class="string">"https://blog.ansheng.me"</span></span><br><span class="line">127.0.0.1:6379&gt; <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<h2 id="安装redis-py"><a href="#安装redis-py" class="headerlink" title="安装redis-py"></a>安装redis-py</h2><p>安装redis-py</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip3 install redis</span><br></pre></td></tr></table></figure>
+<p>或源码安装</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">python setup.py install</span><br></pre></td></tr></table></figure>
+<p>检查安装是否成功</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 导入模块没报错则安装成功</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> redis</span><br></pre></td></tr></table></figure>
+<h2 id="入门及使用"><a href="#入门及使用" class="headerlink" title="入门及使用"></a>入门及使用</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 导入模块</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> redis</span><br><span class="line"><span class="comment"># 连接到Redis服务器</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn = redis.Redis(host=<span class="string">'192.168.56.100'</span>, port=<span class="number">6379</span>)</span><br><span class="line"><span class="comment"># 写入一条数据</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.set(<span class="string">'name'</span>,<span class="string">'ansheng'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="comment"># 获取一条数据</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'name'</span>)</span><br><span class="line"><span class="string">b'ansheng'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'url'</span>)</span><br><span class="line"><span class="string">b'https://blog.ansheng.me'</span></span><br></pre></td></tr></table></figure>
+<p>使用连接池连接到Redis</p>
+<blockquote>
+<p>Behind the scenes, redis-py uses a connection pool to manage connections to a Redis server. By default, each Redis instance you create will in turn create its own connection pool. You can override this behavior and use an existing connection pool by passing an already created connection pool instance to the connection_pool argument of the Redis class. You may choose to do this in order to implement client side sharding or have finer grain control of how connections are managed.</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>pool = redis.ConnectionPool(host=<span class="string">'192.168.56.100'</span>, port=<span class="number">6379</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn = redis.Redis(connection_pool=pool)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.set(<span class="string">'hello'</span>,<span class="string">'world'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'hello'</span>)</span><br><span class="line"><span class="string">b'world'</span></span><br></pre></td></tr></table></figure>
+<p>使用套接字连接</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>r = redis.Redis(unix_socket_path=<span class="string">'/tmp/redis.sock'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p><code>redis-py</code>提供的<code>API</code>用来操作<code>redis</code></p>
+<h3 id="String-API"><a href="#String-API" class="headerlink" title="String API"></a>String API</h3><p><strong>set(name, value, ex=None, px=None, nx=False, xx=False)</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>ex</code></td>
+<td style="text-align:left">过期时间（秒）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>px</code></td>
+<td style="text-align:left">过期时间（毫秒）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>nx</code></td>
+<td style="text-align:left">如果设置为True，则只有name不存在时，当前set操作才执行</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>xx</code></td>
+<td style="text-align:left">如果设置为True，则只有name存在时，岗前set操作才执行</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.set(<span class="string">'k1'</span>, <span class="string">'v1'</span>, ex=<span class="number">10</span>, nx=<span class="keyword">True</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'k1'</span>)</span><br><span class="line"><span class="string">b'v1'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'k1'</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>setex(name, value, time)</strong></p>
+<p>设置过期时间/秒</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.setex(<span class="string">'k'</span>,<span class="string">'v'</span>,<span class="number">1</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'k'</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>psetex(name, time_ms, value)</strong></p>
+<p>设置过期时间/毫秒</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; conn.psetex(<span class="string">'k'</span>,10,<span class="string">'v'</span>)</span><br><span class="line">True</span><br><span class="line">&gt;&gt;&gt; conn.get(<span class="string">'k'</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>setnx(name, value)</strong></p>
+<p>设置值，只有key不存在时，执行设置操作</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'k1'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.setnx(<span class="string">'k1'</span>,<span class="string">'v1'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'k1'</span>)</span><br><span class="line"><span class="string">b'v1'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.setnx(<span class="string">'k2'</span>,<span class="string">'v2'</span>)</span><br><span class="line"><span class="keyword">False</span></span><br></pre></td></tr></table></figure>
+<p><strong>mset(*args, **kwargs)</strong></p>
+<p>同时设置多个key/value</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.mset(k1=<span class="string">'v1'</span>, k2=<span class="string">'v2'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.mset(&#123;<span class="string">'k1'</span>:<span class="string">'v1'</span>, <span class="string">'k1'</span>:<span class="string">'v1'</span>&#125;)</span><br><span class="line"><span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+<p><strong>get(name)</strong></p>
+<p>获取单个值</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'k1'</span>)</span><br><span class="line"><span class="string">b'v1'</span></span><br></pre></td></tr></table></figure>
+<p><strong>mget(keys, *args)</strong></p>
+<p>获取多个值</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.mget(<span class="string">'k1'</span>,<span class="string">'k2'</span>)</span><br><span class="line">[<span class="string">b'v1'</span>, <span class="string">b'v2'</span>]</span><br><span class="line"><span class="comment"># 传入列表</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.mget([<span class="string">'name'</span>,<span class="string">'url'</span>])</span><br><span class="line">[<span class="string">b'ansheng'</span>, <span class="string">b'https://blog.ansheng.me'</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>getset(name, value)</strong></p>
+<p>设置新值并获取原来的值</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.set(<span class="string">'hello'</span>, <span class="string">'world'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>result = conn.getset(<span class="string">'hello'</span>, <span class="string">'Linux'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>result</span><br><span class="line"><span class="string">b'world'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'hello'</span>)</span><br><span class="line"><span class="string">b'Linux'</span></span><br></pre></td></tr></table></figure>
+<p><strong>getrange(key, start, end)</strong></p>
+<p>通过索引的方式来获取value的值</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.set(<span class="string">'key'</span>,<span class="string">'value'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.getrange(<span class="string">'key'</span>, <span class="number">1</span>, <span class="number">4</span>)</span><br><span class="line"><span class="string">b'alue'</span></span><br></pre></td></tr></table></figure>
+<p><strong>setrange(name, offset, value)</strong></p>
+<p>根据索引修改value</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.set(<span class="string">'n'</span>,<span class="string">'123456789'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.setrange(<span class="string">'n'</span>, <span class="number">0</span>, <span class="string">'a'</span>)</span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'n'</span>)</span><br><span class="line"><span class="string">b'a23456789'</span></span><br></pre></td></tr></table></figure>
+<p><strong>setbit(name, offset, value)</strong></p>
+<p><strong>getbit(name, offset)</strong></p>
+<p>获取value对应某一个索引位置对应的值0/1</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.getbit(<span class="string">'k'</span>,<span class="number">1</span>)</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p><strong>bitcount(key, start=None, end=None)</strong></p>
+<p>获取key对应二进制中表示1的个数</p>
+<p><strong>bitop(operation, dest, *keys)</strong></p>
+<p>将多个值进行值运算，得出的结果保存到一个新值当中</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.mset(n1=<span class="string">'abc'</span>,n2=<span class="string">'cde'</span>,n3=<span class="string">'adc'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.bitop(<span class="string">'AND'</span>,<span class="string">'now_key'</span>,<span class="string">'n1'</span>,<span class="string">'n2'</span>,<span class="string">'n3'</span>)</span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'now_key'</span>)</span><br><span class="line"><span class="string">b'a`a'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.mget(<span class="string">'n1'</span>,<span class="string">'n2'</span>,<span class="string">'n3'</span>)</span><br><span class="line">[<span class="string">b'abc'</span>, <span class="string">b'cde'</span>, <span class="string">b'adc'</span>]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>operation支持AND(并)、OR(或)、NOT(非)、XOR(异或)</p>
+</blockquote>
+<p><strong>strlen(name)</strong></p>
+<p>获取value的长度</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.set(<span class="string">'name'</span>,<span class="string">'安生'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.strlen(<span class="string">'name'</span>)</span><br><span class="line"><span class="number">6</span></span><br></pre></td></tr></table></figure>
+<p><strong>incr(name, amount=1)</strong></p>
+<p>对name的value进行自增，如果name不存在则创建，否则自增</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'number'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.incr(<span class="string">'number'</span>)</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'number'</span>)</span><br><span class="line"><span class="string">b'1'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.incr(<span class="string">'number'</span>)</span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.incr(<span class="string">'number'</span>, <span class="number">10</span>)</span><br><span class="line"><span class="number">12</span></span><br></pre></td></tr></table></figure>
+<p><strong>incrbyfloat(name, amount=1.0)</strong></p>
+<p>同上，支持浮点数自增</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.incrbyfloat(<span class="string">'number'</span>, <span class="number">1.5</span>)</span><br><span class="line"><span class="number">13.5</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.incrbyfloat(<span class="string">'number'</span>, <span class="number">1.1</span>)</span><br><span class="line"><span class="number">14.6</span></span><br></pre></td></tr></table></figure>
+<p><strong>decr(name, amount=1)</strong></p>
+<p>自减，同自增一样，如果进行自减的value不是整数就报错</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.set(<span class="string">'n'</span>, <span class="number">10</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.decr(<span class="string">'n'</span>)</span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.decr(<span class="string">'n'</span>, <span class="number">9</span>)</span><br><span class="line"><span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p><strong>append(key, value)</strong></p>
+<p>在value后面追加内容</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.set(<span class="string">'blog'</span>,<span class="string">'https://blog.ansheng.me'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.append(<span class="string">'blog'</span>,<span class="string">'/'</span>)</span><br><span class="line"><span class="number">26</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'blog'</span>)</span><br><span class="line"><span class="string">b'https://blog.ansheng.me/'</span></span><br></pre></td></tr></table></figure>
+<h3 id="Hash-API"><a href="#Hash-API" class="headerlink" title="Hash API"></a>Hash API</h3><p><strong>hset(name, key, value)</strong></p>
+<p>设置name的键值对，有则修改，没有则创建</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hset(<span class="string">'dic'</span>,<span class="string">'k1'</span>,<span class="string">'v1'</span>)</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hget(<span class="string">'dic'</span>,<span class="string">'k1'</span>)</span><br><span class="line"><span class="string">b'v1'</span></span><br></pre></td></tr></table></figure>
+<p><strong>hmset(name, mapping)</strong></p>
+<p>同时设置多个name的key/value</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hmset(<span class="string">'dic'</span>, &#123;<span class="string">'k1'</span>: <span class="string">'v1'</span>, <span class="string">'k2'</span>: <span class="string">'v2'</span>&#125;)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hget(<span class="string">'dic'</span>,<span class="string">'k2'</span>)</span><br><span class="line"><span class="string">b'v2'</span></span><br></pre></td></tr></table></figure>
+<p><strong>hget(name, key)</strong></p>
+<p>获取name中key的值</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hget(<span class="string">'dic'</span>,<span class="string">'k2'</span>)</span><br><span class="line"><span class="string">b'v2'</span></span><br></pre></td></tr></table></figure>
+<p><strong>hmget(name, keys, *args)</strong></p>
+<p>同时获取多个</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hmget(<span class="string">'dic'</span>,[<span class="string">'k1'</span>, <span class="string">'k2'</span>])</span><br><span class="line">[<span class="string">b'v1'</span>, <span class="string">b'v2'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hmget(<span class="string">'dic'</span>,<span class="string">'k1'</span>, <span class="string">'k2'</span>)</span><br><span class="line">[<span class="string">b'v1'</span>, <span class="string">b'v2'</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>hgetall(name)</strong></p>
+<p>获取name对应的所有key/value</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hgetall(<span class="string">'dic'</span>)</span><br><span class="line">&#123;<span class="string">b'k1'</span>: <span class="string">b'v1'</span>, <span class="string">b'k2'</span>: <span class="string">b'v2'</span>&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>hlen(name)</strong></p>
+<p>获取name对应键值对的个数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hlen(<span class="string">'dic'</span>)</span><br><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p><strong>hkeys(name)</strong></p>
+<p>获取name中所有的key</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hkeys(<span class="string">'dic'</span>)</span><br><span class="line">[<span class="string">b'k1'</span>, <span class="string">b'k2'</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>hvals(name)</strong></p>
+<p>获取name中所有的value</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hvals(<span class="string">'dic'</span>)</span><br><span class="line">[<span class="string">b'v1'</span>, <span class="string">b'v2'</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>hexists(name, key)</strong></p>
+<p>检查当前name中是否有传入的key</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hexists(<span class="string">'dic'</span>,<span class="string">'k1'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hexists(<span class="string">'dic'</span>,<span class="string">'kk'</span>)</span><br><span class="line"><span class="keyword">False</span></span><br></pre></td></tr></table></figure>
+<p><strong>hdel(self, name, *keys)</strong></p>
+<p>删除name中对应的key</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hdel(<span class="string">'dic'</span>,<span class="string">'k1'</span>)</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hget(<span class="string">'dic'</span>,<span class="string">'k1'</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>hincrby(name, key, amount=1)</strong></p>
+<p>name中key对应的value进行自增，如果不存在则创建</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hincrby(<span class="string">'dic'</span>,<span class="string">'number'</span>)</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hincrby(<span class="string">'dic'</span>,<span class="string">'number'</span>,<span class="number">10</span>)</span><br><span class="line"><span class="number">11</span></span><br></pre></td></tr></table></figure>
+<p><strong>hincrbyfloat(name, key, amount=1.0)</strong></p>
+<p>value自增，支持浮点数，同上</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hincrbyfloat(<span class="string">'dic'</span>,<span class="string">'float'</span>)</span><br><span class="line"><span class="number">1.0</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hincrbyfloat(<span class="string">'dic'</span>,<span class="string">'float'</span>,<span class="number">0.3</span>)</span><br><span class="line"><span class="number">1.3</span></span><br></pre></td></tr></table></figure>
+<p><strong>hscan(name, cursor=0, match=None, count=None)</strong></p>
+<p>增量式迭代获取，hscan可以实现分片的获取数据，并非一次性将数据全部获取完，从而放置内存被撑爆</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>name</code></td>
+<td style="text-align:left">redis的name</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>cursor</code></td>
+<td style="text-align:left">游标（基于游标分批取获取数据）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>match</code></td>
+<td style="text-align:left">匹配指定key，默认None 表示所有的key</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>count</code></td>
+<td style="text-align:left">每次分片最少获取个数，默认None表示采用Redis的默认分片个数</td>
+</tr>
+</tbody>
+</table>
+<p><strong>hscan_iter(name, match=None, count=None)</strong></p>
+<p>利用yield封装hscan创建生成器，实现分批去redis中获取数据</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>match</code></td>
+<td style="text-align:left">匹配指定key，默认None 表示所有的key</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>count</code></td>
+<td style="text-align:left">每次分片最少获取个数，默认None表示采用Redis的默认分片个数</td>
+</tr>
+</tbody>
+</table>
+<p>如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> r.hscan_iter(<span class="string">'xx'</span>):</span><br><span class="line">    <span class="keyword">print</span> item</span><br></pre></td></tr></table></figure>
+<p><strong>expire(name, time)</strong></p>
+<p>设置过期时间</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hset(<span class="string">'info'</span>,<span class="string">'BlogUrl'</span>,<span class="string">'https://blog.ansheng.me'</span>)</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.expire(<span class="string">'info'</span>, <span class="number">10</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hget(<span class="string">'info'</span>,<span class="string">'BlogUrl'</span>)</span><br><span class="line"><span class="string">b'https://blog.ansheng.me'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.hget(<span class="string">'info'</span>,<span class="string">'BlogUrl'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="ListAPI"><a href="#ListAPI" class="headerlink" title="ListAPI"></a>ListAPI</h3><p><strong>lpush(name, *values)</strong></p>
+<p>在最左边添加值</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lpush(<span class="string">'li'</span>, <span class="number">11</span>,<span class="number">22</span>,<span class="number">33</span>)</span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lindex(<span class="string">'li'</span>, <span class="number">0</span>)</span><br><span class="line"><span class="string">b'33'</span></span><br></pre></td></tr></table></figure>
+<p><strong>rpush(name, *values)</strong></p>
+<p>在最右边添加值</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.rpush(<span class="string">'lli'</span>, <span class="number">11</span>,<span class="number">22</span>,<span class="number">33</span>)</span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lindex(<span class="string">'lli'</span>, <span class="number">0</span>)</span><br><span class="line"><span class="string">b'11'</span></span><br></pre></td></tr></table></figure>
+<p><strong>lpushx(name, value)</strong></p>
+<p>只有name已经存在时，值添加到列表的最左边</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lpushx(<span class="string">'li'</span>, <span class="string">'aa'</span>)</span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lindex(<span class="string">'li'</span>, <span class="number">0</span>)</span><br><span class="line"><span class="string">b'aa'</span></span><br></pre></td></tr></table></figure>
+<p><strong>rpushx(name, value)</strong></p>
+<p>只有name已经存在时，值添加到列表的最右边</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.rpushx(<span class="string">'li'</span>, <span class="string">'bb'</span>)</span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lindex(<span class="string">'li'</span>, <span class="number">0</span>)</span><br><span class="line"><span class="string">b'aa'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lindex(<span class="string">'li'</span>, <span class="number">4</span>)</span><br><span class="line"><span class="string">b'bb'</span></span><br></pre></td></tr></table></figure>
+<p><strong>llen(name)</strong></p>
+<p>获取name元素的个数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.llen(<span class="string">'li'</span>)</span><br><span class="line"><span class="number">5</span></span><br></pre></td></tr></table></figure>
+<p><strong>linsert(name, where, refvalue, value)</strong></p>
+<p>在name的某一个值前面或者后面插入一个新值</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.linsert(<span class="string">'li'</span>,<span class="string">'AFTER'</span>,<span class="string">'11'</span>,<span class="string">'cc'</span>)</span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lindex(<span class="string">'li'</span>, <span class="number">3</span>)</span><br><span class="line"><span class="string">b'11'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lindex(<span class="string">'li'</span>, <span class="number">4</span>)</span><br><span class="line"><span class="string">b'cc'</span></span><br></pre></td></tr></table></figure>
+<p><strong>lset(name, index, value)</strong></p>
+<p>对name中index索引位置的值进行重新赋值</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lindex(<span class="string">'li'</span>, <span class="number">4</span>)</span><br><span class="line"><span class="string">b'cc'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lset(<span class="string">'li'</span>, <span class="number">4</span>, <span class="string">'hello'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lindex(<span class="string">'li'</span>, <span class="number">4</span>)</span><br><span class="line"><span class="string">b'hello'</span></span><br></pre></td></tr></table></figure>
+<p><strong>lrem(name, value, num=0)</strong></p>
+<p>删除指定value后面或者前面的值</p>
+<ol start="2">
+<li>num=2,从前到后，删除2个；</li>
+<li>num=-2,从后向前，删除2个</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.llen(<span class="string">'li'</span>)</span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lrem(<span class="string">'li'</span>, <span class="string">'hello'</span>)</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.llen(<span class="string">'li'</span>)</span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lrem(<span class="string">'li'</span>, <span class="string">'22'</span>, num=<span class="number">2</span>)</span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.llen(<span class="string">'li'</span>)</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p><strong>lpop(name)</strong></p>
+<p>删除name中左侧第一个元素</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lindex(<span class="string">'li'</span>, <span class="number">0</span>)</span><br><span class="line"><span class="string">b'11'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lpop(<span class="string">'li'</span>)</span><br><span class="line"><span class="string">b'11'</span></span><br></pre></td></tr></table></figure>
+<p><strong>rpop(name)</strong></p>
+<p>删除name中右侧第一个元素</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.rpop(<span class="string">'li'</span>)</span><br><span class="line"><span class="string">b'33'</span></span><br></pre></td></tr></table></figure>
+<p><strong>lindex(name, index)</strong></p>
+<p>获取name中对应索引的值</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lindex(<span class="string">'li'</span>, <span class="number">0</span>)</span><br><span class="line"><span class="string">b'aa'</span></span><br></pre></td></tr></table></figure>
+<p><strong>lrange(name, start, end)</strong></p>
+<p>使用切片获取数据</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.llen(<span class="string">'li'</span>)</span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lrange(<span class="string">'li'</span>,<span class="number">0</span>,<span class="number">5</span>)</span><br><span class="line">[<span class="string">b'3'</span>, <span class="string">b'23'</span>, <span class="string">b'34'</span>, <span class="string">b'235'</span>, <span class="string">b'2'</span>, <span class="string">b'1'</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>ltrim(name, start, end)</strong></p>
+<p>在name对应的列表中移除没有在start-end索引之间的值</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.ltrim(<span class="string">'li'</span>,<span class="number">0</span>,<span class="number">5</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.llen(<span class="string">'li'</span>)</span><br><span class="line"><span class="number">6</span></span><br></pre></td></tr></table></figure>
+<p><strong>rpoplpush(src, dst)</strong></p>
+<p>从src列表中取出最右边的元素，同时将其添加至dst列表的最左边</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lpush(<span class="string">'li1'</span>, <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lpush(<span class="string">'li2'</span>, <span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>)</span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.rpoplpush(<span class="string">'li1'</span>,<span class="string">'li2'</span>)</span><br><span class="line"><span class="string">b'1'</span></span><br></pre></td></tr></table></figure>
+<p><strong>blpop(keys, timeout=0)</strong><br><strong>brpop(keys, timeout=0)</strong></p>
+<p><strong>brpoplpush(src, dst, timeout=0)</strong></p>
+<p>从src列表的右侧移除一个元素并将其添加到dst列表的左侧</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lpush(<span class="string">'ll'</span>, <span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>)</span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.lpush(<span class="string">'aa'</span>, <span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>)</span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.brpoplpush(<span class="string">'ll'</span>,<span class="string">'aa'</span>)</span><br><span class="line"><span class="string">b'a'</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>timeout，当src对应的列表中没有数据时，阻塞等待其有数据的超时时间（秒），0 表示永远阻塞</p>
+</blockquote>
+<p>自定义增量迭代</p>
+<p>由于<code>redis</code>类库中没有提供对列表元素的增量迭代，如果想要循环<code>name</code>对应的列表的所有元素，那么就需要：</p>
+<ol>
+<li>获取name对应的所有列表</li>
+<li>循环列表</li>
+</ol>
+<p>但是，如果列表非常大，那么就有可能在第一步时就将程序的内容撑爆，所有有必要自定义一个增量迭代的功能：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">list_iter</span><span class="params">(name)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    自定义redis列表增量迭代</span></span><br><span class="line"><span class="string">    :param name: redis中的name，即：迭代name对应的列表</span></span><br><span class="line"><span class="string">    :return: yield 返回 列表元素</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    list_count = r.llen(name)</span><br><span class="line">    <span class="keyword">for</span> index <span class="keyword">in</span> xrange(list_count):</span><br><span class="line">        <span class="keyword">yield</span> r.lindex(name, index)</span><br></pre></td></tr></table></figure>
+<p>使用</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> list_iter(<span class="string">'pp'</span>):</span><br><span class="line">    <span class="keyword">print</span> item</span><br></pre></td></tr></table></figure>
+<h3 id="SET-API"><a href="#SET-API" class="headerlink" title="SET API"></a>SET API</h3><p><strong>sadd(name, *values)</strong></p>
+<p>为name添加值，如果存在则不添加</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.sadd(<span class="string">'s1'</span>, <span class="number">1</span>)</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.sadd(<span class="string">'s1'</span>, <span class="number">1</span>)</span><br><span class="line"><span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p><strong>scard(name)</strong></p>
+<p>返回name的元素数量</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.scard(<span class="string">'s1'</span>)</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p><strong>sdiff(keys, *args)</strong></p>
+<p>在keys集合中不在其他集合中的数据</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.sdiff(<span class="string">'s1'</span>,<span class="string">'s2'</span>)</span><br><span class="line">&#123;<span class="string">b'c'</span>, <span class="string">b'v'</span>, <span class="string">b'a'</span>&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>sdiffstore(dest, keys, *args)</strong></p>
+<p>在keys集合中不在其他集合中的数据保存到dest集合中</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.sdiffstore(<span class="string">'news'</span>,<span class="string">'s1'</span>,<span class="string">'s2'</span>)</span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.scard(<span class="string">'news'</span>)</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p><strong>sinter(keys, *args)</strong></p>
+<p>获取keys集合中与其他集合中的并集</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.sinter(<span class="string">'s1'</span>,<span class="string">'s2'</span>)</span><br><span class="line">&#123;<span class="string">b'2'</span>, <span class="string">b'3'</span>, <span class="string">b'1'</span>&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>sinterstore(dest, keys, *args)</strong></p>
+<p>获取keys集合中与其他集合中的并集数据并保存到dest集合中</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.sinterstore(<span class="string">'news1'</span>,<span class="string">'s1'</span>,<span class="string">'s2'</span>)</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p><strong>sismember(name, value)</strong></p>
+<p>获取value是否是name集合中的成员</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.sismember(<span class="string">'news1'</span>,<span class="string">'1'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.sismember(<span class="string">'news1'</span>,<span class="string">'aa1'</span>)</span><br><span class="line"><span class="keyword">False</span></span><br></pre></td></tr></table></figure>
+<p><strong>smembers(name)</strong></p>
+<p>获取name集合中所有的成员</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.smembers(<span class="string">'news1'</span>)</span><br><span class="line">&#123;<span class="string">b'2'</span>, <span class="string">b'3'</span>, <span class="string">b'1'</span>&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>smove(src, dst, value)</strong></p>
+<p>将src中的value移动到dst中</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.smembers(<span class="string">'s1'</span>)</span><br><span class="line">&#123;<span class="string">b'c'</span>, <span class="string">b'2'</span>, <span class="string">b'v'</span>, <span class="string">b'1'</span>, <span class="string">b'3'</span>, <span class="string">b'a'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.smembers(<span class="string">'s2'</span>)</span><br><span class="line">&#123;<span class="string">b'2'</span>, <span class="string">b'3'</span>, <span class="string">b'1'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.smove(<span class="string">'s1'</span>,<span class="string">'s2'</span>,<span class="string">'v'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.smembers(<span class="string">'s1'</span>)</span><br><span class="line">&#123;<span class="string">b'c'</span>, <span class="string">b'2'</span>, <span class="string">b'a'</span>, <span class="string">b'3'</span>, <span class="string">b'1'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.smembers(<span class="string">'s2'</span>)</span><br><span class="line">&#123;<span class="string">b'2'</span>, <span class="string">b'v'</span>, <span class="string">b'3'</span>, <span class="string">b'1'</span>&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>spop(name)</strong></p>
+<p>删除并返回name中的随机成员</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.smembers(<span class="string">'s2'</span>)</span><br><span class="line">&#123;<span class="string">b'2'</span>, <span class="string">b'v'</span>, <span class="string">b'3'</span>, <span class="string">b'1'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.spop(<span class="string">'s2'</span>)</span><br><span class="line"><span class="string">b'3'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.smembers(<span class="string">'s2'</span>)</span><br><span class="line">&#123;<span class="string">b'2'</span>, <span class="string">b'v'</span>, <span class="string">b'1'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.spop(<span class="string">'s2'</span>)</span><br><span class="line"><span class="string">b'2'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.smembers(<span class="string">'s2'</span>)</span><br><span class="line">&#123;<span class="string">b'v'</span>, <span class="string">b'1'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.spop(<span class="string">'s2'</span>)</span><br><span class="line"><span class="string">b'1'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.smembers(<span class="string">'s2'</span>)</span><br><span class="line">&#123;<span class="string">b'v'</span>&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>srandmember(name, number=None)</strong></p>
+<p>随机获取name集合中的number个成员，默认number=1</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.smembers(<span class="string">'s1'</span>)</span><br><span class="line">&#123;<span class="string">b'c'</span>, <span class="string">b'2'</span>, <span class="string">b'a'</span>, <span class="string">b'3'</span>, <span class="string">b'1'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.srandmember(<span class="string">'s1'</span>)</span><br><span class="line"><span class="string">b'1'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.srandmember(<span class="string">'s1'</span>)</span><br><span class="line"><span class="string">b'a'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.srandmember(<span class="string">'s1'</span>,number=<span class="number">2</span>)</span><br><span class="line">[<span class="string">b'3'</span>, <span class="string">b'a'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.srandmember(<span class="string">'s1'</span>,number=<span class="number">2</span>)</span><br><span class="line">[<span class="string">b'1'</span>, <span class="string">b'2'</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>srem(name, *values)</strong></p>
+<p>删除name集合中的values数据</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.smembers(<span class="string">'s1'</span>)</span><br><span class="line">&#123;<span class="string">b'c'</span>, <span class="string">b'2'</span>, <span class="string">b'a'</span>, <span class="string">b'3'</span>, <span class="string">b'1'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.srem(<span class="string">'s1'</span>,<span class="string">'1'</span>,<span class="string">'2'</span>)</span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.smembers(<span class="string">'s1'</span>)</span><br><span class="line">&#123;<span class="string">b'c'</span>, <span class="string">b'a'</span>, <span class="string">b'3'</span>&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>sunion(keys, *args)</strong></p>
+<p>获取keys集合与其他集合的并集</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.sadd(<span class="string">'a1'</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.sadd(<span class="string">'a2'</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>)</span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.sunion(<span class="string">'a2'</span>,<span class="string">'a1'</span>)</span><br><span class="line">&#123;<span class="string">b'2'</span>, <span class="string">b'7'</span>, <span class="string">b'1'</span>, <span class="string">b'3'</span>, <span class="string">b'6'</span>, <span class="string">b'5'</span>, <span class="string">b'4'</span>&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>sunionstore(dest, keys, *args)</strong></p>
+<p>获取keys集合与其他集合的并集并保存到dest中</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.sunionstore(<span class="string">'a3'</span>, <span class="string">'a2'</span>,<span class="string">'a1'</span>)</span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.smembers(<span class="string">'a3'</span>)</span><br><span class="line">&#123;<span class="string">b'2'</span>, <span class="string">b'7'</span>, <span class="string">b'1'</span>, <span class="string">b'3'</span>, <span class="string">b'6'</span>, <span class="string">b'5'</span>, <span class="string">b'4'</span>&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Ordered-set-API"><a href="#Ordered-set-API" class="headerlink" title="Ordered set API"></a>Ordered set API</h3><p><strong>zadd(name, *args, **kwargs)</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.zadd(<span class="string">'h1'</span>,<span class="string">'n1'</span>,<span class="number">11</span>,<span class="string">'n2'</span>,<span class="number">22</span>)</span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.zadd(<span class="string">'h2'</span>,n1=<span class="number">11</span>,n2=<span class="number">22</span>)</span><br><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p><strong>zcard(name)</strong></p>
+<p>返回有序集合name元素的数量</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.zcard(<span class="string">'h1'</span>)</span><br><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p><strong>zcount(name, min, max)</strong></p>
+<p>返回在name中值在min与max之间的值个数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.zcount(<span class="string">'h1'</span>,<span class="number">10</span>,<span class="number">30</span>)</span><br><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p><strong>zincrby(name, value, amount=1)</strong></p>
+<p>name中让value的值加上amount</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.zincrby(<span class="string">'h1'</span>,<span class="string">'n1'</span>,<span class="number">10</span>)</span><br><span class="line"><span class="number">21.0</span></span><br></pre></td></tr></table></figure>
+<p><strong>zinterstore(dest, keys, aggregate=None)</strong><br><strong>zlexcount(name, min, max)</strong></p>
+<p><strong>zrange(name, start, end, desc=False, withscores=False, score_cast_func=float)</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>name</code></td>
+<td style="text-align:left">redis的name</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>start</code></td>
+<td style="text-align:left">有序集合索引起始位置（非分数）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>end</code></td>
+<td style="text-align:left">有序集合索引结束位置（非分数）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>desc</code></td>
+<td style="text-align:left">排序规则，默认按照分数从小到大排序</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>withscores</code></td>
+<td style="text-align:left">是否获取元素的分数，默认只获取元素的值</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>score_cast_func</code></td>
+<td style="text-align:left">对分数进行数据转换的函数</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.zrange(<span class="string">'h1'</span>, <span class="number">1</span>, <span class="number">2</span>, desc=<span class="keyword">True</span>, withscores=<span class="keyword">True</span>, score_cast_func=float)</span><br><span class="line">[(<span class="string">b'n1'</span>, <span class="number">21.0</span>)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.zrange(<span class="string">'h1'</span>, <span class="number">1</span>, <span class="number">2</span>, desc=<span class="keyword">False</span>, withscores=<span class="keyword">True</span>, score_cast_func=float)</span><br><span class="line">[(<span class="string">b'n2'</span>, <span class="number">22.0</span>)]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 从大到小排序</span></span><br><span class="line">zrevrange(name, start, end, withscores=<span class="keyword">False</span>, score_cast_func=float) </span><br><span class="line"><span class="comment"># 按照分数范围获取name对应的有序集合的元素</span></span><br><span class="line">zrangebyscore(name, min, max, start=<span class="keyword">None</span>, num=<span class="keyword">None</span>, withscores=<span class="keyword">False</span>, score_cast_func=float)</span><br><span class="line"><span class="comment"># 从大到小排序</span></span><br><span class="line">zrevrangebyscore(name, max, min, start=<span class="keyword">None</span>, num=<span class="keyword">None</span>, withscores=<span class="keyword">False</span>, score_cast_func=float)</span><br></pre></td></tr></table></figure>
+<p><strong>zrangebylex(name, min, max, start=None, num=None)</strong></p>
+<p>当有序集合的所有成员都具有相同的分值时，有序集合的元素会根据成员的 值 （lexicographical ordering）来进行排序，而这个命令则可以返回给定的有序集合键 key 中， 元素的值介于 min 和 max 之间的成员</p>
+<p>对集合中的每个成员进行逐个字节的对比（byte-by-byte compare）， 并按照从低到高的顺序， 返回排序后的集合成员。 如果两个字符串有一部分内容是相同的话， 那么命令会认为较长的字符串比较短的字符串要大</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>name</code></td>
+<td style="text-align:left">redis的name</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>min</code></td>
+<td style="text-align:left">左区间(值) + 表示正无限； - 表示负无限； ( 表示开区间； [ 则表示闭区间</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>min</code></td>
+<td style="text-align:left">右区间（值）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>start</code></td>
+<td style="text-align:left">对结果进行分片处理，索引位置</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>num</code></td>
+<td style="text-align:left">对结果进行分片处理，索引后面的num个元素</td>
+</tr>
+</tbody>
+</table>
+<p>如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ZADD myzset <span class="number">0</span> aa <span class="number">0</span> ba <span class="number">0</span> ca <span class="number">0</span> da <span class="number">0</span> ea <span class="number">0</span> fa <span class="number">0</span> ga</span><br><span class="line"><span class="comment"># r.zrangebylex('myzset', "-", "[ca") 结果为：['aa', 'ba', 'ca']</span></span><br></pre></td></tr></table></figure>
+<p>更多：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 从大到小排序</span></span><br><span class="line">zrevrangebylex(name, max, min, start=<span class="keyword">None</span>, num=<span class="keyword">None</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>zrevrangebylex(name, max, min, start=None, num=None)</strong></p>
+<p>zrangebyscore(name, min, max, start=None, num=None, withscores=False, score_cast_func=float)**</p>
+<p><strong>zrank(name, value)</strong></p>
+<p>返回基于0的值，指示在排序集名称的值排名</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.zrank(<span class="string">'h1'</span>,<span class="string">'n1'</span>)</span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.zrank(<span class="string">'h1'</span>,<span class="string">'n2'</span>)</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>zrevrank(name, value)，从大到小排序</p>
+</blockquote>
+<p><strong>zrem(name, *values)</strong></p>
+<p>删除name中对应的values</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.zrem(<span class="string">'h1'</span>,<span class="string">'n2'</span>)</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.zrem(<span class="string">'h2'</span>,[<span class="string">'n1'</span>,<span class="string">'n2'</span>])</span><br><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p><strong>zremrangebyrank(name, min, max)</strong></p>
+<p>根据排行范围进行删除</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.zremrangebyrank(<span class="string">'h1'</span>,<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p><strong>zremrangebyscore(name, min, max)</strong></p>
+<p>根据分数范围进行删除</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.zremrangebyscore(<span class="string">'h1'</span>,<span class="number">10</span>,<span class="number">20</span>)</span><br><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p><strong>zscore(name, value)</strong></p>
+<p>返回指定value的值是多少</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.zscore(<span class="string">'h1'</span>,<span class="string">'n1'</span>)</span><br><span class="line"><span class="number">11.0</span></span><br></pre></td></tr></table></figure>
+<p><strong>zunionstore(dest, keys, aggregate=None)</strong></p>
+<h3 id="Global-API"><a href="#Global-API" class="headerlink" title="Global API"></a>Global API</h3><p><strong>delete(*names)</strong></p>
+<p>在redis中删除names</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.delete(<span class="string">'ooo'</span>)</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p><strong>exists(name)</strong></p>
+<p>检测name是否存在</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.exists(<span class="string">'iii'</span>)</span><br><span class="line"><span class="keyword">False</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.exists(<span class="string">'h1'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+<p><strong>keys(pattern=’*’)</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 匹配数据库中所有 key </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.keys(pattern=<span class="string">'*'</span>)</span><br><span class="line">[<span class="string">b'h2'</span>, <span class="string">b'kasd1'</span>, <span class="string">b'n2'</span>, <span class="string">b'url'</span>, <span class="string">b'name'</span>, <span class="string">b'n'</span>, <span class="string">b'li1'</span>, <span class="string">b'n1'</span>, <span class="string">b's1'</span>, <span class="string">b'now_key'</span>, <span class="string">b'l'</span>, <span class="string">b's2'</span>, <span class="string">b'number'</span>, <span class="string">b'numbers'</span>, <span class="string">b'a2'</span>, <span class="string">b'dic'</span>, <span class="string">b'a1'</span>, <span class="string">b'news'</span>, <span class="string">b'news1'</span>, <span class="string">b'aa'</span>, <span class="string">b'key'</span>, <span class="string">b'lli'</span>, <span class="string">b'll'</span>, <span class="string">b'k'</span>, <span class="string">b'li'</span>, <span class="string">b'k2'</span>, <span class="string">b'h1'</span>, <span class="string">b'li2'</span>, <span class="string">b'ccc'</span>, <span class="string">b'k1'</span>, <span class="string">b'blog'</span>, <span class="string">b'kaasdsd1'</span>, <span class="string">b'a3'</span>, <span class="string">b'l1'</span>, <span class="string">b'l2'</span>, <span class="string">b'n3'</span>, <span class="string">b'a'</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 匹配hello，hallo和hxllo等</span></span><br><span class="line">conn.keys(pattern=<span class="string">'h?llo'</span>)</span><br><span class="line"><span class="comment"># 匹配hllo和heeeeello 等</span></span><br><span class="line">conn.keys(pattern=<span class="string">'h*llo'</span>)</span><br><span class="line"><span class="comment"># 匹配hello和hallo，但不匹配 hillo</span></span><br><span class="line">conn.keys(pattern=<span class="string">'h[ae]llo'</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>rename(src, dst)</strong></p>
+<p>把src重命名成dst</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.set(<span class="string">'k'</span>,<span class="string">'v'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'k'</span>)</span><br><span class="line"><span class="string">b'v'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.rename(<span class="string">'k'</span>, <span class="string">'kk'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'k'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'kk'</span>)</span><br><span class="line"><span class="string">b'v'</span></span><br></pre></td></tr></table></figure>
+<p><strong>move(name, db)</strong></p>
+<p>将redis的某个值移动到指定的db下</p>
+<p><strong>randomkey()</strong></p>
+<p>随机获取一个redis的name，不进行删除</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.randomkey()</span><br><span class="line"><span class="string">b'll'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.randomkey()</span><br><span class="line"><span class="string">b'news1'</span></span><br></pre></td></tr></table></figure>
+<p> <strong>type(name)</strong></p>
+<p>查看name的类型</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.type(<span class="string">'kk'</span>)</span><br><span class="line"><span class="string">b'string'</span></span><br></pre></td></tr></table></figure>
+<h2 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h2><p><code>redis-py</code>默认在执行每次请求都会创建（连接池申请连接）和断开（归还连接池）一次连接操作，如果想要在一次请求中指定多个命令，则可以使用<code>pipline</code>实现一次请求指定多个命令，并且默认情况下一次pipline 是原子性操作(MySQL中的事务)。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> redis</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pool = redis.ConnectionPool(host=<span class="string">'192.168.56.100'</span>, port=<span class="number">6379</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>r = redis.Redis(connection_pool=pool)</span><br><span class="line"><span class="comment"># 创建一个通道支持事务</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pipe = r.pipeline(transaction=<span class="keyword">True</span>)</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>r.set(<span class="string">'hello'</span>, <span class="string">'world'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>r.set(<span class="string">'blog'</span>, <span class="string">'ansheng.me'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="comment"># 如果在设置上面两个值的过程中出错了，那么这次提交就不会执行</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pipe.execute()</span><br><span class="line">[]</span><br></pre></td></tr></table></figure>
+<h2 id="发布订阅"><a href="#发布订阅" class="headerlink" title="发布订阅"></a>发布订阅</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># monitor.py</span></span><br><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RedisHelper</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.__conn = redis.Redis(host=<span class="string">'192.168.56.100'</span>)</span><br><span class="line">        self.chan_sub = <span class="string">'fm104.5'</span></span><br><span class="line">        self.chan_pub = <span class="string">'fm104.5'</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">public</span><span class="params">(self, msg)</span>:</span></span><br><span class="line">        self.__conn.publish(self.chan_pub, msg)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">subscribe</span><span class="params">(self)</span>:</span></span><br><span class="line">        pub = self.__conn.pubsub()</span><br><span class="line">        pub.subscribe(self.chan_sub)</span><br><span class="line">        pub.parse_response()</span><br><span class="line">        <span class="keyword">return</span> pub</span><br><span class="line"></span><br><span class="line"><span class="comment"># subscriber.py 订阅者</span></span><br><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> monitor <span class="keyword">import</span> RedisHelper</span><br><span class="line"></span><br><span class="line">obj = RedisHelper()</span><br><span class="line">redis_sub = obj.subscribe()</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    msg = redis_sub.parse_response()</span><br><span class="line">    print(msg)</span><br><span class="line"></span><br><span class="line"><span class="comment"># announcer.py 发布者</span></span><br><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> monitor <span class="keyword">import</span> RedisHelper</span><br><span class="line"></span><br><span class="line">obj = RedisHelper()</span><br><span class="line">obj.public(<span class="string">'hello'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>让redis缓存tornado页面</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _*_coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tornado.ioloop</span><br><span class="line"><span class="keyword">import</span> tornado.web</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line">poll = redis.ConnectionPool(host=<span class="string">'192.168.56.100'</span>, port=<span class="number">6379</span>)</span><br><span class="line">conn = redis.Redis(connection_pool=poll)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainHandler</span><span class="params">(tornado.web.RequestHandler)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self)</span>:</span></span><br><span class="line">        CurrentTim = conn.get(<span class="string">'CurrentTim'</span>)</span><br><span class="line">        <span class="keyword">if</span> CurrentTim:</span><br><span class="line">            self.write(CurrentTim)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            CurrentTim = time.strftime(<span class="string">'%Y-%m-%d %H:%M:%S'</span>, time.localtime(time.time()))</span><br><span class="line">            conn.set(<span class="string">'CurrentTim'</span>, CurrentTim, ex=<span class="number">5</span>)</span><br><span class="line">            self.write(CurrentTim)</span><br><span class="line"></span><br><span class="line">settings = &#123;</span><br><span class="line">    <span class="string">"tempalte_path"</span>: <span class="string">"template"</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">application = tornado.web.Application([</span><br><span class="line">    (<span class="string">r'/'</span>, MainHandler),</span><br><span class="line">], **settings)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    application.listen(<span class="number">9999</span>)</span><br><span class="line">    tornado.ioloop.IOLoop.instance().start()</span><br></pre></td></tr></table></figure>
+<p>数据缓存5秒，如图所示<br><img src="/images/2016/12/1483068298.gif" alt="redis-02"></p>
+<p>基于Redis的Session存储</p>
+<p><strong>app.py</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _*_coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tornado.ioloop</span><br><span class="line"><span class="keyword">import</span> tornado.web</span><br><span class="line"><span class="keyword">import</span> RedisToSession</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BaseHandler</span><span class="params">(tornado.web.RequestHandler)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">initialize</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.session = RedisToSession.Session(self)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainHandler</span><span class="params">(BaseHandler)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self)</span>:</span></span><br><span class="line">        Info = self.session.GetAll()</span><br><span class="line"></span><br><span class="line">        self.render(<span class="string">"template/index.html"</span>, Data=Info)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        <span class="comment"># 获取传过来的值</span></span><br><span class="line">        Key = self.get_argument(<span class="string">'key'</span>)</span><br><span class="line">        Val = self.get_argument(<span class="string">'val'</span>)</span><br><span class="line">        action = self.get_argument(<span class="string">'action'</span>)</span><br><span class="line">        <span class="keyword">if</span> action == <span class="string">'set'</span>:</span><br><span class="line">            <span class="comment"># 设置值</span></span><br><span class="line">            self.session[Key] = Val</span><br><span class="line">        <span class="keyword">elif</span> action == <span class="string">'del'</span>:</span><br><span class="line">            <span class="keyword">del</span> self.session[Key]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 获取所有信息</span></span><br><span class="line">        Info = self.session.GetAll()</span><br><span class="line">        <span class="comment"># 返回给前端渲染</span></span><br><span class="line">        self.render(<span class="string">"template/index.html"</span>, Data=Info)</span><br><span class="line"></span><br><span class="line">settings = &#123;</span><br><span class="line">    <span class="string">"tempalte_path"</span>: <span class="string">"template"</span>,</span><br><span class="line">    <span class="string">"cookie_secret"</span>: <span class="string">"508CE6152CB93994628D3E99934B83CC"</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">application = tornado.web.Application([</span><br><span class="line">    (<span class="string">r'/'</span>, MainHandler),</span><br><span class="line">], **settings)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    application.listen(<span class="number">9999</span>)</span><br><span class="line">    tornado.ioloop.IOLoop.instance().start()</span><br></pre></td></tr></table></figure>
+<p><strong>template\index.html</strong></p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></span><br><span class="line">    set/del：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"action"</span> <span class="attr">value</span>=<span class="string">"set"</span>/&gt;</span></span><br><span class="line">    Key: <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"key"</span>/&gt;</span></span><br><span class="line">    Val: <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"val"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"设置"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line">&#123;&#123; Data &#125;&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>RedisToSession.py</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _*_ coding: utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接memcached</span></span><br><span class="line">pool = redis.ConnectionPool(host=<span class="string">'192.168.56.100'</span>, port=<span class="number">6379</span>)</span><br><span class="line">conn = redis.Redis(connection_pool=pool)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Session</span>:</span></span><br><span class="line">    CookieID = <span class="string">'uc'</span></span><br><span class="line">    ExpiresTime = <span class="number">60</span> * <span class="number">20</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, handler)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        用于创建用户session在redis中的字典</span></span><br><span class="line"><span class="string">        :param handler: 请求头</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.handler = handler</span><br><span class="line">        <span class="comment"># 从客户端获取随机字符串</span></span><br><span class="line">        SessionID = self.handler.get_secure_cookie(Session.CookieID, <span class="keyword">None</span>)</span><br><span class="line">        <span class="comment"># 客户端存在并且在服务端也存在</span></span><br><span class="line">        <span class="keyword">if</span> SessionID <span class="keyword">and</span> conn.exists(SessionID):</span><br><span class="line">            self.SessionID = SessionID</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 获取随机字符串</span></span><br><span class="line">            self.SessionID = self.SessionKey()</span><br><span class="line">            <span class="comment"># 把随机字符串写入memcached,时间是20分钟</span></span><br><span class="line">            conn.hset(self.SessionID, <span class="keyword">None</span>, <span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 每次访问超时时间就加20分钟</span></span><br><span class="line">        conn.expire(self.SessionID, Session.ExpiresTime)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 设置Cookie</span></span><br><span class="line">        self.handler.set_secure_cookie(<span class="string">'uc'</span>, self.SessionID)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">SessionKey</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :return: 生成随机字符串</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        UUID = str(uuid.uuid1()).replace(<span class="string">'-'</span>, <span class="string">''</span>)</span><br><span class="line">        MD5 = hashlib.md5()</span><br><span class="line">        MD5.update(bytes(UUID, encoding=<span class="string">'utf-8'</span>))</span><br><span class="line">        SessionKey = MD5.hexdigest()</span><br><span class="line">        <span class="keyword">return</span> SessionKey</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__setitem__</span><span class="params">(self, key, value)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :param key: session信息中的key</span></span><br><span class="line"><span class="string">        :param value: 对应的Value</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        conn.hset(self.SessionID, key, value)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, item)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :param item: Session信息中对应的Key</span></span><br><span class="line"><span class="string">        :return: 获取的Session信息</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># 获取对应的数据</span></span><br><span class="line">        ResultData = conn.hget(self.SessionID, item)</span><br><span class="line">        <span class="keyword">return</span> ResultData</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__delitem__</span><span class="params">(self, key)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :param key: 要删除的Key</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        conn.hdel(self.SessionID, key)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">GetAll</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 获取Session中所有的信息，仅用于测试</span></span><br><span class="line">        SessionData = conn.hgetall(self.SessionID)</span><br><span class="line">        <span class="keyword">return</span> SessionData</span><br></pre></td></tr></table></figure>
+<p>演示如图：<br><img src="/images/2016/12/1483068252.gif" alt="redis-03"></p>
+
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-redis"><span class="toc-number">1.</span> <span class="toc-text">What is redis?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Redis"><span class="toc-number">2.</span> <span class="toc-text">安装Redis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装redis-py"><span class="toc-number">3.</span> <span class="toc-text">安装redis-py</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#入门及使用"><span class="toc-number">4.</span> <span class="toc-text">入门及使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#API"><span class="toc-number">5.</span> <span class="toc-text">API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#String-API"><span class="toc-number">5.1.</span> <span class="toc-text">String API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hash-API"><span class="toc-number">5.2.</span> <span class="toc-text">Hash API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ListAPI"><span class="toc-number">5.3.</span> <span class="toc-text">ListAPI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SET-API"><span class="toc-number">5.4.</span> <span class="toc-text">SET API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ordered-set-API"><span class="toc-number">5.5.</span> <span class="toc-text">Ordered set API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Global-API"><span class="toc-number">5.6.</span> <span class="toc-text">Global API</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#管道"><span class="toc-number">6.</span> <span class="toc-text">管道</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#发布订阅"><span class="toc-number">7.</span> <span class="toc-text">发布订阅</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例"><span class="toc-number">8.</span> <span class="toc-text">实例</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

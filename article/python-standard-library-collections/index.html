@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="This module implements specialized container datatypes providing alternatives to Python’s general purpose built-in containers, dict, list, set, and tuple.  官方文档：https://docs.python.org/3/library/colle">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python标准库系列之collections模块">
+<meta property="og:url" content="https://blog.ansheng.me/article/python-standard-library-collections/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="This module implements specialized container datatypes providing alternatives to Python’s general purpose built-in containers, dict, list, set, and tuple.  官方文档：https://docs.python.org/3/library/colle">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.085Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python标准库系列之collections模块">
+<meta name="twitter:description" content="This module implements specialized container datatypes providing alternatives to Python’s general purpose built-in containers, dict, list, set, and tuple.  官方文档：https://docs.python.org/3/library/colle">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Python标准库系列之collections模块</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/python-standard-library-logging/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/python-standard-library-datetime/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#namedtuple"><span class="toc-number">1.</span> <span class="toc-text">namedtuple</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#deque"><span class="toc-number">2.</span> <span class="toc-text">deque</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ChainMap"><span class="toc-number">3.</span> <span class="toc-text">ChainMap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Counter"><span class="toc-number">4.</span> <span class="toc-text">Counter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OrderedDict"><span class="toc-number">5.</span> <span class="toc-text">OrderedDict</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#defaultdict"><span class="toc-number">6.</span> <span class="toc-text">defaultdict</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UserDict"><span class="toc-number">7.</span> <span class="toc-text">UserDict</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UserList"><span class="toc-number">8.</span> <span class="toc-text">UserList</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UserString"><span class="toc-number">9.</span> <span class="toc-text">UserString</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Python标准库系列之collections模块
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>This module implements specialized container datatypes providing alternatives to Python’s general purpose built-in containers, dict, list, set, and tuple.</p>
+<blockquote>
+<p>官方文档：<a href="https://docs.python.org/3/library/collections.html" target="_blank" rel="noopener">https://docs.python.org/3/library/collections.html</a></p>
+</blockquote>
+<h2 id="namedtuple"><a href="#namedtuple" class="headerlink" title="namedtuple"></a>namedtuple</h2><p>工厂函数，用于创建具有命名字段的元组子类</p>
+<ul>
+<li>语法</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">namedtuple(typename, field_names, *, verbose=<span class="keyword">False</span>, rename=<span class="keyword">False</span>, module=<span class="keyword">None</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 导入namedtuple</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> collections <span class="keyword">import</span> namedtuple</span><br><span class="line"><span class="comment"># 创建一个用户类，拥有name,age,sex属性</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>User = namedtuple(<span class="string">"User"</span>, [<span class="string">"name"</span>,<span class="string">"age"</span>,<span class="string">"sex"</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>user1 = User(<span class="string">"as"</span>,<span class="string">"22"</span>,<span class="string">"男"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>user1</span><br><span class="line">User(name=<span class="string">'as'</span>, age=<span class="string">'22'</span>, sex=<span class="string">'男'</span>)</span><br><span class="line"><span class="comment"># 通过属性进行访问</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>user1.name</span><br><span class="line"><span class="string">'as'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>user1.age</span><br><span class="line"><span class="string">'22'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>user1.sex</span><br><span class="line"><span class="string">'男'</span></span><br><span class="line"><span class="comment"># 拆包</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name, age, sex = user1</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name, age, sex</span><br><span class="line">(<span class="string">'as'</span>, <span class="string">'22'</span>, <span class="string">'男'</span>)</span><br><span class="line"><span class="comment"># namedtuple转换为字典</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>user1._asdict()</span><br><span class="line">OrderedDict([(<span class="string">'name'</span>, <span class="string">'as'</span>), (<span class="string">'age'</span>, <span class="string">'22'</span>), (<span class="string">'sex'</span>, <span class="string">'男'</span>)])</span><br><span class="line"><span class="comment"># 初始化时也可以传入一个字典</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>user_info_dict = &#123;<span class="string">"name"</span>:<span class="string">"ansheng"</span>,<span class="string">"age"</span>:<span class="string">"20"</span>,<span class="string">"sex"</span>:<span class="string">"男"</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>User(**user_info_dict)</span><br><span class="line">User(name=<span class="string">'ansheng'</span>, age=<span class="string">'20'</span>, sex=<span class="string">'男'</span>)</span><br><span class="line"><span class="comment"># 传入一个可迭代的</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>user_info_list = [<span class="string">"ansheng"</span>,<span class="string">"20"</span>,<span class="string">"女"</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>User(*user_info_list)</span><br><span class="line">User(name=<span class="string">'ansheng'</span>, age=<span class="string">'20'</span>, sex=<span class="string">'女'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>user_info_list = [<span class="string">"ansheng"</span>,<span class="string">"20"</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>User(*user_info_list,<span class="string">"男"</span>)</span><br><span class="line">User(name=<span class="string">'ansheng'</span>, age=<span class="string">'20'</span>, sex=<span class="string">'男'</span>)</span><br><span class="line"><span class="comment"># _make方法</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>User._make([<span class="string">"as"</span>, <span class="number">20</span>, <span class="string">"男"</span>])</span><br><span class="line">User(name=<span class="string">'as'</span>, age=<span class="number">20</span>, sex=<span class="string">'男'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h2><p>双端队列</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>users_deque = deque([<span class="string">"user1"</span>, <span class="string">"user2"</span>, <span class="string">"user3"</span>], maxlen=<span class="number">10</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>users_deque.appendleft(<span class="string">"user4"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>users_deque.append(<span class="string">"user4"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>users_deque</span><br><span class="line">deque([<span class="string">'user4'</span>, <span class="string">'user1'</span>, <span class="string">'user2'</span>, <span class="string">'user3'</span>, <span class="string">'user4'</span>], maxlen=<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="ChainMap"><a href="#ChainMap" class="headerlink" title="ChainMap"></a>ChainMap</h2><p>dict-like class for creating a single view of multiple mappings</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> collections <span class="keyword">import</span> ChainMap</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dict1 = &#123;<span class="string">"a"</span>: <span class="string">"a"</span>, <span class="string">"b"</span>: <span class="string">"b"</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dict2 = &#123;<span class="string">"c"</span>: <span class="string">"c"</span>, <span class="string">"d"</span>: <span class="string">"d"</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>new_dict = ChainMap(dict1, dict2)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>new_dict.maps</span><br><span class="line">[&#123;<span class="string">'a'</span>: <span class="string">'a'</span>, <span class="string">'b'</span>: <span class="string">'b'</span>&#125;, &#123;<span class="string">'c'</span>: <span class="string">'c'</span>, <span class="string">'d'</span>: <span class="string">'d'</span>&#125;]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> key, value <span class="keyword">in</span> new_dict.items():</span><br><span class="line"><span class="meta">... </span>    print(key, value)</span><br><span class="line">...</span><br><span class="line">a a</span><br><span class="line">b b</span><br><span class="line">d d</span><br><span class="line">c c</span><br></pre></td></tr></table></figure>
+<h2 id="Counter"><a href="#Counter" class="headerlink" title="Counter"></a>Counter</h2><p>统计元素出现的次数</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line"><span class="comment"># 拥挤英文字母出现的次数</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>letters = [<span class="string">"A"</span>, <span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>, <span class="string">"A"</span>, <span class="string">"H"</span>, <span class="string">"D"</span>, <span class="string">"B"</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>letters_counter = Counter(letters)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>letters_counter.update([<span class="string">"A"</span>, <span class="string">"A"</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>letters_counter</span><br><span class="line">Counter(&#123;<span class="string">'A'</span>: <span class="number">5</span>, <span class="string">'B'</span>: <span class="number">2</span>, <span class="string">'C'</span>: <span class="number">1</span>, <span class="string">'H'</span>: <span class="number">1</span>, <span class="string">'D'</span>: <span class="number">1</span>&#125;)</span><br><span class="line"><span class="comment"># 出现最多的前2个元素</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>letters_counter.most_common(<span class="number">2</span>)</span><br><span class="line">[(<span class="string">'A'</span>, <span class="number">5</span>), (<span class="string">'B'</span>, <span class="number">2</span>)]</span><br><span class="line"><span class="comment"># 统计字符串</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Counter(<span class="string">"asdasdsczasdasdasdasd"</span>)</span><br><span class="line">Counter(&#123;<span class="string">'s'</span>: <span class="number">7</span>, <span class="string">'a'</span>: <span class="number">6</span>, <span class="string">'d'</span>: <span class="number">6</span>, <span class="string">'c'</span>: <span class="number">1</span>, <span class="string">'z'</span>: <span class="number">1</span>&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="OrderedDict"><a href="#OrderedDict" class="headerlink" title="OrderedDict"></a>OrderedDict</h2><p>dict subclass that remembers the order entries were added</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> collections <span class="keyword">import</span> OrderedDict</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>user_dict = OrderedDict()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>user_dict[<span class="string">"name"</span>] = <span class="string">"As"</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>user_dict[<span class="string">"age"</span>] = <span class="number">18</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>user_dict[<span class="string">"sex"</span>] = <span class="string">"男"</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>user_dict</span><br><span class="line">OrderedDict([(<span class="string">'name'</span>, <span class="string">'As'</span>), (<span class="string">'age'</span>, <span class="number">18</span>), (<span class="string">'sex'</span>, <span class="string">'男'</span>)])</span><br><span class="line"><span class="comment"># 把name移动到最后</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>user_dict.move_to_end(<span class="string">"name"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>user_dict</span><br><span class="line">OrderedDict([(<span class="string">'age'</span>, <span class="number">18</span>), (<span class="string">'sex'</span>, <span class="string">'男'</span>), (<span class="string">'name'</span>, <span class="string">'As'</span>)])</span><br><span class="line"><span class="comment"># 移除最后一个元素</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>user_dict.popitem()</span><br><span class="line">(<span class="string">'name'</span>, <span class="string">'As'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>user_dict</span><br><span class="line">OrderedDict([(<span class="string">'age'</span>, <span class="number">18</span>), (<span class="string">'sex'</span>, <span class="string">'男'</span>)])</span><br></pre></td></tr></table></figure>
+<h2 id="defaultdict"><a href="#defaultdict" class="headerlink" title="defaultdict"></a>defaultdict</h2><p>当字典中Key不存在时，设置默认值</p>
+<ul>
+<li>语法</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">defaultdict(FUNC_NAME)</span><br></pre></td></tr></table></figure>
+<p>接受一个函数名称</p>
+<ul>
+<li>Code</li>
+</ul>
+<p>统计列表中字母出现的次数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line"></span><br><span class="line">letters = [<span class="string">"A"</span>, <span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>, <span class="string">"A"</span>, <span class="string">"H"</span>, <span class="string">"D"</span>, <span class="string">"B"</span>]</span><br><span class="line"></span><br><span class="line">data_dict = defaultdict(int)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> letter <span class="keyword">in</span> letters:</span><br><span class="line">    data_dict[letter] += <span class="number">1</span></span><br><span class="line">print(data_dict)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">defaultdict(&lt;class &apos;int&apos;&gt;, &#123;&apos;A&apos;: 3, &apos;B&apos;: 2, &apos;C&apos;: 1, &apos;H&apos;: 1, &apos;D&apos;: 1&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="UserDict"><a href="#UserDict" class="headerlink" title="UserDict"></a>UserDict</h2><p>wrapper around dictionary objects for easier dict subclassing</p>
+<h2 id="UserList"><a href="#UserList" class="headerlink" title="UserList"></a>UserList</h2><p>wrapper around list objects for easier list subclassing</p>
+<h2 id="UserString"><a href="#UserString" class="headerlink" title="UserString"></a>UserString</h2><p>wrapper around string objects for easier string subclassing</p>
+
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#namedtuple"><span class="toc-number">1.</span> <span class="toc-text">namedtuple</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#deque"><span class="toc-number">2.</span> <span class="toc-text">deque</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ChainMap"><span class="toc-number">3.</span> <span class="toc-text">ChainMap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Counter"><span class="toc-number">4.</span> <span class="toc-text">Counter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OrderedDict"><span class="toc-number">5.</span> <span class="toc-text">OrderedDict</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#defaultdict"><span class="toc-number">6.</span> <span class="toc-text">defaultdict</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UserDict"><span class="toc-number">7.</span> <span class="toc-text">UserDict</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UserList"><span class="toc-number">8.</span> <span class="toc-text">UserList</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UserString"><span class="toc-number">9.</span> <span class="toc-text">UserString</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

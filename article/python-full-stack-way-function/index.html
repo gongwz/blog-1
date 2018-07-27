@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="函数函数是Python为了代码最大程度的重用和最小化代码冗余而提供的最基本的程序结构。  函数式：将某功能代码封装到函数中，日后便无需重复编写，仅调用函数即可 面向对象：对函数进行分类和封装，让开发“更快更好更强…”  函数式编程最重要的是增强代码的重用性和可读性 创建的函数语法 def 函数名(参数):    ...    函数体    ...    返回值 简单的实例 # x为函数的参数&amp;gt">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python全栈之路系列之函数">
+<meta property="og:url" content="https://blog.ansheng.me/article/python-full-stack-way-function/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="函数函数是Python为了代码最大程度的重用和最小化代码冗余而提供的最基本的程序结构。  函数式：将某功能代码封装到函数中，日后便无需重复编写，仅调用函数即可 面向对象：对函数进行分类和封装，让开发“更快更好更强…”  函数式编程最重要的是增强代码的重用性和可读性 创建的函数语法 def 函数名(参数):    ...    函数体    ...    返回值 简单的实例 # x为函数的参数&amp;gt">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://blog.ansheng.me/images/2016/12/1483016903.png">
+<meta property="og:image" content="https://blog.ansheng.me/images/2016/12/1483017178.png">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.076Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python全栈之路系列之函数">
+<meta name="twitter:description" content="函数函数是Python为了代码最大程度的重用和最小化代码冗余而提供的最基本的程序结构。  函数式：将某功能代码封装到函数中，日后便无需重复编写，仅调用函数即可 面向对象：对函数进行分类和封装，让开发“更快更好更强…”  函数式编程最重要的是增强代码的重用性和可读性 创建的函数语法 def 函数名(参数):    ...    函数体    ...    返回值 简单的实例 # x为函数的参数&amp;gt">
+<meta name="twitter:image" content="https://blog.ansheng.me/images/2016/12/1483016903.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Python全栈之路系列之函数</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/python-full-stack-way-digital-data-type/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/python-full-stack-way-file-operations/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#函数"><span class="toc-number">1.</span> <span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数的返回值"><span class="toc-number">2.</span> <span class="toc-text">函数的返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#位置参数"><span class="toc-number">3.</span> <span class="toc-text">位置参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#函数的普通参数实例：发送邮件"><span class="toc-number">3.1.</span> <span class="toc-text">函数的普通参数实例：发送邮件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#指定参数"><span class="toc-number">4.</span> <span class="toc-text">指定参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#默认参数"><span class="toc-number">5.</span> <span class="toc-text">默认参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态参数"><span class="toc-number">6.</span> <span class="toc-text">动态参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#避免可变参数的修改"><span class="toc-number">7.</span> <span class="toc-text">避免可变参数的修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参数解包"><span class="toc-number">8.</span> <span class="toc-text">参数解包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参数书写位置"><span class="toc-number">9.</span> <span class="toc-text">参数书写位置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#全局变量和局部变量"><span class="toc-number">10.</span> <span class="toc-text">全局变量和局部变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nonlocal语句"><span class="toc-number">11.</span> <span class="toc-text">nonlocal语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lambda表达式"><span class="toc-number">12.</span> <span class="toc-text">Lambda表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#嵌套lambda和作用域"><span class="toc-number">12.1.</span> <span class="toc-text">嵌套lambda和作用域</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试题"><span class="toc-number">13.</span> <span class="toc-text">测试题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一题"><span class="toc-number">13.1.</span> <span class="toc-text">第一题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二题"><span class="toc-number">13.2.</span> <span class="toc-text">第二题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三题"><span class="toc-number">13.3.</span> <span class="toc-text">第三题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第四题"><span class="toc-number">13.4.</span> <span class="toc-text">第四题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第五题"><span class="toc-number">13.5.</span> <span class="toc-text">第五题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第六题"><span class="toc-number">13.6.</span> <span class="toc-text">第六题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第七题"><span class="toc-number">13.7.</span> <span class="toc-text">第七题</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Python全栈之路系列之函数
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>函数是<code>Python</code>为了代码最大程度的重用和最小化代码冗余而提供的最基本的程序结构。</p>
+<ol>
+<li>函数式：将某功能代码封装到函数中，日后便无需重复编写，仅调用函数即可</li>
+<li>面向对象：对函数进行分类和封装，让开发“更快更好更强…”</li>
+</ol>
+<p>函数式编程最重要的是增强代码的重用性和可读性</p>
+<p>创建的函数语法</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> 函数名<span class="params">(参数)</span>:</span></span><br><span class="line">    ...</span><br><span class="line">    函数体</span><br><span class="line">    ...</span><br><span class="line">    返回值</span><br></pre></td></tr></table></figure>
+<p>简单的实例</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># x为函数的参数</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">num</span><span class="params">(x)</span>:</span></span><br><span class="line"><span class="meta">... </span> print(x)</span><br><span class="line">...</span><br><span class="line"><span class="comment"># 123456等于x</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>num(<span class="string">"123456"</span>)</span><br><span class="line"><span class="number">123456</span></span><br></pre></td></tr></table></figure>
+<h2 id="函数的返回值"><a href="#函数的返回值" class="headerlink" title="函数的返回值"></a>函数的返回值</h2><p>函数的返回值需要使用到<code>return</code>这个关键字，返回值主要是用来接受函数的执行结果</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">re</span><span class="params">()</span>:</span></span><br><span class="line"><span class="meta">... </span>  <span class="keyword">if</span> <span class="number">1</span>==<span class="number">1</span>:</span><br><span class="line"><span class="meta">... </span>    <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line"><span class="meta">... </span>  <span class="keyword">else</span>:</span><br><span class="line"><span class="meta">... </span>    <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>re()</span><br><span class="line"><span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+<p>函数return后面是什么值，re就返回什么值，如果没有指定return返回值，那么会返回一个默认的参数<code>None</code></p>
+<p>在函数中，当<code>return</code>执行完成之后，<code>return</code>后面的代码是不会被执行的</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">ret</span><span class="params">()</span>:</span></span><br><span class="line"><span class="meta">... </span> print(<span class="string">"123"</span>)</span><br><span class="line"><span class="meta">... </span> <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line"><span class="meta">... </span> print(<span class="string">"abc"</span>)</span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ret()</span><br><span class="line"><span class="number">123</span></span><br><span class="line"><span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+<h2 id="位置参数"><a href="#位置参数" class="headerlink" title="位置参数"></a>位置参数</h2><p>传入参数的值是按照顺序依次赋值过去的。</p>
+<p>代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># x==形式参数，形式参数有几个，那么实际参数就要传几个，默认参数除外</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ret</span><span class="params">(x)</span>:</span></span><br><span class="line">    print(x)</span><br><span class="line"><span class="comment"># "Hello Word"实际参数</span></span><br><span class="line">print(ret(<span class="string">"Hello Word"</span>))</span><br></pre></td></tr></table></figure>
+<p>执行结果</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Hello Word</span><br></pre></td></tr></table></figure>
+<p>如图所示:<br><img src="/images/2016/12/1483016903.png" alt="Python-Day04-04"></p>
+<p>ret小括号内的值会被传入到函数ret里面都能做x的值，结果差不多就是<code>print(&quot;Hello Word&quot;)</code></p>
+<h3 id="函数的普通参数实例：发送邮件"><a href="#函数的普通参数实例：发送邮件" class="headerlink" title="函数的普通参数实例：发送邮件"></a>函数的普通参数实例：发送邮件</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">email</span><span class="params">(mail)</span>:</span></span><br><span class="line">    <span class="keyword">import</span> smtplib</span><br><span class="line">    <span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line">    <span class="keyword">from</span> email.utils <span class="keyword">import</span> formataddr</span><br><span class="line"></span><br><span class="line">    msg = MIMEText(<span class="string">'邮件内容'</span>, <span class="string">'plain'</span>, <span class="string">'utf-8'</span>)</span><br><span class="line">    msg[<span class="string">'From'</span>] = formataddr([<span class="string">"测试"</span>,<span class="string">'asdasd@126.com'</span>])</span><br><span class="line">    msg[<span class="string">'To'</span>] = formataddr([<span class="string">"走人"</span>,<span class="string">'asdasdasd@163.com'</span>])</span><br><span class="line">    msg[<span class="string">'Subject'</span>] = <span class="string">"主题"</span></span><br><span class="line"></span><br><span class="line">    server = smtplib.SMTP(<span class="string">"smtp.126.com"</span>, <span class="number">25</span>)</span><br><span class="line">    server.login(<span class="string">"wdfgfghfgh@126.com"</span>, <span class="string">"123456"</span>)</span><br><span class="line">    server.sendmail(<span class="string">'asdasdas@126.com'</span>, [mail,], msg.as_string())</span><br><span class="line">    server.quit()</span><br><span class="line"></span><br><span class="line">email(<span class="string">"6087414@qq.com"</span>)</span><br></pre></td></tr></table></figure>
+<p>当执行这个脚本的时候会给邮箱<a href="mailto:`6087414@qq.com" target="_blank" rel="noopener">`6087414@qq.com</a>`发送邮件。</p>
+<p><strong>注：</strong>上面的邮箱地址等都是随便写的，请自行更改</p>
+<h2 id="指定参数"><a href="#指定参数" class="headerlink" title="指定参数"></a>指定参数</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">ret</span><span class="params">(a,b,c)</span>:</span></span><br><span class="line"><span class="meta">... </span> print(a,<span class="string">"a"</span>)</span><br><span class="line"><span class="meta">... </span> print(b,<span class="string">"b"</span>)</span><br><span class="line"><span class="meta">... </span> print(c,<span class="string">"c"</span>)</span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ret(b=<span class="string">"bbb"</span>,a=<span class="string">"aaa"</span>,c=<span class="string">"ccc"</span>)</span><br><span class="line">aaa a</span><br><span class="line">bbb b</span><br><span class="line">ccc c</span><br></pre></td></tr></table></figure>
+<p>默认情况在函数ret括号内如果要输入函数参数的值，是要按照顺序来的，但是如果在ret括号内制定的参数的值，那么就不需要按照顺序来了。</p>
+<h2 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h2><p>如果我们在创建函数的时候给函数定义了值，那么在调用函数的时候如果不填写值程序就会报错：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">ret</span><span class="params">(x)</span>:</span></span><br><span class="line"><span class="meta">... </span> print(x)</span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ret()</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">TypeError: ret() missing <span class="number">1</span> required positional argument: <span class="string">'x'</span></span><br></pre></td></tr></table></figure>
+<p>如果要解决这个问题就可以给函数的值指定一个默认值，指定函数的默认值需要在<code>def</code>这一行指定，制定之后，当调用这个函数的时候就不需要输入函数值了。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">ret</span><span class="params">(x=<span class="string">"Hello Word"</span>)</span>:</span></span><br><span class="line"><span class="meta">... </span> print(x)</span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ret()</span><br><span class="line">Hello Word</span><br><span class="line"><span class="comment"># 如果值指定默认值，那么实际参数替换掉形式参数</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ret(<span class="string">"Pythoner"</span>)</span><br><span class="line">Pythoner</span><br></pre></td></tr></table></figure>
+<p>如果给函数创建了默认值，那么有默认值的这个参数必须在最后面定义，不能够在没有默认参数的值的前面。</p>
+<h2 id="动态参数"><a href="#动态参数" class="headerlink" title="动态参数"></a>动态参数</h2><p>动态参数把接收过来的实际参数当作一个元组，每一个参数都是元组中的一个元素。</p>
+<p><strong>第一种动态参数</strong></p>
+<p>定义第一种动态参数需要在参数前面加上一个<code>*</code>号</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">ret</span><span class="params">(*args)</span>:</span></span><br><span class="line"><span class="meta">... </span> print(args,type(args))</span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ret(<span class="number">11</span>,<span class="number">22</span>,<span class="number">33</span>)</span><br><span class="line">(<span class="number">11</span>, <span class="number">22</span>, <span class="number">33</span>) &lt;<span class="class"><span class="keyword">class</span> '<span class="title">tuple</span>'&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>第二种动态参数</strong></p>
+<p>定义第二种动态参数需要在参数前面加上两个<code>*</code>号，给参数传参的时候是一个key对应一个value的，相当于一个字典的键值对，而且返回的类型就是字典类型。</p>
+<p>使用两个星号可以将参数收集到一个字典中，参数的名字是字典的键，对应参数的值是字典的值。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">ret</span><span class="params">(**kwargs)</span>:</span></span><br><span class="line"><span class="meta">... </span> print(kwargs,type(kwargs))</span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ret(k1=<span class="number">123</span>,k2=<span class="number">456</span>)</span><br><span class="line">&#123;<span class="string">'k1'</span>: <span class="number">123</span>, <span class="string">'k2'</span>: <span class="number">456</span>&#125; &lt;<span class="class"><span class="keyword">class</span> '<span class="title">dict</span>'&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>第三种动态参数</strong></p>
+<p>第三种又称为万能的动态参数，如下实例：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">ret</span><span class="params">(*args,**kwargs)</span>:</span></span><br><span class="line"><span class="meta">... </span> print(args,type(args))</span><br><span class="line"><span class="meta">... </span> print(kwargs,type(kwargs))</span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ret(<span class="number">11</span>,<span class="number">222</span>,<span class="number">333</span>,k1=<span class="number">111</span>,k2=<span class="number">222</span>)</span><br><span class="line">(<span class="number">11</span>, <span class="number">222</span>, <span class="number">333</span>) &lt;<span class="class"><span class="keyword">class</span> '<span class="title">tuple</span>'&gt;</span></span><br><span class="line">&#123;'k1': 111, 'k2': 222&#125; &lt;class 'dict'&gt;</span><br></pre></td></tr></table></figure>
+<p>字典小例子：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">arg</span><span class="params">(**kwargs)</span>:</span></span><br><span class="line"><span class="meta">... </span> print(kwargs,type(kwargs))</span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dic = &#123;<span class="string">"k1"</span>:<span class="number">123</span>,<span class="string">"k2"</span>:<span class="number">456</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>arg(k1=dic)</span><br><span class="line">&#123;<span class="string">'k1'</span>: &#123;<span class="string">'k1'</span>: <span class="number">123</span>, <span class="string">'k2'</span>: <span class="number">456</span>&#125;&#125; &lt;<span class="class"><span class="keyword">class</span> '<span class="title">dict</span>'&gt;</span></span><br><span class="line"><span class="class">&gt;&gt;&gt; <span class="title">arg</span><span class="params">(**dic)</span></span></span><br><span class="line">&#123;'k1': 123, 'k2': 456&#125; &lt;class 'dict'&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="避免可变参数的修改"><a href="#避免可变参数的修改" class="headerlink" title="避免可变参数的修改"></a>避免可变参数的修改</h2><p>如果不想在函数内部修改参数值而影响到外部对象的值，我们可以使用切片的方式进行参数的传递：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/use/bin/env python</span></span><br><span class="line"></span><br><span class="line">L = [<span class="string">'a'</span>, <span class="string">'b'</span>]</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">changer</span><span class="params">(L)</span>:</span></span><br><span class="line">    L[<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line">print(L)</span><br><span class="line">changer(L)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">['a', 'b']</span></span><br><span class="line"><span class="string">[0, 'b']</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="comment"># changer(L[:])</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">['a', 'b']</span></span><br><span class="line"><span class="string">['a', 'b']</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">print(L)</span><br></pre></td></tr></table></figure>
+<h2 id="参数解包"><a href="#参数解包" class="headerlink" title="参数解包"></a>参数解包</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">In [<span class="number">2</span>]: <span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(a, b, c, d)</span>:</span> print(a, b, c, d)</span><br><span class="line"></span><br><span class="line">In [<span class="number">3</span>]: args = (<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">In [<span class="number">4</span>]: args += (<span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">In [<span class="number">5</span>]: f(*args)</span><br><span class="line"><span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<p>又或者使用</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(a, b, c, d)</span>:</span> print(a, b, c, d)</span><br><span class="line">args = &#123;<span class="string">'a'</span>: <span class="number">1</span>, <span class="string">'b'</span>: <span class="number">2</span>, <span class="string">'c'</span>: <span class="number">3</span>, <span class="string">'d'</span>: <span class="number">4</span>&#125;</span><br><span class="line">f(**args)</span><br></pre></td></tr></table></figure>
+<h2 id="参数书写位置"><a href="#参数书写位置" class="headerlink" title="参数书写位置"></a>参数书写位置</h2><p><strong>在函数调用中：</strong> 位置参数 –》 关键字参数 –》元组形式–》字典形式<br><strong>在函数头部：</strong> 一般参数–》默认参数–》元组形式–》字典形式</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(name, age=None, *args, **kwargs)</span>:</span></span><br><span class="line">    print(name, age, args, kwargs)</span><br><span class="line"></span><br><span class="line">func(<span class="string">'ansheng'</span>, <span class="number">18</span>, *(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>), **&#123;<span class="string">'blog'</span>: <span class="string">'blog.ansheng.me'</span>&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="全局变量和局部变量"><a href="#全局变量和局部变量" class="headerlink" title="全局变量和局部变量"></a>全局变量和局部变量</h2><p>简单的理解全局变量和变量，全局变量可以理解为在当前这个文件内定义的变量，局部变量则是在函数内定义的变量，如下例：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># qa</span></span><br><span class="line"><span class="comment"># 全局变量</span></span><br><span class="line">n1 = <span class="number">1</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">num</span><span class="params">()</span>:</span></span><br><span class="line">	<span class="comment"># 局部变量</span></span><br><span class="line">    n2 = <span class="number">2</span></span><br><span class="line">    print(n1)</span><br><span class="line">    print(n2)</span><br><span class="line">num()</span><br></pre></td></tr></table></figure>
+<p>输出的结果</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">C:\Python35\python.exe F:/Python_code/sublime/Day05/<span class="function"><span class="keyword">def</span>.<span class="title">py</span></span></span><br><span class="line"><span class="function">1</span></span><br><span class="line"><span class="function">2</span></span><br></pre></td></tr></table></figure>
+<p>定义的全局变量都可以在函数内调用，但是不能再函数内修改，局部变量在也不能够直接调用，如果要在函数内修改全局变量，那么就需要用到关键字<code></code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n1 = <span class="number">1</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">num</span><span class="params">()</span>:</span></span><br><span class="line">    n2 = <span class="number">2</span></span><br><span class="line">    <span class="keyword">global</span> n1</span><br><span class="line">    n1 = <span class="number">3</span></span><br><span class="line">    print(n1)</span><br><span class="line">    print(n2)</span><br><span class="line">num()</span><br></pre></td></tr></table></figure>
+<p>执行结果<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">C:\Python35\python.exe F:/Python_code/sublime/Day05/<span class="function"><span class="keyword">def</span>.<span class="title">py</span></span></span><br><span class="line"><span class="function">3</span></span><br><span class="line"><span class="function">2</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="nonlocal语句"><a href="#nonlocal语句" class="headerlink" title="nonlocal语句"></a>nonlocal语句</h2><p><code>nonlocal</code>是用来修改嵌套作用域中的变量，类似于<code>global</code>一样，只需要在嵌套函数中声明变量名即可，但是这个变量名是必须已经存在的否则就会报错，如果要修改的变量在作用域中查找不到，那么不会继续到全局或内置作用域中查找。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">In [<span class="number">1</span>]: <span class="function"><span class="keyword">def</span> <span class="title">func1</span><span class="params">(arg1)</span>:</span></span><br><span class="line">   ...:     n = arg1</span><br><span class="line">   ...:     print(n)</span><br><span class="line">   ...:     <span class="function"><span class="keyword">def</span> <span class="title">func2</span><span class="params">()</span>:</span></span><br><span class="line">   ...:         <span class="keyword">nonlocal</span> n</span><br><span class="line">   ...:         n += <span class="number">1</span></span><br><span class="line">   ...:     func2()</span><br><span class="line">   ...:     print(n)</span><br><span class="line">   ...:     </span><br><span class="line"></span><br><span class="line">In [<span class="number">2</span>]: func1(<span class="number">10</span>)</span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">11</span></span><br></pre></td></tr></table></figure>
+<h2 id="Lambda表达式"><a href="#Lambda表达式" class="headerlink" title="Lambda表达式"></a>Lambda表达式</h2><p>Lambda（Lambda expressions）表达式是用lambda关键字创建的匿名函数，Lambda函数可以用于任何需要函数对象的地方，在语法上，它们被局限于只能有一个单独的表达式。</p>
+<p>使用<code>Lambda</code>表达式创建函数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>f = <span class="keyword">lambda</span> x,y : x + y</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>f(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>使用def创建函数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(x,y)</span>:</span></span><br><span class="line"><span class="meta">... </span> <span class="keyword">return</span> x + y</span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>f(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>对于比较简单的函数我们就可以通过lambda来创建，它的的好处是缩短行数。</p>
+<p>lambda创建的函数和def创建的函数对应关系如图所示：</p>
+<p><img src="/images/2016/12/1483017178.png" alt="Python-Day05-01"></p>
+<h3 id="嵌套lambda和作用域"><a href="#嵌套lambda和作用域" class="headerlink" title="嵌套lambda和作用域"></a>嵌套lambda和作用域</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">action</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">lambda</span> y: x + y)</span><br><span class="line"></span><br><span class="line">act = action(<span class="number">99</span>)</span><br><span class="line">print(act)</span><br><span class="line">result = act(<span class="number">2</span>)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+<p>输出为：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&lt;function action.&lt;locals&gt;.&lt;<span class="keyword">lambda</span>&gt; at <span class="number">0x1021e6400</span>&gt;</span><br><span class="line"><span class="number">101</span></span><br></pre></td></tr></table></figure>
+<p><code>lambda</code>也能够获取到任意上层<code>lambda</code>中的变量名：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">action = <span class="keyword">lambda</span> x: (<span class="keyword">lambda</span> y: x + y)</span><br><span class="line">act = action(<span class="number">99</span>)</span><br><span class="line">print(act)</span><br><span class="line">result = act(<span class="number">3</span>)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+<p>输出为：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;<span class="keyword">function</span> &lt;lambda&gt;.&lt;locals&gt;.&lt;lambda&gt; at 0x1029e6400&gt;</span><br><span class="line">102</span><br></pre></td></tr></table></figure>
+<h2 id="测试题"><a href="#测试题" class="headerlink" title="测试题"></a>测试题</h2><h3 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h3><p><strong>简述普通参数、指定参数、默认参数、动态参数的区别</strong></p>
+<p>普通参数即是用户在调用函数是填入的参数，且参数位置必须与参数保持一致。</p>
+<p>指定参数即在用户调用函数的时候不需要按照函数中参数的位置中所填写，指定参数是需要制定参数对应的值。</p>
+<p>默认参数可以写在定义参数的后面，如果用户调用函数是没有制定参数，那么就会用默认参数，如果用户指定了参数，那么用户指定的参数就会代替默认参数。</p>
+<p>动态参数可以接受用户输入的任何参数，包括字典、列表、元组等数据类型。</p>
+<h3 id="第二题"><a href="#第二题" class="headerlink" title="第二题"></a>第二题</h3><p>计算传入字符串中数字、字母、空格以及其他的个数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">var</span><span class="params">(s)</span>:</span></span><br><span class="line">    all_num = <span class="number">0</span></span><br><span class="line">    spance_num = <span class="number">0</span></span><br><span class="line">    digit_num = <span class="number">0</span></span><br><span class="line">    others_num = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> s:</span><br><span class="line">        <span class="comment"># 检测数字</span></span><br><span class="line">        <span class="keyword">if</span> i.isdigit():</span><br><span class="line">            digit_num += <span class="number">1</span></span><br><span class="line">        <span class="comment"># 检测空格</span></span><br><span class="line">        <span class="keyword">elif</span> i.isspace():</span><br><span class="line">            spance_num += <span class="number">1</span></span><br><span class="line">        <span class="comment"># 检测字母</span></span><br><span class="line">        <span class="keyword">elif</span> i.isalpha():</span><br><span class="line">            all_num += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 其他</span></span><br><span class="line">            others_num += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> (<span class="string">"字母："</span>,all_num,<span class="string">"空格："</span>,spance_num,<span class="string">"数字"</span>,digit_num,<span class="string">"其他字符"</span>,others_num)</span><br><span class="line">num = var(<span class="string">"21323 asd*%^*^% &amp;*213asdasdasda sdasdasd"</span>)</span><br><span class="line">print(num)</span><br></pre></td></tr></table></figure>
+<p>执行结果<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">C:\Python35\python.exe F:/Python_code/sublime/operation/Day05/c.py</span><br><span class="line">(<span class="string">'字母：'</span>, <span class="number">21</span>, <span class="string">'空格：'</span>, <span class="number">3</span>, <span class="string">'数字'</span>, <span class="number">8</span>, <span class="string">'其他字符'</span>, <span class="number">8</span>)</span><br></pre></td></tr></table></figure></p>
+<h3 id="第三题"><a href="#第三题" class="headerlink" title="第三题"></a>第三题</h3><p>写函数，判断用户传入的对象（字符串、列表、元组）长度是否大于5，如果大于5就返回True，如果小于5就返回False</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 定义一个函数num</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">num</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="comment"># 判断函数的值如果长度大于5就返回True</span></span><br><span class="line">    <span class="keyword">if</span> len(x) &gt; <span class="number">5</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">    <span class="comment"># 否则就返回False</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line">ret = num([<span class="string">"asd"</span>,<span class="string">"asdasd"</span>,<span class="string">"asdasd"</span>,<span class="string">"asdasd"</span>])</span><br><span class="line">print(ret)</span><br><span class="line">ret = num(<span class="string">"asdasdasd"</span>)</span><br><span class="line">print(ret)</span><br></pre></td></tr></table></figure>
+<h3 id="第四题"><a href="#第四题" class="headerlink" title="第四题"></a>第四题</h3><p>写函数，检查用户传入的对象（字符串、列表、元组）的每一个元素是否含有空内容，如果有空就返回False</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 定义一个函数num</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">num</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="comment"># 循环输出num内的所有内容</span></span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> x:</span><br><span class="line">        <span class="comment"># 数据类型转换为字符串</span></span><br><span class="line">        n = str(n)</span><br><span class="line">        <span class="comment"># 如果有空格就返回False</span></span><br><span class="line">        <span class="keyword">if</span> n.isspace():</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line">ret = num(<span class="string">" "</span>)</span><br><span class="line">print(ret)</span><br><span class="line"></span><br><span class="line">ret = num(<span class="string">"asdasd"</span>)</span><br><span class="line">print(ret)</span><br><span class="line"></span><br><span class="line">ret = num([<span class="string">"asd"</span>,<span class="string">"312"</span>,<span class="number">123</span>,<span class="string">" "</span>])</span><br><span class="line">print(ret)</span><br></pre></td></tr></table></figure>
+<h3 id="第五题"><a href="#第五题" class="headerlink" title="第五题"></a>第五题</h3><p>写函数，检查传入列表的长度，如果大于2，那么仅保留前两个长度的内容，并将新内容返回给调用者。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">num</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="comment"># 如果列表中的长度大于2,那么就输出列表前两个内容，否则就返回一个空</span></span><br><span class="line">    <span class="keyword">if</span> len(x) &gt; <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">return</span> x[:<span class="number">2</span>]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span></span><br><span class="line">print(num([<span class="string">"11"</span>,<span class="string">"22"</span>,<span class="string">"33"</span>]))</span><br><span class="line"></span><br><span class="line">print(num([<span class="string">"33"</span>]))</span><br></pre></td></tr></table></figure>
+<h3 id="第六题"><a href="#第六题" class="headerlink" title="第六题"></a>第六题</h3><p>写函数，检查获取传入列表或元组对象的所有奇数位索引对应的元素，并将其作为新列表返回给调用者。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">num</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="comment"># 定义一个空列表用于接收奇数位的元素</span></span><br><span class="line">    resule = []</span><br><span class="line">    <span class="comment"># 循环输出列表中的所有元素值</span></span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> range(len(x)):</span><br><span class="line">        <span class="comment"># 如果列表中的位置为奇数就把值添加到resule列表中</span></span><br><span class="line">        <span class="keyword">if</span> n % <span class="number">2</span> == <span class="number">1</span>:</span><br><span class="line">            resule.append(x[n])</span><br><span class="line">    <span class="comment"># 然会resule列表中的内容</span></span><br><span class="line">    <span class="keyword">return</span> resule</span><br><span class="line"></span><br><span class="line">ret = num([<span class="number">11</span>,<span class="number">22</span>,<span class="number">33</span>,<span class="number">44</span>,<span class="number">55</span>,<span class="number">66</span>])</span><br><span class="line">print(ret)</span><br></pre></td></tr></table></figure>
+<h3 id="第七题"><a href="#第七题" class="headerlink" title="第七题"></a>第七题</h3><p>写函数，检查传入字典的每一个value的长度,如果大于2，那么仅保留前两个长度的内容，并将新内容返回给调用者。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">dic = &#123;<span class="string">"k1"</span>: <span class="string">"v1v1"</span>, <span class="string">"k2"</span>: [<span class="number">1111</span>,<span class="number">22</span>,<span class="number">33</span>,<span class="number">44</span>]&#125;</span><br></pre></td></tr></table></figure>
+<p>PS:字典中的value只能是字符串或列表</p>
+<p>代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dictt</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="comment"># 循环字典中所有的key</span></span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> x.keys():</span><br><span class="line">        <span class="comment"># 如果字典中k对应的元素是字符串类型就下面的判断</span></span><br><span class="line">        <span class="keyword">if</span> type(x[k]) == str:</span><br><span class="line">            <span class="comment"># 如果元素的长度大于2</span></span><br><span class="line">            <span class="keyword">if</span> len(x[k]) &gt; <span class="number">2</span>:</span><br><span class="line">                <span class="comment"># 那么就让这个元素重新赋值，新的值只保留原来值的前两个</span></span><br><span class="line">                x[k]=x[k][<span class="number">0</span>:<span class="number">2</span>]</span><br><span class="line">        <span class="comment"># 如果字典中k对应的元素类型是列表，就进入下面的判断</span></span><br><span class="line">        <span class="keyword">elif</span> type(x[k]) == list:</span><br><span class="line">            <span class="comment"># 先把列表中的值全部for循环</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> x[k]:</span><br><span class="line">                <span class="comment"># 把元素转换为字符串</span></span><br><span class="line">                string = str(i)</span><br><span class="line">                <span class="comment"># 如果元素的长度大于2</span></span><br><span class="line">                <span class="keyword">if</span> len(string) &gt; <span class="number">2</span>:</span><br><span class="line">                    <span class="comment"># 获取元素的索引值</span></span><br><span class="line">                    num = x[k].index(i)</span><br><span class="line">                    <span class="comment"># 先把这个元素给删除</span></span><br><span class="line">                    x[k].pop(x[k].index(i))</span><br><span class="line">                    <span class="comment"># 然后再添加一个新的元素，新元素的只保留原来元素的前两个</span></span><br><span class="line">                    x[k].insert(num,string[:<span class="number">2</span>])</span><br><span class="line">    <span class="comment"># 把结果return出来</span></span><br><span class="line">    <span class="keyword">return</span> dic</span><br><span class="line">ret = dictt(dic)</span><br><span class="line">print(ret)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>执行结果</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">C:\Python35\python.exe F:/Python_code/sublime/operation/Day05/h.py</span><br><span class="line">&#123;<span class="string">'k1'</span>: <span class="string">'v1'</span>, <span class="string">'k2'</span>: [<span class="string">'11'</span>, <span class="number">22</span>, <span class="number">33</span>, <span class="number">44</span>]&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#函数"><span class="toc-number">1.</span> <span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数的返回值"><span class="toc-number">2.</span> <span class="toc-text">函数的返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#位置参数"><span class="toc-number">3.</span> <span class="toc-text">位置参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#函数的普通参数实例：发送邮件"><span class="toc-number">3.1.</span> <span class="toc-text">函数的普通参数实例：发送邮件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#指定参数"><span class="toc-number">4.</span> <span class="toc-text">指定参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#默认参数"><span class="toc-number">5.</span> <span class="toc-text">默认参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态参数"><span class="toc-number">6.</span> <span class="toc-text">动态参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#避免可变参数的修改"><span class="toc-number">7.</span> <span class="toc-text">避免可变参数的修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参数解包"><span class="toc-number">8.</span> <span class="toc-text">参数解包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参数书写位置"><span class="toc-number">9.</span> <span class="toc-text">参数书写位置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#全局变量和局部变量"><span class="toc-number">10.</span> <span class="toc-text">全局变量和局部变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nonlocal语句"><span class="toc-number">11.</span> <span class="toc-text">nonlocal语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lambda表达式"><span class="toc-number">12.</span> <span class="toc-text">Lambda表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#嵌套lambda和作用域"><span class="toc-number">12.1.</span> <span class="toc-text">嵌套lambda和作用域</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试题"><span class="toc-number">13.</span> <span class="toc-text">测试题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一题"><span class="toc-number">13.1.</span> <span class="toc-text">第一题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二题"><span class="toc-number">13.2.</span> <span class="toc-text">第二题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三题"><span class="toc-number">13.3.</span> <span class="toc-text">第三题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第四题"><span class="toc-number">13.4.</span> <span class="toc-text">第四题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第五题"><span class="toc-number">13.5.</span> <span class="toc-text">第五题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第六题"><span class="toc-number">13.6.</span> <span class="toc-text">第六题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第七题"><span class="toc-number">13.7.</span> <span class="toc-text">第七题</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

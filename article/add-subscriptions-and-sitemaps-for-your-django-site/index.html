@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="博客折腾了一段时间，总算是部署上来了，也用了段时间，感觉还可以吧，发现唯一的缺点就是没有sitemap.xml和rss.xml/atom.xml的功能，趁着下午有时间就折腾了下，这两个功能Django已经帮你做好了，调用就可以了。 RSS/Atom订阅新建一个feeds.py文件，内容如下： #!/use/bin/env python# _*_ coding:utf-8 __from django">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为你的Django站点添加订阅与站点地图">
+<meta property="og:url" content="https://blog.ansheng.me/article/add-subscriptions-and-sitemaps-for-your-django-site/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="博客折腾了一段时间，总算是部署上来了，也用了段时间，感觉还可以吧，发现唯一的缺点就是没有sitemap.xml和rss.xml/atom.xml的功能，趁着下午有时间就折腾了下，这两个功能Django已经帮你做好了，调用就可以了。 RSS/Atom订阅新建一个feeds.py文件，内容如下： #!/use/bin/env python# _*_ coding:utf-8 __from django">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://blog.ansheng.me/images/2017/01/1483793245.png">
+<meta property="og:image" content="https://blog.ansheng.me/images/2017/01/1483793276.png">
+<meta property="og:image" content="https://blog.ansheng.me/images/2017/01/1483793337.png">
+<meta property="og:image" content="https://blog.ansheng.me/images/2017/01/1483793688.png">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.055Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为你的Django站点添加订阅与站点地图">
+<meta name="twitter:description" content="博客折腾了一段时间，总算是部署上来了，也用了段时间，感觉还可以吧，发现唯一的缺点就是没有sitemap.xml和rss.xml/atom.xml的功能，趁着下午有时间就折腾了下，这两个功能Django已经帮你做好了，调用就可以了。 RSS/Atom订阅新建一个feeds.py文件，内容如下： #!/use/bin/env python# _*_ coding:utf-8 __from django">
+<meta name="twitter:image" content="https://blog.ansheng.me/images/2017/01/1483793245.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>为你的Django站点添加订阅与站点地图</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/linux-curl-header-status-code/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/send-an-e-mail-message-in-the-django-application/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#RSS-Atom订阅"><span class="toc-number">1.</span> <span class="toc-text">RSS/Atom订阅</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#站点地图"><span class="toc-number">2.</span> <span class="toc-text">站点地图</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        为你的Django站点添加订阅与站点地图
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+    <div class="postdate">
+        <time datetime="2017-05-23T16:00:00.000Z" itemprop="datePublished">2017-05-24</time>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>博客折腾了一段时间，总算是部署上来了，也用了段时间，感觉还可以吧，发现唯一的缺点就是没有<code>sitemap.xml</code>和<code>rss.xml/atom.xml</code>的功能，趁着下午有时间就折腾了下，这两个功能<code>Django</code>已经帮你做好了，调用就可以了。</p>
+<h2 id="RSS-Atom订阅"><a href="#RSS-Atom订阅" class="headerlink" title="RSS/Atom订阅"></a>RSS/Atom订阅</h2><p>新建一个<code>feeds.py</code>文件，内容如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/use/bin/env python</span></span><br><span class="line"><span class="comment"># _*_ coding:utf-8 __</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.contrib.syndication.views <span class="keyword">import</span> Feed</span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Article</span><br><span class="line"><span class="keyword">from</span> django.utils.feedgenerator <span class="keyword">import</span> Rss201rev2Feed</span><br><span class="line"><span class="keyword">from</span> django.utils.feedgenerator <span class="keyword">import</span> Atom1Feed</span><br><span class="line"><span class="keyword">from</span> markdown2 <span class="keyword">import</span> markdown</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExtendedRSSFeed</span><span class="params">(Rss201rev2Feed)</span>:</span></span><br><span class="line">    <span class="comment"># 设置返回到浏览器头部文档类型xml</span></span><br><span class="line">    mime_type = <span class="string">'application/xml'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RssSiteNewsFeed</span><span class="params">(Feed)</span>:</span></span><br><span class="line">    feed_type = ExtendedRSSFeed</span><br><span class="line">    author_name = <span class="string">"安生"</span></span><br><span class="line">    title = <span class="string">"安生's Blog | 大好时光！"</span></span><br><span class="line">    link = <span class="string">"https://blog.ansheng.me/"</span></span><br><span class="line">    description = <span class="string">"大好时光"</span></span><br><span class="line">    feed_url = <span class="string">'https://blog.ansheng.me/rss.xml'</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">items</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 获取所有的文章，以创建时间倒叙</span></span><br><span class="line">        <span class="keyword">return</span> Article.objects.all().order_by(<span class="string">'-created_time'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">item_title</span><span class="params">(self, item)</span>:</span></span><br><span class="line">        <span class="comment"># 文章标题</span></span><br><span class="line">        <span class="keyword">return</span> item.title</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">item_description</span><span class="params">(self, item)</span>:</span></span><br><span class="line">        <span class="comment"># 文章的概要，因为我使用markdown语法写文章的，所以需要把它转换为HTML</span></span><br><span class="line">        <span class="keyword">return</span> markdown(item.abstract)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">item_link</span><span class="params">(self, item)</span>:</span></span><br><span class="line">        <span class="comment"># 文章的链接地址</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'/article/%s'</span> % item.url</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">item_pubdate</span><span class="params">(self, item)</span>:</span></span><br><span class="line">        <span class="comment"># 文章创建时间</span></span><br><span class="line">        <span class="keyword">return</span> item.created_time</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">item_guid</span><span class="params">(self, item)</span>:</span></span><br><span class="line">        <span class="comment"># 返回空即可，要不然文章链接就要重复两边</span></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AtomSiteNewsFeed</span><span class="params">(RssSiteNewsFeed)</span>:</span></span><br><span class="line">    <span class="comment"># ATOM功能，大致和RSS一样，只不过是两种订阅方式</span></span><br><span class="line">    feed_type = Atom1Feed</span><br><span class="line">    subtitle = RssSiteNewsFeed.description</span><br></pre></td></tr></table></figure>
+<p>配置<code>url.py</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url</span><br><span class="line"><span class="keyword">from</span> blog.feeds <span class="keyword">import</span> RssSiteNewsFeed, AtomSiteNewsFeed</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(<span class="string">r'^rss\.xml$'</span>, RssSiteNewsFeed()),</span><br><span class="line">    url(<span class="string">r'^atom\.xml$'</span>, AtomSiteNewsFeed()),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p><code>URL</code>配置倒没什么好解释的，打开<code>Safari</code>浏览器，输入<code>http://127.0.0.1:8000/rss.xml</code>与<code>http://127.0.0.1:8000/atom.xml</code>将得到两种不同类型的订阅:</p>
+<p><img src="/images/2017/01/1483793245.png" alt="1483793245"></p>
+<p>点击<code>添加</code>，</p>
+<p><img src="/images/2017/01/1483793276.png" alt="1483793276"></p>
+<p>然后你所有的文章就被添加到订阅列表了，但是我不知道为什么<code>谷歌浏览器</code>解析出来的却不是标准的<code>rss.xml</code>文档，而显示的是字符串：</p>
+<p><img src="/images/2017/01/1483793337.png" alt="1483793337"></p>
+<h2 id="站点地图"><a href="#站点地图" class="headerlink" title="站点地图"></a>站点地图</h2><p>站点地图与订阅的实现方式类似，首先我们需要创建<code>sitemap.py</code>文件，内容为：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/use/bin/env python</span></span><br><span class="line"><span class="comment"># _*_ coding:utf-8 __</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.contrib.sitemaps <span class="keyword">import</span> Sitemap</span><br><span class="line"><span class="keyword">from</span> blog.models <span class="keyword">import</span> Article</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BlogSitemap</span><span class="params">(Sitemap)</span>:</span></span><br><span class="line">    changefreq = <span class="string">"daily"</span>  <span class="comment"># 每天发布</span></span><br><span class="line">    priority = <span class="number">1.0</span>  <span class="comment"># 优先级，最大1.0</span></span><br><span class="line">    protocol = <span class="string">'https'</span>  <span class="comment"># 站点是http还是https类型</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">items</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 获取所有被标记为已发布的文章，必须是一个列表</span></span><br><span class="line">        <span class="keyword">return</span> Article.objects.filter(status=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lastmod</span><span class="params">(self, obj)</span>:</span></span><br><span class="line">        <span class="comment"># 创建时间</span></span><br><span class="line">        <span class="keyword">return</span> obj.last_modified_time</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">location</span><span class="params">(self, item)</span>:</span></span><br><span class="line">        <span class="comment"># URL</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'/article/%s'</span> % item.url</span><br></pre></td></tr></table></figure>
+<p><code>URL</code>配置：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url</span><br><span class="line"><span class="keyword">from</span> django.contrib.sitemaps.views <span class="keyword">import</span> sitemap</span><br><span class="line"><span class="keyword">from</span> blog.sitemap <span class="keyword">import</span> BlogSitemap</span><br><span class="line"></span><br><span class="line">sitemaps = &#123;</span><br><span class="line">    <span class="string">'static'</span>: BlogSitemap,</span><br><span class="line">&#125;</span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(<span class="string">r'^sitemap\.xml$'</span>, sitemap, &#123;<span class="string">'sitemaps'</span>: sitemaps&#125;, name=<span class="string">'django.contrib.sitemaps.views.sitemap'</span>),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>哦~，差点忘记了，你还需要在<code>settings.py</code>的<code>INSTALLED_APPS</code>中添加<code>django.contrib.sitemaps</code>APP。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">INSTALLED_APPS = [</span><br><span class="line">    ......</span><br><span class="line">    <span class="string">'django.contrib.sitemaps'</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>最后打开你的浏览器，输入<code>https://blog.ansheng.me/sitemap.xml</code>(请替换成你自己的链接)，然后就可以看到<code>sitemap</code>信息了。</p>
+<p><img src="/images/2017/01/1483793688.png" alt="1483793688"></p>
+<p>好了，到此结束，内容比较简单，希望能够帮到你~</p>
+
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#RSS-Atom订阅"><span class="toc-number">1.</span> <span class="toc-text">RSS/Atom订阅</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#站点地图"><span class="toc-number">2.</span> <span class="toc-text">站点地图</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

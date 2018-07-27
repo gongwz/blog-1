@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="这个模块是一个Python操作memcached的一个API接口。 Memcached官网：http://memcached.org/模块官网：https://pypi.python.org/pypi/python-memcached/ What is Memcached?Free &amp;amp; open source, high-performance, distributed memory ob">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python标准库系列之Memcache模块">
+<meta property="og:url" content="https://blog.ansheng.me/article/python-standard-library-memcache/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="这个模块是一个Python操作memcached的一个API接口。 Memcached官网：http://memcached.org/模块官网：https://pypi.python.org/pypi/python-memcached/ What is Memcached?Free &amp;amp; open source, high-performance, distributed memory ob">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://blog.ansheng.me/images/2016/12/1483067689.gif">
+<meta property="og:image" content="https://blog.ansheng.me/images/2016/12/1483067656.png">
+<meta property="og:image" content="https://blog.ansheng.me/images/2016/12/1483067610.gif">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.087Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python标准库系列之Memcache模块">
+<meta name="twitter:description" content="这个模块是一个Python操作memcached的一个API接口。 Memcached官网：http://memcached.org/模块官网：https://pypi.python.org/pypi/python-memcached/ What is Memcached?Free &amp;amp; open source, high-performance, distributed memory ob">
+<meta name="twitter:image" content="https://blog.ansheng.me/images/2016/12/1483067689.gif">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Python标准库系列之Memcache模块</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/python-standard-library-paramiko/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/python-standard-library-os/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-Memcached"><span class="toc-number">1.</span> <span class="toc-text">What is Memcached?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Memcached"><span class="toc-number">2.</span> <span class="toc-text">安装Memcached</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Memcache使用"><span class="toc-number">3.</span> <span class="toc-text">Memcache使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于Memcached的Session实例"><span class="toc-number">4.</span> <span class="toc-text">基于Memcached的Session实例</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Python标准库系列之Memcache模块
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>这个模块是一个<code>Python</code>操作<code>memcached</code>的一个API接口。</p>
+<p>Memcached官网：<a href="http://memcached.org/" target="_blank" rel="noopener">http://memcached.org/</a><br>模块官网：<a href="https://pypi.python.org/pypi/python-memcached/" target="_blank" rel="noopener">https://pypi.python.org/pypi/python-memcached/</a></p>
+<h2 id="What-is-Memcached"><a href="#What-is-Memcached" class="headerlink" title="What is Memcached?"></a>What is Memcached?</h2><p>Free &amp; open source, high-performance, distributed memory object caching system, generic in nature, but intended for use in speeding up dynamic web applications by alleviating database load.</p>
+<p>Memcached is an in-memory key-value store for small chunks of arbitrary data (strings, objects) from results of database calls, API calls, or page rendering.</p>
+<p>Memcached is simple yet powerful. Its simple design promotes quick deployment, ease of development, and solves many problems facing large data caches. Its API is available for most popular languages.</p>
+<blockquote>
+<p>以上内容摘自官网的介绍，具体信息访问官网</p>
+</blockquote>
+<h2 id="安装Memcached"><a href="#安装Memcached" class="headerlink" title="安装Memcached"></a>安装Memcached</h2><p>包安装</p>
+<p>Ubuntu</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install memcached</span><br></pre></td></tr></table></figure>
+<p>CentOS</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum install memcached</span><br></pre></td></tr></table></figure>
+<p>源码安装</p>
+<p><code>Memcached</code>源码包安装的时候需要依赖于<code>libevent</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Ubuntu</span></span><br><span class="line">apt-get install libevent-dev</span><br><span class="line"><span class="comment"># CentOS</span></span><br><span class="line">yum install libevent-devel</span><br></pre></td></tr></table></figure>
+<p>编译安装<code>memcached</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://memcached.org/latest</span><br><span class="line">tar -zxf memcached-1.x.x.tar.gz</span><br><span class="line"><span class="built_in">cd</span> memcached-1.x.x</span><br><span class="line">./configure --prefix=/usr/<span class="built_in">local</span>/memcached</span><br><span class="line">make &amp;&amp; make <span class="built_in">test</span> &amp;&amp; sudo make install</span><br></pre></td></tr></table></figure>
+<p>具体参数见<code>./configure --help</code>全选项，SASL支持需要一些可选附加库。</p>
+<p>启动</p>
+<p>我这里安装的时候是采用包的方式进行安装的。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@anshengme ~]<span class="comment"># memcached -d -m 10 -u root -l 0.0.0.0 -p 11211 -c 256 -P /tmp/memcached.pid</span></span><br></pre></td></tr></table></figure>
+<p>参数说明</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>-d</code></td>
+<td style="text-align:left">是启动一个守护进程</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>-m</code></td>
+<td style="text-align:left">是分配给Memcache使用的内存数量，单位是MB</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>-u</code></td>
+<td style="text-align:left">是运行Memcache的用户</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>-l</code></td>
+<td style="text-align:left">是监听的服务器IP地址</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>-p</code></td>
+<td style="text-align:left">是设置Memcache监听的端口,最好是1024以上的端口</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>-c</code></td>
+<td style="text-align:left">选项是最大运行的并发连接数，默认是1024，按照你服务器的负载量来设定</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>-P</code></td>
+<td style="text-align:left">是设置保存Memcache的pid文件</td>
+</tr>
+</tbody>
+</table>
+<p>设置开机自启动</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@anshengme ~]<span class="comment"># chmod +x /etc/rc.d/rc.local</span></span><br><span class="line">[root@anshengme ~]<span class="comment"># echo 'memcached -d -m 10 -u root -l 0.0.0.0 -p 11211 -c 256 -P /tmp/memcached.pid' &gt;&gt; /etc/rc.local</span></span><br></pre></td></tr></table></figure>
+<p>关闭memcached</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@anshengme ~]<span class="comment"># pkill `cat /tmp/memcached.pid`</span></span><br></pre></td></tr></table></figure>
+<p>测试</p>
+<p>先查看11211端口是否启动</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@anshengme ~]<span class="comment"># netstat -tlnp | grep "11211"</span></span><br><span class="line">tcp        0      0 0.0.0.0:11211           0.0.0.0:*               LISTEN      4245/memcached</span><br></pre></td></tr></table></figure>
+<p>使用telnet查看启动的11211端口是否可以，可以则测试OK，否则就需要你拍错了，但愿没有问题。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@anshengme ~]<span class="comment"># telnet 127.0.0.1 11211</span></span><br><span class="line">Trying 127.0.0.1...</span><br><span class="line">Connected to 127.0.0.1.</span><br><span class="line">Escape character is <span class="string">'^]'</span>.</span><br></pre></td></tr></table></figure>
+<p>如果出现以下内容就代表启动成功！</p>
+<h2 id="Memcache使用"><a href="#Memcache使用" class="headerlink" title="Memcache使用"></a>Memcache使用</h2><p>安装Memcache</p>
+<p>下载模块包，目前最新版</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@anshengme ~]<span class="comment"># wget https://pypi.python.org/packages/f7/62/14b2448cfb04427366f24104c9da97cf8ea380d7258a3233f066a951a8d8/python-memcached-1.58.tar.gz#md5=23b258105013d14d899828d334e6b044</span></span><br></pre></td></tr></table></figure>
+<p>解压并安装</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@anshengme ~]<span class="comment"># tar xf python-memcached-1.58.tar.gz </span></span><br><span class="line">[root@anshengme ~]<span class="comment"># cd python-memcached-1.58</span></span><br><span class="line">[root@anshengme python-memcached-1.58]<span class="comment"># python setup.py install</span></span><br></pre></td></tr></table></figure>
+<p>进入Python解释器导入模块，如果导入成功就表示模块安装成功。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@anshengme python-memcached-1.58]<span class="comment"># python</span></span><br><span class="line">&gt;&gt;&gt; import memcache</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>首次体验</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 导入memcache模块</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> memcache</span><br><span class="line"><span class="comment"># 连接到一台Memcached服务器</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn = memcache.Client([<span class="string">'192.168.56.100:11211'</span>])</span><br><span class="line"><span class="comment"># 设置一个值，如果存在则覆盖</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.set(<span class="string">'k1'</span>, <span class="string">'v1'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="comment"># 获取值的内容</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'k1'</span>)</span><br><span class="line"><span class="string">'v1'</span></span><br></pre></td></tr></table></figure>
+<p>更多的使用方法</p>
+<p>设置超时时间<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.set(<span class="string">'k'</span>, <span class="string">'v'</span>, <span class="number">1</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'k'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>设置值，如果存在就报错<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.add(<span class="string">'k'</span>,<span class="string">'hello'</span>)</span><br><span class="line"><span class="comment"># False设置失败</span></span><br><span class="line"><span class="keyword">False</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'k'</span>)</span><br><span class="line"><span class="comment"># 原值没变</span></span><br><span class="line"><span class="string">'v'</span></span><br></pre></td></tr></table></figure></p>
+<p>修改值，不存在则返回False<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.replace(<span class="string">'k'</span>,<span class="string">'helloworld'</span>)</span><br><span class="line"><span class="comment"># 设置成功</span></span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'k'</span>)</span><br><span class="line"><span class="comment"># 返回修改后的值</span></span><br><span class="line"><span class="string">'helloworld'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.replace(<span class="string">'kkkk'</span>,<span class="string">'hello'</span>)</span><br><span class="line"><span class="comment"># 修改一个不存在的值</span></span><br><span class="line"><span class="keyword">False</span></span><br></pre></td></tr></table></figure></p>
+<p>设置多个值，值不存在则创建，存在则修改<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'key1'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.set_multi(&#123;<span class="string">'key1'</span>:<span class="string">'value1'</span>,<span class="string">'key2'</span>:<span class="string">'value2'</span>&#125;)</span><br><span class="line">[]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'key1'</span>)</span><br><span class="line"><span class="string">'value1'</span></span><br></pre></td></tr></table></figure></p>
+<p>删除一个值<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'key1'</span>)</span><br><span class="line"><span class="string">'value1'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.delete(<span class="string">'key1'</span>)</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'key1'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>删除多个值<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.set_multi(&#123;<span class="string">'key3'</span>:<span class="string">'value3'</span>,<span class="string">'key4'</span>:<span class="string">'value4'</span>&#125;)</span><br><span class="line">[]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.delete_multi([<span class="string">'key3'</span>, <span class="string">'key4'</span>])</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<p>获取一个值和获取多个值<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.set_multi(&#123;<span class="string">'key5'</span>:<span class="string">'value5'</span>,<span class="string">'key6'</span>:<span class="string">'value6'</span>&#125;)</span><br><span class="line">[]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'key5'</span>)</span><br><span class="line"><span class="string">'value5'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get_multi([<span class="string">'key5'</span>,<span class="string">'key6'</span>])</span><br><span class="line">&#123;<span class="string">'key5'</span>: <span class="string">'value5'</span>, <span class="string">'key6'</span>: <span class="string">'value6'</span>&#125;</span><br></pre></td></tr></table></figure></p>
+<p>修改指定key的值，在该值<code>后面</code>追加内容<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.append(<span class="string">'key5'</span>,<span class="string">'after'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'key5'</span>)</span><br><span class="line"><span class="string">'value5after'</span></span><br></pre></td></tr></table></figure></p>
+<p>修改指定key的值，在该值 前面 插入内容<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.prepend(<span class="string">'key5'</span>,<span class="string">'before'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.get(<span class="string">'key5'</span>)</span><br><span class="line"><span class="string">'beforevalue5after'</span></span><br></pre></td></tr></table></figure></p>
+<p>自增与自减，将Memcached中的某一个值加或减少N(N默认为1)<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.set(<span class="string">'number'</span>,<span class="string">'9'</span>)</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="comment"># 增加</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.incr(<span class="string">'number'</span>)</span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="comment"># 增加</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.incr(<span class="string">'number'</span>, <span class="number">10</span>)</span><br><span class="line"><span class="number">20</span></span><br><span class="line"><span class="comment"># 减少</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.decr(<span class="string">'number'</span>)</span><br><span class="line"><span class="number">19</span></span><br><span class="line"><span class="comment"># 减少</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>conn.decr(<span class="string">'number'</span>, <span class="number">10</span>)</span><br><span class="line"><span class="number">9</span></span><br></pre></td></tr></table></figure></p>
+<p>比如设置了这么一个值：<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">conn.set(<span class="string">'n'</span>,<span class="string">'10)</span></span><br></pre></td></tr></table></figure></p>
+<p>现在A用户和B用户同时获取到了这两个值，如果有其中的任何一个用户对这个值进行了修改，那么另外一个用户在对这个值进行操作的时候就会报错。</p>
+<p>如果要解决以上的问题可以使用<code>gets</code>与<code>cas</code>，测试代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -- s1.py</span></span><br><span class="line"><span class="comment"># _*_ coding:utf-8 _*_</span></span><br><span class="line"><span class="keyword">import</span> memcache</span><br><span class="line">conn1 = memcache.Client([<span class="string">'192.168.56.100:11211'</span>], debug=<span class="keyword">True</span>, cache_cas=<span class="keyword">True</span>)</span><br><span class="line">conn1.set(<span class="string">'n'</span>, <span class="number">9</span>)</span><br><span class="line"><span class="comment"># gets会获取到值并且获取计数器</span></span><br><span class="line">result = conn1.gets(<span class="string">'n'</span>)</span><br><span class="line">print(result)</span><br><span class="line"><span class="comment"># 阻塞</span></span><br><span class="line">input(<span class="string">'&gt;&gt;&gt;'</span>)</span><br><span class="line"><span class="comment"># 设置值</span></span><br><span class="line">conn1.cas(<span class="string">'n'</span>, <span class="number">99</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># -- s2</span></span><br><span class="line"><span class="comment"># _*_ coding:utf-8 _*_</span></span><br><span class="line"><span class="keyword">import</span> memcache</span><br><span class="line">conn2 = memcache.Client([<span class="string">'192.168.56.100:11211'</span>], debug=<span class="keyword">True</span>, cache_cas=<span class="keyword">True</span>)</span><br><span class="line"><span class="comment"># gets会获取到值并且获取计数器</span></span><br><span class="line">result = conn2.gets(<span class="string">'n'</span>)</span><br><span class="line">print(result)</span><br><span class="line"><span class="comment"># 阻塞</span></span><br><span class="line">input(<span class="string">'&gt;&gt;&gt;'</span>)</span><br><span class="line"><span class="comment"># 设置值</span></span><br><span class="line">conn2.cas(<span class="string">'n'</span>, <span class="number">100</span>)</span><br></pre></td></tr></table></figure>
+<p>执行效果如下图：<br><img src="/images/2016/12/1483067689.gif" alt="python-memcache-03"></p>
+<p>多节点的操作</p>
+<p>首先在服务器上面起四个<code>memcached</code>实例，每个实例都是一个单独的<code>memcached</code>服务</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@anshengme ~]<span class="comment"># netstat -tlnp | grep "memcached"</span></span><br><span class="line">tcp        0      0 0.0.0.0:11211           0.0.0.0:*               LISTEN      1125/memcached      </span><br><span class="line">tcp        0      0 0.0.0.0:11212           0.0.0.0:*               LISTEN      1330/memcached      </span><br><span class="line">tcp        0      0 0.0.0.0:11213           0.0.0.0:*               LISTEN      1337/memcached      </span><br><span class="line">tcp        0      0 0.0.0.0:11214           0.0.0.0:*               LISTEN      1344/memcached</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _*_ coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> memcache</span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接到多台memcached服务器</span></span><br><span class="line">conn = memcache.Client(</span><br><span class="line">    <span class="comment"># IP:端口，权重</span></span><br><span class="line">    [(<span class="string">'192.168.56.100:11211'</span>, <span class="number">4</span>),</span><br><span class="line">     (<span class="string">'192.168.56.100:11212'</span>, <span class="number">3</span>),</span><br><span class="line">     (<span class="string">'192.168.56.100:11213'</span>, <span class="number">1</span>),</span><br><span class="line">     (<span class="string">'192.168.56.100:11214'</span>, <span class="number">2</span>)]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">conn.set(<span class="string">'k'</span>, <span class="string">'v'</span>)</span><br></pre></td></tr></table></figure>
+<p>多节点数据存储流程</p>
+<ol>
+<li>先将一个字符串转换为一个数字</li>
+<li>得出的结果和节点的数量进行除法运算</li>
+<li>得出的结果肯定在节点数量之间，余数是几，就在那台节点上面存放数据</li>
+</ol>
+<p>如图所示</p>
+<p><img src="/images/2016/12/1483067656.png" alt="python-memcache-02"></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 将字符串转换为数字模块</span></span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"></span><br><span class="line"><span class="comment"># 摘自memcache源码中的一部分</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cmemcache_hash</span><span class="params">(key)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> ((((binascii.crc32(key) &amp; <span class="number">0xffffffff</span>) &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0x7fff</span>) <span class="keyword">or</span> <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment"># result就是返回的数字</span></span><br><span class="line">result = cmemcache_hash(bytes(<span class="string">'k'</span>, encoding=<span class="string">'utf-8'</span>))</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+<h2 id="基于Memcached的Session实例"><a href="#基于Memcached的Session实例" class="headerlink" title="基于Memcached的Session实例"></a>基于Memcached的Session实例</h2><p>主程序脚本</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _*_coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tornado.ioloop</span><br><span class="line"><span class="keyword">import</span> tornado.web</span><br><span class="line"><span class="keyword">import</span> MemcacheToSession</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BaseHandler</span><span class="params">(tornado.web.RequestHandler)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">initialize</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.session = MemcacheToSession.Session(self)</span><br><span class="line">        <span class="comment"># pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainHandler</span><span class="params">(BaseHandler)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self)</span>:</span></span><br><span class="line">        Info = self.session.GetAll()</span><br><span class="line"></span><br><span class="line">        self.render(<span class="string">"template/index.html"</span>, Data=Info)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        <span class="comment"># 获取传过来的值</span></span><br><span class="line">        Key = self.get_argument(<span class="string">'key'</span>)</span><br><span class="line">        Val = self.get_argument(<span class="string">'val'</span>)</span><br><span class="line">        action = self.get_argument(<span class="string">'action'</span>)</span><br><span class="line">        <span class="keyword">if</span> action == <span class="string">'set'</span>:</span><br><span class="line">            <span class="comment"># 设置值</span></span><br><span class="line">            self.session[Key] = Val</span><br><span class="line">        <span class="keyword">elif</span> action == <span class="string">'del'</span>:</span><br><span class="line">            <span class="keyword">del</span> self.session[Key]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 获取所有信息</span></span><br><span class="line">        Info = self.session.GetAll()</span><br><span class="line">        <span class="comment"># 返回给前端渲染</span></span><br><span class="line">        self.render(<span class="string">"template/index.html"</span>, Data=Info)</span><br><span class="line"></span><br><span class="line">settings = &#123;</span><br><span class="line">    <span class="string">"tempalte_path"</span>: <span class="string">"template"</span>,</span><br><span class="line">    <span class="string">"cookie_secret"</span>: <span class="string">"508CE6152CB93994628D3E99934B83CC"</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">application = tornado.web.Application([</span><br><span class="line">    (<span class="string">r'/'</span>, MainHandler),</span><br><span class="line">], **settings)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    application.listen(<span class="number">9999</span>)</span><br><span class="line">    tornado.ioloop.IOLoop.instance().start()</span><br></pre></td></tr></table></figure>
+<p>模板文件<br><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- template\index.html --&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></span><br><span class="line">    set/del：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"action"</span> <span class="attr">value</span>=<span class="string">"set"</span>/&gt;</span></span><br><span class="line">    Key: <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"key"</span>/&gt;</span></span><br><span class="line">    Val: <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"val"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"设置"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line">&#123;&#123; Data &#125;&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>设置Session的小模块<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _*_ coding: utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> memcache</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接memcached</span></span><br><span class="line">conn = memcache.Client(</span><br><span class="line">    [<span class="string">'192.168.56.100:11211'</span>]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Session</span>:</span></span><br><span class="line">    CookieID = <span class="string">'uc'</span></span><br><span class="line">    ExpiresTime = <span class="number">60</span> * <span class="number">20</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, handler)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        用于创建用户session在memcached中的字典</span></span><br><span class="line"><span class="string">        :param handler: 请求头</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.handler = handler</span><br><span class="line">        <span class="comment"># 从客户端获取随机字符串</span></span><br><span class="line">        SessionID = self.handler.get_secure_cookie(Session.CookieID, <span class="keyword">None</span>)</span><br><span class="line">        <span class="comment"># 客户端存在并且在服务端也存在</span></span><br><span class="line">        <span class="keyword">if</span> SessionID <span class="keyword">and</span> conn.get(SessionID):</span><br><span class="line">            self.SessionID = SessionID</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 获取随机字符串</span></span><br><span class="line">            self.SessionID = self.SessionKey()</span><br><span class="line">            <span class="comment"># 把随机字符串写入memcached,时间是20分钟</span></span><br><span class="line">            conn.set(self.SessionID, json.dumps(&#123;&#125;), Session.ExpiresTime)</span><br><span class="line">        <span class="comment"># 每次访问超时时间就加20分钟</span></span><br><span class="line">        conn.set(self.SessionID, conn.get(self.SessionID), Session.ExpiresTime)</span><br><span class="line">        <span class="comment"># 设置Cookie</span></span><br><span class="line">        self.handler.set_secure_cookie(<span class="string">'uc'</span>, self.SessionID)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">SessionKey</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :return: 生成随机字符串</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        UUID = str(uuid.uuid1()).replace(<span class="string">'-'</span>, <span class="string">''</span>)</span><br><span class="line">        MD5 = hashlib.md5()</span><br><span class="line">        MD5.update(bytes(UUID, encoding=<span class="string">'utf-8'</span>))</span><br><span class="line">        SessionKey = MD5.hexdigest()</span><br><span class="line">        <span class="keyword">return</span> SessionKey</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__setitem__</span><span class="params">(self, key, value)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        设置session</span></span><br><span class="line"><span class="string">        :param key: session信息中的key</span></span><br><span class="line"><span class="string">        :param value: 对应的Value</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># 获取session_id</span></span><br><span class="line">        SessionDict = json.loads(conn.get(self.SessionID))</span><br><span class="line">        <span class="comment"># 设置字典的key</span></span><br><span class="line">        SessionDict[key] = value</span><br><span class="line">        <span class="comment"># 重新赋值</span></span><br><span class="line">        conn.set(self.SessionID, json.dumps(SessionDict), Session.ExpiresTime)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, item)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :param item: Session信息中对应的Key</span></span><br><span class="line"><span class="string">        :return: 获取的Session信息</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># 获取SessionID并转换为字典</span></span><br><span class="line">        SessionDict = json.loads(conn.get(self.SessionID))</span><br><span class="line">        <span class="comment"># 获取对应的数据</span></span><br><span class="line">        ResultData = SessionDict.get(item, <span class="keyword">None</span>)</span><br><span class="line">        <span class="keyword">return</span> ResultData</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__delitem__</span><span class="params">(self, key)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :param key: 要删除的Key</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># 获取SessionID并转换为字典</span></span><br><span class="line">        SessionDict = json.loads(conn.get(self.SessionID))</span><br><span class="line">        <span class="comment"># 删除字典的key</span></span><br><span class="line">        <span class="keyword">del</span> SessionDict[key]</span><br><span class="line">        <span class="comment"># 重新赋值</span></span><br><span class="line">        conn.set(self.SessionID, json.dumps(SessionDict), Session.ExpiresTime)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">GetAll</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 获取Session中所有的信息，仅用于测试</span></span><br><span class="line">        SessionData = conn.get(self.SessionID)</span><br><span class="line">        <span class="keyword">return</span> SessionData</span><br></pre></td></tr></table></figure></p>
+<p>演示如下：<br><img src="/images/2016/12/1483067610.gif" alt="python-memcache-04"></p>
+
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-Memcached"><span class="toc-number">1.</span> <span class="toc-text">What is Memcached?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Memcached"><span class="toc-number">2.</span> <span class="toc-text">安装Memcached</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Memcache使用"><span class="toc-number">3.</span> <span class="toc-text">Memcache使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于Memcached的Session实例"><span class="toc-number">4.</span> <span class="toc-text">基于Memcached的Session实例</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

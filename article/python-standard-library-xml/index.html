@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Python’s interfaces for processing XML are grouped in the xml package.  带分隔符的文件仅有两维的数据：行和列。如果你想在程序之间交换数据结构，需要一种方法把层次结构、序列、集合和其他的结构编码成文本。 XML是最突出的处理这种转换的标记(markup)格式，它使用标签(tag)分个数据，如下面的实例文件menu.xml所示：">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python标准库系列之xml模块">
+<meta property="og:url" content="https://blog.ansheng.me/article/python-standard-library-xml/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="Python’s interfaces for processing XML are grouped in the xml package.  带分隔符的文件仅有两维的数据：行和列。如果你想在程序之间交换数据结构，需要一种方法把层次结构、序列、集合和其他的结构编码成文本。 XML是最突出的处理这种转换的标记(markup)格式，它使用标签(tag)分个数据，如下面的实例文件menu.xml所示：">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://blog.ansheng.me/images/2016/12/1483018595.png">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.091Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python标准库系列之xml模块">
+<meta name="twitter:description" content="Python’s interfaces for processing XML are grouped in the xml package.  带分隔符的文件仅有两维的数据：行和列。如果你想在程序之间交换数据结构，需要一种方法把层次结构、序列、集合和其他的结构编码成文本。 XML是最突出的处理这种转换的标记(markup)格式，它使用标签(tag)分个数据，如下面的实例文件menu.xml所示：">
+<meta name="twitter:image" content="https://blog.ansheng.me/images/2016/12/1483018595.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Python标准库系列之xml模块</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/article/python-standard-library-zipfile/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#XML的一些重要特性"><span class="toc-number">1.</span> <span class="toc-text">XML的一些重要特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建xml文件"><span class="toc-number">2.</span> <span class="toc-text">创建xml文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建一个有换行的XML文件"><span class="toc-number">3.</span> <span class="toc-text">创建一个有换行的XML文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解析XML"><span class="toc-number">4.</span> <span class="toc-text">解析XML</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#增、删、改XML"><span class="toc-number">5.</span> <span class="toc-text">增、删、改XML</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对节点操作的方法"><span class="toc-number">6.</span> <span class="toc-text">对节点操作的方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例"><span class="toc-number">7.</span> <span class="toc-text">实例</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Python标准库系列之xml模块
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>Python’s interfaces for processing XML are grouped in the xml package.</p>
+</blockquote>
+<p>带分隔符的文件仅有两维的数据：行和列。如果你想在程序之间交换数据结构，需要一种方法把层次结构、序列、集合和其他的结构编码成文本。</p>
+<p><code>XML</code>是最突出的处理这种转换的标记(markup)格式，它使用标签(tag)分个数据，如下面的实例文件menu.xml所示：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">feed</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/2005/Atom"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>安生&amp;#39;s Blog<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">subtitle</span>&gt;</span>大好时光！<span class="tag">&lt;/<span class="name">subtitle</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"/atom.xml"</span> <span class="attr">rel</span>=<span class="string">"self"</span>/&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"https://blog.ansheng.me/"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">updated</span>&gt;</span>2016-05-24T15:29:19.000Z<span class="tag">&lt;/<span class="name">updated</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">id</span>&gt;</span>https://blog.ansheng.me/<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  <span class="tag">&lt;<span class="name">author</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>安生<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">author</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">feed</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="XML的一些重要特性"><a href="#XML的一些重要特性" class="headerlink" title="XML的一些重要特性"></a>XML的一些重要特性</h2><ol>
+<li>标签以一个<code>&lt;</code>字符开头，例如实例中的feed、title、subtitle、author。</li>
+<li>忽略空格</li>
+<li>通常一个开始标签跟一段其他的内容，然后是最后相匹配的结束标签，例如<subtitle>大好时光！</subtitle></li>
+<li>标签之间是可以存在多级嵌套的</li>
+<li>可选属性(attribute)可以出现在开始标签里</li>
+<li>标签中可以包含值(value)</li>
+<li>如果一个命名为<code>thing</code>的标签内没有内容或者子标签，那么它可以用在右尖括号的前面添加斜杠的简单标签所表示，例如<thing>代替开始和结束都存在的标签。</thing></li>
+<li>存放数据的位置可以是任意的—属性、值或者子标签。</li>
+</ol>
+<p>XML通常用于数据传送和消息，它存在一些子格式，如RSS和Atom，例如：<a href="https://blog.ansheng.me/atom.xml">https://blog.ansheng.me/atom.xml</a></p>
+<p>在Python中解析XML最简单的方法是使用<code>ElementTree</code>。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">模块</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">xml.etree.ElementTree</td>
+<td style="text-align:left">the ElementTree API, a simple and lightweight XML processor</td>
+</tr>
+</tbody>
+</table>
+<h2 id="创建xml文件"><a href="#创建xml文件" class="headerlink" title="创建xml文件"></a>创建xml文件</h2><p>导入ElementTree方法，起一个别名为ET</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> xml.etree <span class="keyword">import</span> ElementTree <span class="keyword">as</span> ET</span><br></pre></td></tr></table></figure>
+<p>创建顶级标签</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>level_1 = ET.Element(<span class="string">"famliy"</span>)</span><br></pre></td></tr></table></figure>
+<p>创建二级标签，tag名name，attrib标签属性</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>level_2 = ET.SubElement(level_1, <span class="string">"name"</span>, attrib=&#123;<span class="string">"enrolled"</span>:<span class="string">"yes"</span>&#125;)</span><br></pre></td></tr></table></figure>
+<p>创建三级标签</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>level_3 = ET.SubElement(level_2, <span class="string">"age"</span>, attrib=&#123;<span class="string">"checked"</span>:<span class="string">"no"</span>&#125;)</span><br></pre></td></tr></table></figure>
+<p>生成文档</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>tree = ET.ElementTree(level_1)</span><br></pre></td></tr></table></figure>
+<p>写入文件中</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>tree.write(<span class="string">'oooo.xml'</span>,encoding=<span class="string">'utf-8'</span>, short_empty_elements=<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure>
+<p>导入os模块，用os模块中的system方法执行shell命令查看刚才创建的oooo.xml文件</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> os</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>os.system(<span class="string">"cat oooo.xml"</span>)</span><br><span class="line"><span class="comment"># 生成出来的文档是没有换行的</span></span><br><span class="line">&lt;famliy&gt;&lt;name enrolled="yes"&gt;&lt;age checked="no"&gt;&lt;/age&gt;&lt;/name&gt;&lt;/famliy&gt;0</span><br></pre></td></tr></table></figure>
+<p>把刚才生成的文件下载到本地，然后用浏览器打开就可以看到分级层次了。</p>
+<p><img src="/images/2016/12/1483018595.png" alt="xml-module-01"></p>
+<h2 id="创建一个有换行的XML文件"><a href="#创建一个有换行的XML文件" class="headerlink" title="创建一个有换行的XML文件"></a>创建一个有换行的XML文件</h2><p>代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> xml.etree <span class="keyword">import</span> ElementTree <span class="keyword">as</span> ET</span><br><span class="line"><span class="keyword">from</span> xml.dom <span class="keyword">import</span> minidom</span><br><span class="line"></span><br><span class="line">root = ET.Element(<span class="string">'level1'</span>,&#123;<span class="string">"age"</span>:<span class="string">"1"</span>&#125;)</span><br><span class="line">son = ET.SubElement(root,<span class="string">"level2"</span>,&#123;<span class="string">"age"</span>:<span class="string">"2"</span>&#125;)</span><br><span class="line">ET.SubElement(son, <span class="string">"level3"</span>, &#123;<span class="string">"age"</span>:<span class="string">"3"</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># tree = ET.ElementTree(root)</span></span><br><span class="line"><span class="comment"># tree.write("abc.xml", encoding="utf-8",xml_declaration=True,short_empty_elements=False)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">prettify</span><span class="params">(root)</span>:</span></span><br><span class="line">    rough_string = ET.tostring(root, <span class="string">'utf-8'</span>)</span><br><span class="line">    reparsed = minidom.parseString(rough_string)</span><br><span class="line">    <span class="keyword">return</span> reparsed.toprettyxml(indent=<span class="string">"\t"</span>)</span><br><span class="line"></span><br><span class="line">new_str = prettify(root)</span><br><span class="line">f = open(<span class="string">"new_out.xml"</span>, <span class="string">"w"</span>)</span><br><span class="line">f.write(new_str)</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+<p>生成的xml文件</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">&lt;?xml version="1.0" ?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">level1</span> <span class="attr">age</span>=<span class="string">"1"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">level2</span> <span class="attr">age</span>=<span class="string">"2"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">level3</span> <span class="attr">age</span>=<span class="string">"3"</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">level2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">level1</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="解析XML"><a href="#解析XML" class="headerlink" title="解析XML"></a>解析XML</h2><p><code>first.xml</code>文件内容为：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">data</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">country</span> <span class="attr">name</span>=<span class="string">"Liechtenstein"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">rank</span> <span class="attr">updated</span>=<span class="string">"yes"</span>&gt;</span>2<span class="tag">&lt;/<span class="name">rank</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">year</span> <span class="attr">age</span>=<span class="string">"19"</span>&gt;</span>2025<span class="tag">&lt;/<span class="name">year</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">gdppc</span>&gt;</span>141100<span class="tag">&lt;/<span class="name">gdppc</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">neighbor</span> <span class="attr">direction</span>=<span class="string">"E"</span> <span class="attr">name</span>=<span class="string">"Austria"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">neighbor</span> <span class="attr">direction</span>=<span class="string">"W"</span> <span class="attr">name</span>=<span class="string">"Switzerland"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">country</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">country</span> <span class="attr">name</span>=<span class="string">"Singapore"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">rank</span> <span class="attr">updated</span>=<span class="string">"yes"</span>&gt;</span>5<span class="tag">&lt;/<span class="name">rank</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">year</span> <span class="attr">age</span>=<span class="string">"19"</span>&gt;</span>2028<span class="tag">&lt;/<span class="name">year</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">gdppc</span>&gt;</span>59900<span class="tag">&lt;/<span class="name">gdppc</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">neighbor</span> <span class="attr">direction</span>=<span class="string">"N"</span> <span class="attr">name</span>=<span class="string">"Malaysia"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">country</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">country</span> <span class="attr">name</span>=<span class="string">"Panama"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">rank</span> <span class="attr">updated</span>=<span class="string">"yes"</span>&gt;</span>69<span class="tag">&lt;/<span class="name">rank</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">year</span> <span class="attr">age</span>=<span class="string">"19"</span>&gt;</span>2028<span class="tag">&lt;/<span class="name">year</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">gdppc</span>&gt;</span>13600<span class="tag">&lt;/<span class="name">gdppc</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">neighbor</span> <span class="attr">direction</span>=<span class="string">"W"</span> <span class="attr">name</span>=<span class="string">"Costa Rica"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">neighbor</span> <span class="attr">direction</span>=<span class="string">"E"</span> <span class="attr">name</span>=<span class="string">"Colombia"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">country</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">data</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>first.xml</code>文件在<code>/root</code>目录下</p>
+<p>利用ElementTree.XML将字符串解析成xml对象</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> xml.etree <span class="keyword">import</span> ElementTree <span class="keyword">as</span> ET</span><br><span class="line"><span class="comment"># 打开文件，读取XML内容，将字符串解析成xml特殊对象，root代指xml文件的根节点 </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>root = ET.XML(open(<span class="string">'first.xml'</span>, <span class="string">'r'</span>).read())</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>root.tag</span><br><span class="line"><span class="string">'data'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> node <span class="keyword">in</span> root:</span><br><span class="line"><span class="meta">... </span> print(node.tag, node.attrib)</span><br><span class="line"><span class="meta">... </span></span><br><span class="line">(<span class="string">'country'</span>, &#123;<span class="string">'name'</span>: <span class="string">'Liechtenstein'</span>&#125;)</span><br><span class="line">(<span class="string">'country'</span>, &#123;<span class="string">'name'</span>: <span class="string">'Singapore'</span>&#125;)</span><br><span class="line">(<span class="string">'country'</span>, &#123;<span class="string">'name'</span>: <span class="string">'Panama'</span>&#125;)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(node.find(<span class="string">'rank'</span>).text)</span><br><span class="line"><span class="number">69</span></span><br></pre></td></tr></table></figure>
+<p>利用ElementTree.parse将文件直接解析成xml对象</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> xml.etree <span class="keyword">import</span> ElementTree <span class="keyword">as</span> ET</span><br><span class="line"><span class="comment"># 直接解析xml文件</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tree = ET.parse(<span class="string">"first.xml"</span>)</span><br><span class="line"><span class="comment"># 获取xml文件的根节点</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>root = tree.getroot()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>root.tag</span><br><span class="line"><span class="string">'data'</span></span><br></pre></td></tr></table></figure>
+<p>遍历XML中指定的节点</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> xml.etree <span class="keyword">import</span> ElementTree <span class="keyword">as</span> ET</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tree = ET.parse(<span class="string">"first.xml"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>root = tree.getroot()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> node <span class="keyword">in</span> root.iter(<span class="string">'year'</span>):</span><br><span class="line">        <span class="comment"># 输出node的tag和内容</span></span><br><span class="line"><span class="meta">... </span>    print(node.tag, node.text)</span><br><span class="line">...</span><br><span class="line">year <span class="number">2025</span></span><br><span class="line">year <span class="number">2028</span></span><br><span class="line">year <span class="number">2028</span></span><br></pre></td></tr></table></figure>
+<h2 id="增、删、改XML"><a href="#增、删、改XML" class="headerlink" title="增、删、改XML"></a>增、删、改XML</h2><p>为节点添加属性</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> xml.etree <span class="keyword">import</span> ElementTree <span class="keyword">as</span> ET</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tree = ET.parse(<span class="string">"first.xml"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>root = tree.getroot()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> node <span class="keyword">in</span> root.iter(<span class="string">"year"</span>):</span><br><span class="line">        <span class="comment"># 查看原来的属性</span></span><br><span class="line"><span class="meta">... </span>    print(node.attrib)</span><br><span class="line">...</span><br><span class="line">&#123;&#125;</span><br><span class="line">&#123;&#125;</span><br><span class="line">&#123;&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> node <span class="keyword">in</span> root.iter(<span class="string">"year"</span>):</span><br><span class="line">       <span class="comment"># 添加属性</span></span><br><span class="line"><span class="meta">... </span>   node.set(<span class="string">"OS"</span>,<span class="string">"Linux"</span>)</span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> node <span class="keyword">in</span> root.iter(<span class="string">"year"</span>):</span><br><span class="line">        <span class="comment"># 查看添加的属性</span></span><br><span class="line"><span class="meta">... </span>    print(node.attrib) </span><br><span class="line">...</span><br><span class="line">&#123;<span class="string">'OS'</span>: <span class="string">'Linux'</span>&#125;</span><br><span class="line">&#123;<span class="string">'OS'</span>: <span class="string">'Linux'</span>&#125;</span><br><span class="line">&#123;<span class="string">'OS'</span>: <span class="string">'Linux'</span>&#125;</span><br><span class="line"><span class="comment"># 把内容写入文件</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tree.write(<span class="string">"first.xml"</span>)</span><br></pre></td></tr></table></figure>
+<p>删除节点属性</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> xml.etree <span class="keyword">import</span> ElementTree <span class="keyword">as</span> ET</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tree = ET.parse(<span class="string">"first.xml"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>root = tree.getroot()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> node <span class="keyword">in</span> root.iter(<span class="string">"year"</span>):</span><br><span class="line">        <span class="comment"># 删除节点的OS属性</span></span><br><span class="line"><span class="meta">... </span>    <span class="keyword">del</span> node.attrib[<span class="string">'OS'</span>]</span><br><span class="line">...</span><br><span class="line"><span class="comment"># 写入到文件当中</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tree.write(<span class="string">"first.xml"</span>)</span><br></pre></td></tr></table></figure>
+<p>查看属性</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> xml.etree <span class="keyword">import</span> ElementTree <span class="keyword">as</span> ET</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tree = ET.parse(<span class="string">"first.xml"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>root = tree.getroot()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> node <span class="keyword">in</span> root.iter(<span class="string">"year"</span>):</span><br><span class="line"><span class="meta">... </span> print(node.attrib)</span><br><span class="line">...</span><br><span class="line"><span class="comment"># 节点内容为空</span></span><br><span class="line">&#123;&#125;</span><br><span class="line">&#123;&#125;</span><br><span class="line">&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>修改节点内容</p>
+<p>修改<code>year</code>内的数字自加1</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> xml.etree <span class="keyword">import</span> ElementTree <span class="keyword">as</span> ET</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tree = ET.parse(<span class="string">"first.xml"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>root = tree.getroot() </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> node <span class="keyword">in</span> root.iter(<span class="string">"year"</span>):</span><br><span class="line">        <span class="comment"># 输出原来year的内容</span></span><br><span class="line"><span class="meta">... </span>    print(node.text)</span><br><span class="line">        <span class="comment"># 原来的值自加+</span></span><br><span class="line"><span class="meta">... </span>    new_year = int(node.text) + <span class="number">1</span></span><br><span class="line"><span class="meta">... </span>    node.text = str(new_year)</span><br><span class="line">...</span><br><span class="line"><span class="number">2025</span></span><br><span class="line"><span class="number">2028</span></span><br><span class="line"><span class="number">2028</span> </span><br><span class="line"><span class="comment"># 写入文件中</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tree.write(<span class="string">"first.xml"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> node <span class="keyword">in</span> root.iter(<span class="string">"year"</span>):</span><br><span class="line">        <span class="comment"># 输出写入文件之后year的内容</span></span><br><span class="line"><span class="meta">... </span>    print(node.text)</span><br><span class="line">...</span><br><span class="line"><span class="number">2026</span></span><br><span class="line"><span class="number">2029</span></span><br><span class="line"><span class="number">2029</span></span><br></pre></td></tr></table></figure>
+<h2 id="对节点操作的方法"><a href="#对节点操作的方法" class="headerlink" title="对节点操作的方法"></a>对节点操作的方法</h2><p>获取节点的方法</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> xml.etree <span class="keyword">import</span> ElementTree <span class="keyword">as</span> ET</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tree = ET.parse(<span class="string">"first.xml"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>root = tree.getroot()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(dir(root))</span><br><span class="line">[<span class="string">'__class__'</span>, <span class="string">'__copy__'</span>, <span class="string">'__deepcopy__'</span>, <span class="string">'__delattr__'</span>, <span class="string">'__delitem__'</span>, <span class="string">'__dir__'</span>, <span class="string">'__doc__'</span>, <span class="string">'__eq__'</span>, <span class="string">'__format__'</span>, <span class="string">'__ge__'</span>, <span class="string">'__getattribute__'</span>, <span class="string">'__getitem__'</span>, <span class="string">'__getstate__'</span>, <span class="string">'__gt__'</span>, <span class="string">'__hash__'</span>, <span class="string">'__init__'</span>, <span class="string">'__le__'</span>, <span class="string">'__len__'</span>, <span class="string">'__lt__'</span>, <span class="string">'__ne__'</span>, <span class="string">'__new__'</span>, <span class="string">'__reduce__'</span>, <span class="string">'__reduce_ex__'</span>, <span class="string">'__repr__'</span>, <span class="string">'__setattr__'</span>, <span class="string">'__setitem__'</span>, <span class="string">'__setstate__'</span>, <span class="string">'__sizeof__'</span>, <span class="string">'__str__'</span>, <span class="string">'__subclasshook__'</span>, <span class="string">'append'</span>, <span class="string">'clear'</span>, <span class="string">'extend'</span>, <span class="string">'find'</span>, <span class="string">'findall'</span>, <span class="string">'findtext'</span>, <span class="string">'get'</span>, <span class="string">'getchildren'</span>, <span class="string">'getiterator'</span>, <span class="string">'insert'</span>, <span class="string">'items'</span>, <span class="string">'iter'</span>, <span class="string">'iterfind'</span>, <span class="string">'itertext'</span>, <span class="string">'keys'</span>, <span class="string">'makeelement'</span>, <span class="string">'remove'</span>, <span class="string">'set'</span>]</span><br></pre></td></tr></table></figure>
+<p>方法有这么多，那么我们常用的也就是下面的几个</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方法名</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">tag</td>
+<td style="text-align:center">获取tag标签名</td>
+</tr>
+<tr>
+<td style="text-align:center">attrib</td>
+<td style="text-align:center">获取节点的属性</td>
+</tr>
+<tr>
+<td style="text-align:center">find</td>
+<td style="text-align:center">获取节点的内容</td>
+</tr>
+<tr>
+<td style="text-align:center">iter</td>
+<td style="text-align:center">进行迭代</td>
+</tr>
+<tr>
+<td style="text-align:center">set</td>
+<td style="text-align:center">设置属性</td>
+</tr>
+<tr>
+<td style="text-align:center">get</td>
+<td style="text-align:center">获取属性</td>
+</tr>
+</tbody>
+</table>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>判断QQ是否在线</p>
+<p>腾讯提供了能够查看QQ号码是否在线的API，<code>Y</code>=在线；<code>N</code>=离线；<code>E</code>=QQ号码错误；<code>A</code>=商业用户验证失败；<code>V</code>=免费用户超过数量</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> requests</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> xml.etree <span class="keyword">import</span> ElementTree <span class="keyword">as</span> ET</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>r = requests.get(<span class="string">"http://www.webxml.com.cn//webservices/qqOnlineWebService.asmx/qqCheckOnline?qqCode=6087414"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>result = r.text</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> xml.etree <span class="keyword">import</span> ElementTree <span class="keyword">as</span> ET</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>node = ET.XML(result)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">if</span> node.text == <span class="string">"Y"</span>:</span><br><span class="line"><span class="meta">... </span>   print(<span class="string">"在线"</span>)</span><br><span class="line"><span class="meta">... </span><span class="keyword">else</span>:</span><br><span class="line"><span class="meta">... </span>   print(<span class="string">"离线"</span>)</span><br><span class="line">...</span><br><span class="line">在线</span><br></pre></td></tr></table></figure>
+<p>获取列车起止时间</p>
+<p>代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">r = requests.get(<span class="string">"http://www.webxml.com.cn/WebServices/TrainTimeWebService.asmx/getDetailInfoByTrainCode?TrainCode=K234&amp;UserID="</span>)</span><br><span class="line">result = r.text</span><br><span class="line">root = ET.XML(result)</span><br><span class="line"><span class="keyword">for</span> node <span class="keyword">in</span> root.iter(<span class="string">'TrainDetailInfo'</span>):</span><br><span class="line">    print(node.find(<span class="string">'TrainStation'</span>).text,node.find(<span class="string">'ArriveTime'</span>).text,node.find(<span class="string">"StartTime"</span>).text)</span><br></pre></td></tr></table></figure>
+<p>执行结果</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">C:\Python35\python.exe F:/Python_code/sublime/Week5/Day01/xml_mod.py</span><br><span class="line">上海（车次：K234\K235） <span class="keyword">None</span> <span class="number">11</span>:<span class="number">12</span>:<span class="number">00</span></span><br><span class="line"><span class="comment"># 地点 停止    启动</span></span><br><span class="line">昆山 <span class="number">11</span>:<span class="number">45</span>:<span class="number">00</span> <span class="number">11</span>:<span class="number">48</span>:<span class="number">00</span></span><br><span class="line">苏州 <span class="number">12</span>:<span class="number">12</span>:<span class="number">00</span> <span class="number">12</span>:<span class="number">16</span>:<span class="number">00</span></span><br><span class="line">无锡 <span class="number">12</span>:<span class="number">44</span>:<span class="number">00</span> <span class="number">12</span>:<span class="number">55</span>:<span class="number">00</span></span><br><span class="line">常州 <span class="number">13</span>:<span class="number">22</span>:<span class="number">00</span> <span class="number">13</span>:<span class="number">26</span>:<span class="number">00</span></span><br><span class="line">镇江 <span class="number">14</span>:<span class="number">13</span>:<span class="number">00</span> <span class="number">14</span>:<span class="number">16</span>:<span class="number">00</span></span><br><span class="line">南京 <span class="number">15</span>:<span class="number">04</span>:<span class="number">00</span> <span class="number">15</span>:<span class="number">16</span>:<span class="number">00</span></span><br><span class="line">蚌埠 <span class="number">17</span>:<span class="number">27</span>:<span class="number">00</span> <span class="number">17</span>:<span class="number">50</span>:<span class="number">00</span></span><br><span class="line">徐州 <span class="number">19</span>:<span class="number">38</span>:<span class="number">00</span> <span class="number">19</span>:<span class="number">58</span>:<span class="number">00</span></span><br><span class="line">商丘 <span class="number">22</span>:<span class="number">12</span>:<span class="number">00</span> <span class="number">22</span>:<span class="number">17</span>:<span class="number">00</span></span><br><span class="line">开封 <span class="number">23</span>:<span class="number">49</span>:<span class="number">00</span> <span class="number">23</span>:<span class="number">53</span>:<span class="number">00</span></span><br><span class="line">郑州 <span class="number">00</span>:<span class="number">37</span>:<span class="number">00</span> <span class="number">01</span>:<span class="number">14</span>:<span class="number">00</span></span><br><span class="line">新乡 <span class="number">02</span>:<span class="number">20</span>:<span class="number">00</span> <span class="number">02</span>:<span class="number">22</span>:<span class="number">00</span></span><br><span class="line">鹤壁 <span class="number">03</span>:<span class="number">01</span>:<span class="number">00</span> <span class="number">03</span>:<span class="number">03</span>:<span class="number">00</span></span><br><span class="line">安阳 <span class="number">03</span>:<span class="number">33</span>:<span class="number">00</span> <span class="number">03</span>:<span class="number">36</span>:<span class="number">00</span></span><br><span class="line">邯郸 <span class="number">04</span>:<span class="number">11</span>:<span class="number">00</span> <span class="number">04</span>:<span class="number">16</span>:<span class="number">00</span></span><br><span class="line">邢台 <span class="number">04</span>:<span class="number">47</span>:<span class="number">00</span> <span class="number">04</span>:<span class="number">51</span>:<span class="number">00</span></span><br><span class="line">石家庄 <span class="number">06</span>:<span class="number">05</span>:<span class="number">00</span> <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line">Process finished <span class="keyword">with</span> exit code <span class="number">0</span></span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#XML的一些重要特性"><span class="toc-number">1.</span> <span class="toc-text">XML的一些重要特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建xml文件"><span class="toc-number">2.</span> <span class="toc-text">创建xml文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建一个有换行的XML文件"><span class="toc-number">3.</span> <span class="toc-text">创建一个有换行的XML文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解析XML"><span class="toc-number">4.</span> <span class="toc-text">解析XML</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#增、删、改XML"><span class="toc-number">5.</span> <span class="toc-text">增、删、改XML</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对节点操作的方法"><span class="toc-number">6.</span> <span class="toc-text">对节点操作的方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例"><span class="toc-number">7.</span> <span class="toc-text">实例</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="再次了解多继承先来一段代码 #!/usr/bin/env python# _*_ coding:utf-8 _*_class A:    def bar(self):        print(&quot;BAR&quot;)        self.f1()class B(A):    def f1(self):        print(&quot;B&quot;)class C:    def f1(self):        p">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python全栈之路系列之面向对象进阶及类成员">
+<meta property="og:url" content="https://blog.ansheng.me/article/python-full-stack-way-object-oriented-advanced/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="再次了解多继承先来一段代码 #!/usr/bin/env python# _*_ coding:utf-8 _*_class A:    def bar(self):        print(&quot;BAR&quot;)        self.f1()class B(A):    def f1(self):        print(&quot;B&quot;)class C:    def f1(self):        p">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.077Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python全栈之路系列之面向对象进阶及类成员">
+<meta name="twitter:description" content="再次了解多继承先来一段代码 #!/usr/bin/env python# _*_ coding:utf-8 _*_class A:    def bar(self):        print(&quot;BAR&quot;)        self.f1()class B(A):    def f1(self):        print(&quot;B&quot;)class C:    def f1(self):        p">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Python全栈之路系列之面向对象进阶及类成员</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/python-full-stack-way-io-multiplexing/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/python-full-stack-way-list-data-type/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#再次了解多继承"><span class="toc-number">1.</span> <span class="toc-text">再次了解多继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#执行父类的构造方法"><span class="toc-number">2.</span> <span class="toc-text">执行父类的构造方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用反射查看面向对象成员归属"><span class="toc-number">3.</span> <span class="toc-text">利用反射查看面向对象成员归属</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用反射导入模块、查找类、创建对象、查找对象中的字段"><span class="toc-number">4.</span> <span class="toc-text">利用反射导入模块、查找类、创建对象、查找对象中的字段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#面向对象类成员之静态字段"><span class="toc-number">5.</span> <span class="toc-text">面向对象类成员之静态字段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#面向对象类成员之静态方法"><span class="toc-number">6.</span> <span class="toc-text">面向对象类成员之静态方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#面向对象类成员之类方法"><span class="toc-number">7.</span> <span class="toc-text">面向对象类成员之类方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#面向对象类成员内容梳理"><span class="toc-number">8.</span> <span class="toc-text">面向对象类成员内容梳理</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Python全栈之路系列之面向对象进阶及类成员
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="再次了解多继承"><a href="#再次了解多继承" class="headerlink" title="再次了解多继承"></a>再次了解多继承</h2><p>先来一段代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># _*_ coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"BAR"</span>)</span><br><span class="line">        self.f1()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(A)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">f1</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"B"</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">f1</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"C"</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span><span class="params">(C, B)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">obj = D()</span><br><span class="line">obj.bar()</span><br></pre></td></tr></table></figure>
+<hr>
+<p>执行结果<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">/usr/bin/python3<span class="number">.5</span> /home/ansheng/文档/Python_code/sublime/Week06/Day03/s1.py</span><br><span class="line">BAR</span><br><span class="line">C</span><br><span class="line"></span><br><span class="line">Process finished <span class="keyword">with</span> exit code <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>流程释意：</strong></p>
+<ol>
+<li>创建了类A、B、C、D；</li>
+<li><code>D</code>继承了<code>C</code>和<code>B</code>，<code>B</code>继承了<code>A</code>，<code>D</code>内什么都不做，<code>pass</code>；</li>
+<li>创建一个对象<code>obj</code>，类是<code>D</code>，当执行<code>D</code>的<code>bar</code>方法的时候会先从<code>C</code>里面寻找有没有<code>bar</code>方法；</li>
+<li><code>C</code>内没有<code>bar</code>方法，然后继续从<code>B</code>里面查找，<code>B</code>里面也没有，<code>B</code>的父类是<code>A</code>，<code>A</code>里面有<code>bar</code>方法，所以就执行了<code>A</code>的<code>bar</code>方法；</li>
+<li><code>A</code>的<code>bar</code>方法首先输出了<code>BAR</code>；</li>
+<li>然后又执行了<code>self.f1()</code>，<code>self</code>=<code>obj</code>，相当于执行了<code>obj.f1()</code>；</li>
+<li>执行<code>obj.f1()</code>的时候先从<code>C</code>里面查找有没有<code>f1</code>这个方法，<code>C</code>里面又<code>f1</code>这个方法；</li>
+<li>最后就执行<code>C</code>里面的<code>f1</code>方法了，输出了<code>C</code></li>
+</ol>
+<h2 id="执行父类的构造方法"><a href="#执行父类的构造方法" class="headerlink" title="执行父类的构造方法"></a>执行父类的构造方法</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Annimal</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"Annimal的构造方法"</span>)</span><br><span class="line">        self.ty = <span class="string">"动物"</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span><span class="params">(Annimal)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"Cat的构造方法"</span>)</span><br><span class="line">        self.n = <span class="string">"猫"</span></span><br><span class="line">        <span class="comment"># 寻找Cat类的父类，然后执行父类的构造方法</span></span><br><span class="line">        super(Cat, self).__init__()</span><br><span class="line">mao = Cat()</span><br><span class="line">print(mao.__dict__)</span><br></pre></td></tr></table></figure>
+<p>执行结果<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">/usr/bin/python3<span class="number">.5</span> /home/ansheng/文档/Python_code/sublime/Week06/Day03/s1.py</span><br><span class="line">Cat的构造方法</span><br><span class="line">Annimal的构造方法</span><br><span class="line">&#123;<span class="string">'ty'</span>: <span class="string">'动物'</span>, <span class="string">'n'</span>: <span class="string">'猫'</span>&#125;</span><br><span class="line"></span><br><span class="line">Process finished <span class="keyword">with</span> exit code <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>先执行了Cat的构造方法，然后又执行了Annimal的构造方法。<br>第二种执行父类的方法如下:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Annimal.__init__(self)</span><br></pre></td></tr></table></figure>
+<p>不推荐使用</p>
+<h2 id="利用反射查看面向对象成员归属"><a href="#利用反射查看面向对象成员归属" class="headerlink" title="利用反射查看面向对象成员归属"></a>利用反射查看面向对象成员归属</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># _*_ coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">show</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'show'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">obj = Foo(<span class="string">"as"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果是类，就只能找到类里的成员</span></span><br><span class="line">print(hasattr(Foo, <span class="string">"show"</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果是对象，既可以找到对象，也可以找类里的成员</span></span><br><span class="line">print(hasattr(obj, <span class="string">"name"</span>))</span><br><span class="line">print(hasattr(obj, <span class="string">"show"</span>))</span><br></pre></td></tr></table></figure>
+<p>执行结果<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">/usr/bin/python3<span class="number">.5</span> /home/ansheng/文档/Python_code/sublime/Week06/Day03/s2.py</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"></span><br><span class="line">Process finished <span class="keyword">with</span> exit code <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="利用反射导入模块、查找类、创建对象、查找对象中的字段"><a href="#利用反射导入模块、查找类、创建对象、查找对象中的字段" class="headerlink" title="利用反射导入模块、查找类、创建对象、查找对象中的字段"></a>利用反射导入模块、查找类、创建对象、查找对象中的字段</h2><p><code>s1</code>脚本文件内容:<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># _*_coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 导入模块</span></span><br><span class="line">m = __import__(<span class="string">'s2'</span>, fromlist=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 去模块中找类</span></span><br><span class="line">class_name = getattr(m, <span class="string">"Foo"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据类创建对象</span></span><br><span class="line">obj = class_name(<span class="string">"ansheng"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 去对象中找name对应的值</span></span><br><span class="line">print(getattr(obj, <span class="string">'name'</span>))</span><br></pre></td></tr></table></figure></p>
+<p><code>s2</code>脚本文件内容<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># _*_coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">        <span class="comment"># 普通字段，保存在对象中</span></span><br><span class="line">        self.name = name</span><br></pre></td></tr></table></figure></p>
+<p>执行结果:<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">/usr/bin/python3<span class="number">.5</span> /home/ansheng/文档/Python_code/sublime/Week06/Day04/s1.py</span><br><span class="line">ansheng</span><br><span class="line"></span><br><span class="line">Process finished <span class="keyword">with</span> exit code <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="面向对象类成员之静态字段"><a href="#面向对象类成员之静态字段" class="headerlink" title="面向对象类成员之静态字段"></a>面向对象类成员之静态字段</h2><p>静态字段存在类中，如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># _*_coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 静态字段存在的意义就是将每个对象中重复的东西在类里面保存一份即可，这就是静态字段</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Provice</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 静态字段</span></span><br><span class="line">    contry = <span class="string">"China"</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">show</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(Provice.contry, self.name)</span><br><span class="line"></span><br><span class="line">hebei = Provice(<span class="string">"河北"</span>)</span><br><span class="line">hebei.show()</span><br><span class="line"></span><br><span class="line">hubei = Provice(<span class="string">"湖北"</span>)</span><br><span class="line">hubei.show()</span><br></pre></td></tr></table></figure>
+<p>执行结果<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">/usr/bin/python3<span class="number">.5</span> /home/ansheng/文档/Python_code/sublime/Week06/Day04/s2.py</span><br><span class="line">China 河北</span><br><span class="line">China 湖北</span><br><span class="line"></span><br><span class="line">Process finished <span class="keyword">with</span> exit code <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>类里面的成员类去访问，对象内的成员用对象去访问。</p>
+<h2 id="面向对象类成员之静态方法"><a href="#面向对象类成员之静态方法" class="headerlink" title="面向对象类成员之静态方法"></a>面向对象类成员之静态方法</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># _*_coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 静态方法括号内没有self，切方法前一行要加上@staticmethod</span></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">static</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># def static(arg1, arg2): # 也可以设置参数</span></span><br><span class="line">        print(<span class="string">"static"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 静态方法通过类名+方法名既可执行</span></span><br><span class="line">Foo.static()</span><br><span class="line"><span class="comment"># Foo.static("arg1", "arg2") 通过类调用的时候传入对于的参数即可</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 静态方法也可以通过对象去访问，对于静态方法用类去访问</span></span><br><span class="line">obj = Foo()</span><br><span class="line">obj.static()</span><br></pre></td></tr></table></figure>
+<p>执行结果<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">/usr/bin/python3<span class="number">.5</span> /home/ansheng/文档/Python_code/sublime/Week06/Day04/s2.py</span><br><span class="line">static</span><br><span class="line">static</span><br><span class="line"></span><br><span class="line">Process finished <span class="keyword">with</span> exit code <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="面向对象类成员之类方法"><a href="#面向对象类成员之类方法" class="headerlink" title="面向对象类成员之类方法"></a>面向对象类成员之类方法</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># _*_coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 创建类方法的时候需要在方法前面加上@classmethod</span></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">ClassMethod</span><span class="params">(cls)</span>:</span> <span class="comment"># 并且方法的括号内必须带有cls关键字，类方法的参数是当前类的类名</span></span><br><span class="line">        print(<span class="string">"类方法"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用类方法</span></span><br><span class="line">Foo.ClassMethod()</span><br></pre></td></tr></table></figure>
+<p>执行结果:<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">/usr/bin/python3<span class="number">.5</span> /home/ansheng/文档/Python_code/sublime/Week06/Day04/s2.py</span><br><span class="line">类方法</span><br><span class="line"></span><br><span class="line">Process finished <span class="keyword">with</span> exit code <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="面向对象类成员内容梳理"><a href="#面向对象类成员内容梳理" class="headerlink" title="面向对象类成员内容梳理"></a>面向对象类成员内容梳理</h2><p>字段</p>
+<p>1.静态字段(每个对象都有一份)<br>2.普通字段(每个对象都不同的数据)</p>
+<p>方法</p>
+<p>1.静态方法(无需使用对象封装的内容)<br>2.类方法<br>3.普通方法(适用对象中的数据)</p>
+<p>特性</p>
+<p>1.普通特性(将方法未造成字段)</p>
+<p>快速判断，类执行、对象执行：</p>
+<p>1.self  –&gt;  对象调用<br>2.无self –&gt; 类调用</p>
+
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#再次了解多继承"><span class="toc-number">1.</span> <span class="toc-text">再次了解多继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#执行父类的构造方法"><span class="toc-number">2.</span> <span class="toc-text">执行父类的构造方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用反射查看面向对象成员归属"><span class="toc-number">3.</span> <span class="toc-text">利用反射查看面向对象成员归属</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用反射导入模块、查找类、创建对象、查找对象中的字段"><span class="toc-number">4.</span> <span class="toc-text">利用反射导入模块、查找类、创建对象、查找对象中的字段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#面向对象类成员之静态字段"><span class="toc-number">5.</span> <span class="toc-text">面向对象类成员之静态字段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#面向对象类成员之静态方法"><span class="toc-number">6.</span> <span class="toc-text">面向对象类成员之静态方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#面向对象类成员之类方法"><span class="toc-number">7.</span> <span class="toc-text">面向对象类成员之类方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#面向对象类成员内容梳理"><span class="toc-number">8.</span> <span class="toc-text">面向对象类成员内容梳理</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

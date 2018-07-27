@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="队列（queue），是先进先出（FIFO, First-In-First-Out）的线性表，在具体应用中通常用链表或者数组来实现，队列只允许在后端（称为rear）进行插入操作，在前端（称为front）进行删除操作，队列的操作方式和堆栈类似，唯一的区别在于队列只允许新数据在后端进行添加。  摘录维基百科  如图所示  队列的接口一个队列至少需要如下接口：    接口 描述     add(x) 入队">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python数据结构与算法系列之队列">
+<meta property="og:url" content="https://blog.ansheng.me/article/python-algorithm-combat-series-queue/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="队列（queue），是先进先出（FIFO, First-In-First-Out）的线性表，在具体应用中通常用链表或者数组来实现，队列只允许在后端（称为rear）进行插入操作，在前端（称为front）进行删除操作，队列的操作方式和堆栈类似，唯一的区别在于队列只允许新数据在后端进行添加。  摘录维基百科  如图所示  队列的接口一个队列至少需要如下接口：    接口 描述     add(x) 入队">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://blog.ansheng.me/images/2017/01/1484793256.png">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.073Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python数据结构与算法系列之队列">
+<meta name="twitter:description" content="队列（queue），是先进先出（FIFO, First-In-First-Out）的线性表，在具体应用中通常用链表或者数组来实现，队列只允许在后端（称为rear）进行插入操作，在前端（称为front）进行删除操作，队列的操作方式和堆栈类似，唯一的区别在于队列只允许新数据在后端进行添加。  摘录维基百科  如图所示  队列的接口一个队列至少需要如下接口：    接口 描述     add(x) 入队">
+<meta name="twitter:image" content="https://blog.ansheng.me/images/2017/01/1484793256.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Python数据结构与算法系列之队列</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/python-full-stack-way-Iterators-and-generators/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/python-data-structure-and-algorithm-series-merge-sort/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#队列的接口"><span class="toc-number">1.</span> <span class="toc-text">队列的接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#二项式系数"><span class="toc-number">2.1.</span> <span class="toc-text">二项式系数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#划分无冲突子集"><span class="toc-number">2.2.</span> <span class="toc-text">划分无冲突子集</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数字变换"><span class="toc-number">3.</span> <span class="toc-text">数字变换</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Python数据结构与算法系列之队列
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>队列（queue），是先进先出（FIFO, First-In-First-Out）的线性表，在具体应用中通常用链表或者数组来实现，队列只允许在后端（称为rear）进行插入操作，在前端（称为front）进行删除操作，队列的操作方式和堆栈类似，唯一的区别在于队列只允许新数据在后端进行添加。</p>
+<blockquote>
+<p>摘录<a href="https://zh.wikipedia.org/wiki/%E9%98%9F%E5%88%97" target="_blank" rel="noopener">维基百科</a></p>
+</blockquote>
+<p>如图所示</p>
+<p><img src="/images/2017/01/1484793256.png" alt="duilie" title="duilie"></p>
+<h2 id="队列的接口"><a href="#队列的接口" class="headerlink" title="队列的接口"></a>队列的接口</h2><p>一个队列至少需要如下接口：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">接口</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">add(x)</td>
+<td style="text-align:left">入队</td>
+</tr>
+<tr>
+<td style="text-align:left">delete()</td>
+<td style="text-align:left">出队</td>
+</tr>
+<tr>
+<td style="text-align:left">clear()</td>
+<td style="text-align:left">清空队列</td>
+</tr>
+<tr>
+<td style="text-align:left">isEmpty()</td>
+<td style="text-align:left">判断队列是否为空</td>
+</tr>
+<tr>
+<td style="text-align:left">isFull()</td>
+<td style="text-align:left">判断队列是否未满</td>
+</tr>
+<tr>
+<td style="text-align:left">length()</td>
+<td style="text-align:left">队列的当前长度</td>
+</tr>
+<tr>
+<td style="text-align:left">capability()</td>
+<td style="text-align:left">队列的容量</td>
+</tr>
+</tbody>
+</table>
+<p>然而在Python中，可以使用<code>collections</code>模块下的<code>deque</code>函数，<code>deque</code>函数提供了队列所有的接口，那么先让我门看看队列<code>deque</code>函数提供了那些API把：</p>
+<blockquote>
+<p>collections.deque是双端队列，即左右两边都是可进可出的</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">append(x)</td>
+<td style="text-align:left">在队列的右边添加一个元素</td>
+</tr>
+<tr>
+<td style="text-align:left">appendleft(x)</td>
+<td style="text-align:left">在队列的左边添加一个元素</td>
+</tr>
+<tr>
+<td style="text-align:left">clear()</td>
+<td style="text-align:left">从队列中删除所有元素</td>
+</tr>
+<tr>
+<td style="text-align:left">copy()</td>
+<td style="text-align:left">返回一个浅拷贝的副本</td>
+</tr>
+<tr>
+<td style="text-align:left">count(value)</td>
+<td style="text-align:left">返回值在队列中出现的次数</td>
+</tr>
+<tr>
+<td style="text-align:left">extend([x..])</td>
+<td style="text-align:left">使用可迭代的元素扩展队列的右侧</td>
+</tr>
+<tr>
+<td style="text-align:left">extendleft([x..])</td>
+<td style="text-align:left">使用可迭代的元素扩展队列的右侧</td>
+</tr>
+<tr>
+<td style="text-align:left">index(value, [start, [stop]])</td>
+<td style="text-align:left">返回值的第一个索引，如果值不存在，则引发ValueError。</td>
+</tr>
+<tr>
+<td style="text-align:left">insert(index, object)</td>
+<td style="text-align:left">在索引之前插入对象</td>
+</tr>
+<tr>
+<td style="text-align:left">maxlen</td>
+<td style="text-align:left">获取队列的最大长度</td>
+</tr>
+<tr>
+<td style="text-align:left">pop()</td>
+<td style="text-align:left">删除并返回最右侧的元素</td>
+</tr>
+<tr>
+<td style="text-align:left">popleft()</td>
+<td style="text-align:left">删除并返回最左侧的元素</td>
+</tr>
+<tr>
+<td style="text-align:left">remove(value)</td>
+<td style="text-align:left">删除查找到的第一个值</td>
+</tr>
+<tr>
+<td style="text-align:left">reverse()</td>
+<td style="text-align:left">队列中的所有元素进行翻转</td>
+</tr>
+<tr>
+<td style="text-align:left">rotate()</td>
+<td style="text-align:left">向右旋转队列n步（默认n = 1），如果n为负，向左旋转。</td>
+</tr>
+</tbody>
+</table>
+<p>现在我们在Python中测试下这些个API的使用吧。</p>
+<p>入队操作</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line"><span class="comment"># 创建一个队列</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q = deque([<span class="number">1</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q</span><br><span class="line">deque([<span class="number">1</span>])</span><br><span class="line"><span class="comment"># 往队列中添加一个元素</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q.append(<span class="number">2</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q</span><br><span class="line">deque([<span class="number">1</span>, <span class="number">2</span>])</span><br><span class="line"><span class="comment"># 往队列最左边添加一个元素</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q.appendleft(<span class="number">3</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q</span><br><span class="line">deque([<span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>])</span><br><span class="line"><span class="comment"># 同时入队多个元素</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q.extend([<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q</span><br><span class="line">deque([<span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])</span><br><span class="line"><span class="comment"># 在最左边同时入队多个元素</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q.extendleft([<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q</span><br><span class="line">deque([<span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])</span><br></pre></td></tr></table></figure>
+<p>出队操作</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 删除队列中最后一个</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q.pop()</span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q</span><br><span class="line">deque([<span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="comment"># 删除队列中最左边的一个元素</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q.popleft()</span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q</span><br><span class="line">deque([<span class="number">8</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br></pre></td></tr></table></figure>
+<p>其他的API</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 清空队列</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q</span><br><span class="line">deque([<span class="number">8</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q.clear()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q</span><br><span class="line">deque([])</span><br><span class="line"><span class="comment"># 判断队列是否为空</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">not</span> q</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="comment"># 获取队列最大长度</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q = deque([<span class="number">1</span>,<span class="number">2</span>], <span class="number">10</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q.maxlen</span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="comment"># 查看某个元素出现的次数</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q.extend([<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q.count(<span class="number">1</span>)</span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="comment"># 查看当前队列长度</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>len(q)</span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="comment"># 判断队列是否满了</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q.maxlen == len(q)</span><br><span class="line"><span class="keyword">False</span></span><br><span class="line"><span class="comment"># 队列元素反转</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q = deque([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>],<span class="number">5</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q.reverse()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q</span><br><span class="line">deque([<span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>], maxlen=<span class="number">5</span>)</span><br><span class="line"><span class="comment"># 查看元素对应的索引</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q.index(<span class="number">1</span>)</span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="comment"># 删除匹配到的第一个元素</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q</span><br><span class="line">deque([<span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>], maxlen=<span class="number">5</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q.remove(<span class="number">5</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q</span><br><span class="line">deque([<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>], maxlen=<span class="number">5</span>)</span><br><span class="line"><span class="comment"># 元素位置进行旋转</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q</span><br><span class="line">deque([<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>], maxlen=<span class="number">5</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q.rotate(<span class="number">2</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q</span><br><span class="line">deque([<span class="number">2</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">3</span>], maxlen=<span class="number">5</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q.rotate(<span class="number">1</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q</span><br><span class="line">deque([<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">4</span>], maxlen=<span class="number">5</span>)</span><br><span class="line"><span class="comment"># 使用负数</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q.rotate(<span class="number">-1</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>q</span><br><span class="line">deque([<span class="number">2</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">3</span>], maxlen=<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><h3 id="二项式系数"><a href="#二项式系数" class="headerlink" title="二项式系数"></a>二项式系数</h3><p><strong>题目</strong></p>
+<p>编写程序，求二项式系数表中(杨辉三角)第K层系列数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">   1</span><br><span class="line">  1  1</span><br><span class="line"> 1  2  1</span><br><span class="line">1 3  3  1</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+<p><strong>思路</strong></p>
+<ol>
+<li>把第K行的系数存储在队列中</li>
+<li>依次出队K层的系数（每行最后一个1不出队），并推算K+1层系数，添加到队尾，最后在队尾添加一个1，便变成了k+1行。</li>
+</ol>
+<p><strong>解决代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/use/bin/env python</span></span><br><span class="line"><span class="comment"># _*_ coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">yanghui</span><span class="params">(k)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :param k: 杨辉三角中第几层</span></span><br><span class="line"><span class="string">    :return: 第K层的系数</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    q = deque([<span class="number">1</span>])  <span class="comment"># 创建一个队列，默认从1开始</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(k):  <span class="comment"># 迭代要查找的层数</span></span><br><span class="line">        <span class="keyword">for</span> _ <span class="keyword">in</span> range(i):  <span class="comment"># 循环需要出队多少次</span></span><br><span class="line">            q.append(q.popleft() + q[<span class="number">0</span>])  <span class="comment"># 第一个数加上队列中第二个数并赋值到队列末尾</span></span><br><span class="line">        q.append(<span class="number">1</span>)  <span class="comment"># 每次查找结束后都需要在队列最右边添加个1</span></span><br><span class="line">    <span class="keyword">return</span> list(q)</span><br><span class="line"></span><br><span class="line">result = yanghui(<span class="number">3</span>)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+<h3 id="划分无冲突子集"><a href="#划分无冲突子集" class="headerlink" title="划分无冲突子集"></a>划分无冲突子集</h3><p><strong>题目</strong></p>
+<p>某动物园搬家，要运走N种动物，老虎与狮子放在一起会大家，大象与犀牛放在一个笼子会打架，野猪和野狗放在一个笼子里会打架，现在需要我们设计一个算法，使得装进同一个笼子的动物互相不打架。</p>
+<p><strong>思路</strong></p>
+<ol>
+<li>把所有动物按次序入队</li>
+<li>创建一个笼子(集合)，出队一个动物，如果和笼子内动物无冲冲突则添加到该笼子，有冲突则添加到队尾，等待进入新笼子</li>
+<li>由于队列先进先出的特性，如果当前出队动物的index不大于前一个出队动物的index，说明当前队列中所有动物已经尝试过进入且进入不了当前笼子，此时创建信的笼子(集合)</li>
+</ol>
+<p><strong>解决代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/use/bin/env python</span></span><br><span class="line"><span class="comment"># _*_ coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">division</span><span class="params">(m, n)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :param m: 冲突关系矩阵</span></span><br><span class="line"><span class="string">    :param n: 几种动物</span></span><br><span class="line"><span class="string">    :return: 返回一个栈，栈内包含了所有的笼子</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    res = []  <span class="comment"># 创建一个栈</span></span><br><span class="line">    q = deque(range(n))  <span class="comment"># 初始化队列，里面放着动物的序号</span></span><br><span class="line">    pre = n  <span class="comment"># 前一个动物的下标</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> q:</span><br><span class="line">        cur = q.popleft()  <span class="comment"># 从队头出队一个动物</span></span><br><span class="line">        <span class="keyword">if</span> pre &gt;= cur:  <span class="comment"># 是否需要创建笼子</span></span><br><span class="line">            res.append([])  <span class="comment"># 创建一个笼子</span></span><br><span class="line">        <span class="comment"># 当前的动物是否与笼子内的动物有冲突</span></span><br><span class="line">        <span class="keyword">for</span> a <span class="keyword">in</span> res[<span class="number">-1</span>]:  <span class="comment"># 迭代栈中最顶层的笼子</span></span><br><span class="line">            <span class="keyword">if</span> m[cur][a]:  <span class="comment"># 有冲突</span></span><br><span class="line">                q.append(cur)  <span class="comment"># 重新放入队列的尾部</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:  <span class="comment"># 当前动物和当前笼子中的所有动物没冲突</span></span><br><span class="line">            res[<span class="number">-1</span>].append(cur)  <span class="comment"># 当前动物放入最上面的笼子中</span></span><br><span class="line">        pre = cur  <span class="comment"># 当前变成之前的</span></span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line">N = <span class="number">9</span></span><br><span class="line">R = &#123;  <span class="comment"># 冲突对应关系表</span></span><br><span class="line">    (<span class="number">1</span>, <span class="number">4</span>), (<span class="number">4</span>, <span class="number">8</span>), (<span class="number">1</span>, <span class="number">8</span>), (<span class="number">1</span>, <span class="number">7</span>),</span><br><span class="line">    (<span class="number">8</span>, <span class="number">3</span>), (<span class="number">1</span>, <span class="number">0</span>), (<span class="number">0</span>, <span class="number">5</span>), (<span class="number">1</span>, <span class="number">5</span>),</span><br><span class="line">    (<span class="number">3</span>, <span class="number">4</span>), (<span class="number">5</span>, <span class="number">6</span>), (<span class="number">5</span>, <span class="number">2</span>), (<span class="number">6</span>, <span class="number">2</span>), (<span class="number">6</span>, <span class="number">4</span>),</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">M = [[<span class="number">0</span>] * N <span class="keyword">for</span> _ <span class="keyword">in</span> range(N)]  <span class="comment"># 冲洗关系矩阵M，0代表不冲突</span></span><br><span class="line"><span class="keyword">for</span> i, j <span class="keyword">in</span> R:</span><br><span class="line">    M[i][j] = M[j][i] = <span class="number">1</span>  <span class="comment"># 1代表冲突</span></span><br><span class="line"></span><br><span class="line">result = division(M, N)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+<h2 id="数字变换"><a href="#数字变换" class="headerlink" title="数字变换"></a>数字变换</h2><p><strong>题目</strong></p>
+<p>对于一对正整数a,b,对a只能进行加1，减1，乘2操作，问最少对a进行几次操作能得到b？</p>
+<p>例如：</p>
+<ol>
+<li>a=3,b=11: 可以通过3<em>2</em>2-1，3次操作得到11；</li>
+<li>a=5,b=8：可以通过(5-1)*2，2次操作得到8；</li>
+</ol>
+<p><strong>思路</strong></p>
+<p>本题用广度优先搜索，寻找a到b状态迁移最短路径，对于每个状态s，可以转换到撞到s+1,s-1,s*2:</p>
+<ol>
+<li>把初始化状态a入队；</li>
+<li>出队一个状态s，然后s+1,s-1,s*2入队；</li>
+<li>反复循环第二步骤，直到状态s为b；</li>
+</ol>
+<p><strong>解决代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/use/bin/env python</span></span><br><span class="line"><span class="comment"># _*_ coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">atob</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :param a: 开始的数字</span></span><br><span class="line"><span class="string">    :param b: 最终转换之后的数字</span></span><br><span class="line"><span class="string">    :return: 最小匹配的次数</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    q = deque([(a, <span class="number">0</span>)])  <span class="comment"># a=当前数字，0=操作的次数</span></span><br><span class="line">    checked = &#123;a&#125;  <span class="comment"># 已经检查过的数据</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        s, c = q.popleft()</span><br><span class="line">        <span class="keyword">if</span> s == b:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">if</span> s &lt; b:  <span class="comment"># 要计算的数小于计算之后的数字</span></span><br><span class="line">            <span class="keyword">if</span> s + <span class="number">1</span> <span class="keyword">not</span> <span class="keyword">in</span> checked:  <span class="comment"># 如果要计算的数字+1不在已检查过的数据集合中</span></span><br><span class="line">                q.append((s + <span class="number">1</span>, c + <span class="number">1</span>))  <span class="comment"># 要计算的数+1，转换次数+1</span></span><br><span class="line">                checked.add(s + <span class="number">1</span>)  <span class="comment"># 把计算过的数添加到checked集合中</span></span><br><span class="line">            <span class="keyword">if</span> s * <span class="number">2</span> <span class="keyword">not</span> <span class="keyword">in</span> checked:</span><br><span class="line">                q.append((s * <span class="number">2</span>, c + <span class="number">1</span>))</span><br><span class="line">                checked.add(s * <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">if</span> s &gt; <span class="number">0</span>:  <span class="comment"># 要计算的数大于0</span></span><br><span class="line">            <span class="keyword">if</span> s - <span class="number">1</span> <span class="keyword">not</span> <span class="keyword">in</span> checked:</span><br><span class="line">                q.append((s - <span class="number">1</span>, c + <span class="number">1</span>))</span><br><span class="line">                checked.add(s - <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> q.popleft()[<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line">result = atob(<span class="number">3</span>, <span class="number">11</span>)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#队列的接口"><span class="toc-number">1.</span> <span class="toc-text">队列的接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#二项式系数"><span class="toc-number">2.1.</span> <span class="toc-text">二项式系数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#划分无冲突子集"><span class="toc-number">2.2.</span> <span class="toc-text">划分无冲突子集</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数字变换"><span class="toc-number">3.</span> <span class="toc-text">数字变换</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

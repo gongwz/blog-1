@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="那些迭代比你想象中的更为强大。 什么是迭代？简单的说，迭代是可以被for循环使用的数据类型，Python中常见的迭代器是列表。 colors = [&apos;red&apos;, &apos;orange&apos;, &apos;yellow&apos;, &apos;green&apos;] 在上面的例子中，我们创建了一个字符串列表，我们已经给这个列表命名为colors。 我们可以使用for循环来迭代，下面的的列表中将输出列表中的每一个元素。 for color in">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python itertools指南">
+<meta property="og:url" content="https://blog.ansheng.me/article/python-itertools-guide/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="那些迭代比你想象中的更为强大。 什么是迭代？简单的说，迭代是可以被for循环使用的数据类型，Python中常见的迭代器是列表。 colors = [&apos;red&apos;, &apos;orange&apos;, &apos;yellow&apos;, &apos;green&apos;] 在上面的例子中，我们创建了一个字符串列表，我们已经给这个列表命名为colors。 我们可以使用for循环来迭代，下面的的列表中将输出列表中的每一个元素。 for color in">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.085Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python itertools指南">
+<meta name="twitter:description" content="那些迭代比你想象中的更为强大。 什么是迭代？简单的说，迭代是可以被for循环使用的数据类型，Python中常见的迭代器是列表。 colors = [&apos;red&apos;, &apos;orange&apos;, &apos;yellow&apos;, &apos;green&apos;] 在上面的例子中，我们创建了一个字符串列表，我们已经给这个列表命名为colors。 我们可以使用for循环来迭代，下面的的列表中将输出列表中的每一个元素。 for color in">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Python itertools指南</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/the-god-of-the-beginning-of-the-editor/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/python-30-tips/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是迭代？"><span class="toc-number">1.</span> <span class="toc-text">什么是迭代？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#要求"><span class="toc-number">2.</span> <span class="toc-text">要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#itertools"><span class="toc-number">3.</span> <span class="toc-text">itertools</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#accumulate"><span class="toc-number">3.1.</span> <span class="toc-text">accumulate()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#count"><span class="toc-number">3.2.</span> <span class="toc-text">count()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cycle"><span class="toc-number">3.3.</span> <span class="toc-text">cycle()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#repeat"><span class="toc-number">3.4.</span> <span class="toc-text">repeat()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chain"><span class="toc-number">3.5.</span> <span class="toc-text">chain()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#compress"><span class="toc-number">3.6.</span> <span class="toc-text">compress()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dropwhile"><span class="toc-number">3.7.</span> <span class="toc-text">dropwhile()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#groupby"><span class="toc-number">3.8.</span> <span class="toc-text">groupby()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#filterfalse"><span class="toc-number">3.9.</span> <span class="toc-text">filterfalse()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#islice"><span class="toc-number">3.10.</span> <span class="toc-text">islice()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#starmap"><span class="toc-number">3.11.</span> <span class="toc-text">starmap()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tee"><span class="toc-number">3.12.</span> <span class="toc-text">tee()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#takewhile"><span class="toc-number">3.13.</span> <span class="toc-text">takewhile()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zip-longest"><span class="toc-number">3.14.</span> <span class="toc-text">zip_longest()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#product"><span class="toc-number">3.15.</span> <span class="toc-text">product()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#permutations"><span class="toc-number">3.16.</span> <span class="toc-text">permutations()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#combinations"><span class="toc-number">3.17.</span> <span class="toc-text">combinations()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#combinations-with-replacement"><span class="toc-number">3.18.</span> <span class="toc-text">combinations_with_replacement()</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Python itertools指南
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+    <div class="postdate">
+        <time datetime="2017-09-29T16:00:00.000Z" itemprop="datePublished">2017-09-30</time>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>那些<code>迭代</code>比你想象中的更为强大。</p>
+<h2 id="什么是迭代？"><a href="#什么是迭代？" class="headerlink" title="什么是迭代？"></a>什么是迭代？</h2><p>简单的说，迭代是可以被<code>for</code>循环使用的数据类型，Python中常见的迭代器是列表。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">colors = [<span class="string">'red'</span>, <span class="string">'orange'</span>, <span class="string">'yellow'</span>, <span class="string">'green'</span>]</span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，我们创建了一个字符串列表，我们已经给这个列表命名为<code>colors</code>。</p>
+<p>我们可以使用<code>for</code>循环来迭代，下面的的列表中将输出列表中的每一个元素。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> color <span class="keyword">in</span> colors:</span><br><span class="line">    print(color)</span><br></pre></td></tr></table></figure>
+<p>Python中有许多不同种类的迭代，但是在本教程中，我们将使用列表。</p>
+<h2 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h2><p>我们必须导入该<code>itertools</code>模块才能使用它，我们还将导入<code>operator</code>模块。</p>
+<p>以下所有示例将包含这些导入。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"><span class="keyword">import</span> operator</span><br></pre></td></tr></table></figure>
+<h2 id="itertools"><a href="#itertools" class="headerlink" title="itertools"></a>itertools</h2><h3 id="accumulate"><a href="#accumulate" class="headerlink" title="accumulate()"></a>accumulate()</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">itertools.accumulate（iterable [，func]）</span><br></pre></td></tr></table></figure>
+<p>该函数会返回函数结果的迭代器，函数可以是变量来传递。<code>accumulate()</code>函数将一个函数作为参数。它也需要一个迭代。它返回所有的结果，结果本身包含在一个迭代器中。</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line"></span><br><span class="line">result = itertools.accumulate(data, operator.mul)</span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> result:</span><br><span class="line">    print(each)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">6</span><br><span class="line">24</span><br><span class="line">120</span><br></pre></td></tr></table></figure>
+<p><code>operator.mul</code>需要两个数字并乘以它们</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> operator</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>operator.mul(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>operator.mul(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>operator.mul(<span class="number">6</span>, <span class="number">4</span>)</span><br><span class="line"><span class="number">24</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>operator.mul(<span class="number">24</span>, <span class="number">5</span>)</span><br><span class="line"><span class="number">120</span></span><br></pre></td></tr></table></figure>
+<p>在下一个例子中将会使用该<code>max</code>功能</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">data = [5, 2, 6, 4, 5, 9, 1]</span><br><span class="line"></span><br><span class="line">result = itertools.accumulate(data, max)</span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> result:</span><br><span class="line">    <span class="built_in">print</span>(each)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">5 </span><br><span class="line">5 </span><br><span class="line">6 </span><br><span class="line">6 </span><br><span class="line">6 </span><br><span class="line">9 </span><br><span class="line">9</span><br></pre></td></tr></table></figure>
+<p>该<code>max</code>函数返回最大的项</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>max(<span class="number">5</span>, <span class="number">2</span>)</span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>max(<span class="number">5</span>, <span class="number">6</span>)</span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>max(<span class="number">6</span>, <span class="number">4</span>)</span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>max(<span class="number">6</span>, <span class="number">5</span>)</span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>max(<span class="number">6</span>, <span class="number">9</span>)</span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>max(<span class="number">9</span>, <span class="number">1</span>)</span><br><span class="line"><span class="number">9</span></span><br></pre></td></tr></table></figure>
+<p>传递函数是可选的</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = [<span class="number">5</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">result = itertools.accumulate(data)</span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> result:</span><br><span class="line">    print(each)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">5 </span><br><span class="line">7 </span><br><span class="line">13 </span><br><span class="line">17 </span><br><span class="line">22 </span><br><span class="line">31 </span><br><span class="line">32</span><br></pre></td></tr></table></figure>
+<p>如果没有指定功能，项目将相加。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">5 </span><br><span class="line">5 + 2 = 7 </span><br><span class="line">7 + 6 = 13 </span><br><span class="line">13 + 4 = 17 </span><br><span class="line">17 + 5 = 22 </span><br><span class="line">22 + 9 = 31 </span><br><span class="line">31 + 1 = 32</span><br></pre></td></tr></table></figure>
+<h3 id="count"><a href="#count" class="headerlink" title="count()"></a>count()</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">itertools.count(start=<span class="number">0</span>, step=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>迭代器每次返回<code>start+step</code>的值</p>
+<ul>
+<li>Example</li>
+</ul>
+<p>返回<code>1-10</code>之间的所有奇数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> itertools.count(<span class="number">1</span>, <span class="number">2</span>):</span><br><span class="line">    <span class="keyword">if</span> i &gt; <span class="number">10</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(i)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1</span><br><span class="line">3</span><br><span class="line">5</span><br><span class="line">7</span><br><span class="line">9</span><br></pre></td></tr></table></figure>
+<h3 id="cycle"><a href="#cycle" class="headerlink" title="cycle()"></a>cycle()</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">itertools.cycle(iterable)</span><br></pre></td></tr></table></figure>
+<p>无限循环迭代器中的每一个元素</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">colors = [<span class="string">'red'</span>, <span class="string">'orange'</span>, <span class="string">'yellow'</span>, <span class="string">'green'</span>, <span class="string">'blue'</span>, <span class="string">'violet'</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> color <span class="keyword">in</span> itertools.cycle(colors):</span><br><span class="line">    print(color)</span><br></pre></td></tr></table></figure>
+<p>在上面的代码中，我们创建一个列表，然后我们循环或循环遍历这个列表。通常，一个<code>for</code>循环逐步循环，直到它到达结束。如果一个列表有<code>3</code>个项目，循环将重复3次。但是如果我们使用这个<code>cycle()</code>功能的话。当我们到达迭代的结束时，我们从一开始就重新开始。</p>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">red</span><br><span class="line">orange</span><br><span class="line">yellow</span><br><span class="line">green</span><br><span class="line">blue</span><br><span class="line">indigo</span><br><span class="line">violet</span><br><span class="line">red</span><br><span class="line">orange</span><br><span class="line">yellow</span><br><span class="line">green</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h3 id="repeat"><a href="#repeat" class="headerlink" title="repeat()"></a>repeat()</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">itertools.repeat(object[, times])</span><br></pre></td></tr></table></figure>
+<p>此功能将一遍又一遍地重复一个对象，除非有一个<code>times</code>次数。</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> itertools.repeat(<span class="string">"spam"</span>):</span><br><span class="line">    print(i)</span><br></pre></td></tr></table></figure>
+<p>在上面的代码中，我们创建一个可重复的迭代<code>spam</code>，它会不停地循环输出<code>spam</code></p>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">spam</span><br><span class="line">spam</span><br><span class="line">spam</span><br><span class="line">spam</span><br><span class="line">spam</span><br><span class="line">spam</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> itertools.repeat(<span class="string">"spam"</span>, <span class="number">3</span>):</span><br><span class="line">    print(i)</span><br></pre></td></tr></table></figure>
+<p>如果我们使用<code>times</code>参数，可以限制它将重复的次数。</p>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">spam</span><br><span class="line">spam</span><br><span class="line">spam</span><br></pre></td></tr></table></figure>
+<p>在这个例子中，<code>spam</code>只重复三次</p>
+<h3 id="chain"><a href="#chain" class="headerlink" title="chain()"></a>chain()</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">itertools.chain(*iterables)</span><br></pre></td></tr></table></figure>
+<p>此函数需要一系列迭代，并将其返回为一个长的迭代。</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">colors = [<span class="string">'red'</span>, <span class="string">'orange'</span>, <span class="string">'yellow'</span>, <span class="string">'green'</span>, <span class="string">'blue'</span>]</span><br><span class="line">shapes = [<span class="string">'circle'</span>, <span class="string">'triangle'</span>, <span class="string">'square'</span>, <span class="string">'pentagon'</span>]</span><br><span class="line"></span><br><span class="line">result = itertools.chain(colors, shapes)</span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> result:</span><br><span class="line">    print(each)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">red</span><br><span class="line">orange</span><br><span class="line">yellow</span><br><span class="line">green</span><br><span class="line">blue</span><br><span class="line">circle</span><br><span class="line">triangle</span><br><span class="line">square</span><br><span class="line">pentagon</span><br></pre></td></tr></table></figure>
+<h3 id="compress"><a href="#compress" class="headerlink" title="compress()"></a>compress()</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">itertools.compress(data, selectors)</span><br></pre></td></tr></table></figure>
+<p>这个函数可以使用另一个过滤器来迭代</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">shapes = [<span class="string">'circle'</span>, <span class="string">'triangle'</span>, <span class="string">'square'</span>, <span class="string">'pentagon'</span>]</span><br><span class="line">selections = [<span class="keyword">True</span>, <span class="keyword">False</span>, <span class="keyword">True</span>, <span class="keyword">False</span>]</span><br><span class="line"></span><br><span class="line">result = itertools.compress(shapes, selections)</span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> result:</span><br><span class="line">    print(each)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">circle</span><br><span class="line">square</span><br></pre></td></tr></table></figure>
+<h3 id="dropwhile"><a href="#dropwhile" class="headerlink" title="dropwhile()"></a>dropwhile()</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">itertools.dropwhile(predicate, iterable)</span><br></pre></td></tr></table></figure>
+<p>做一个迭代器，只要返回为<code>true</code>，就从<code>iterable</code>中删除元素，否则就返回后面的每个元素</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">result = itertools.dropwhile(<span class="keyword">lambda</span> x: x &lt; <span class="number">5</span>, data)</span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> result:</span><br><span class="line">    print(each)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<p>好。这可以令人困惑 代码说，当项目小于5时，删除每个项目。遇到不少于5的项目后，返回剩下的项目。这就是为什么最后一个被归还。</p>
+<ul>
+<li>Step Through It</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1 &lt; 5:  True,  drop</span><br><span class="line">2 &lt; 5:  True,  drop</span><br><span class="line">3 &lt; 5:  True,  drop</span><br><span class="line">4 &lt; 5:  True,  drop</span><br><span class="line">5 &lt; 5:  False, return surviving items</span><br></pre></td></tr></table></figure>
+<h3 id="groupby"><a href="#groupby" class="headerlink" title="groupby()"></a>groupby()</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">itertools.groupby(iterable, key=<span class="keyword">None</span>)</span><br></pre></td></tr></table></figure>
+<p>简单地说，这个功能将事情集中在一起</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">robots = [</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">'name'</span>: <span class="string">'blaster'</span>,</span><br><span class="line">        <span class="string">'faction'</span>: <span class="string">'autobot'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">'name'</span>: <span class="string">'galvatron'</span>,</span><br><span class="line">        <span class="string">'faction'</span>: <span class="string">'decepticon'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">'name'</span>: <span class="string">'jazz'</span>,</span><br><span class="line">        <span class="string">'faction'</span>: <span class="string">'autobot'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">'name'</span>: <span class="string">'metroplex'</span>,</span><br><span class="line">        <span class="string">'faction'</span>: <span class="string">'autobot'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">'name'</span>: <span class="string">'megatron'</span>,</span><br><span class="line">        <span class="string">'faction'</span>: <span class="string">'decepticon'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">'name'</span>: <span class="string">'starcream'</span>,</span><br><span class="line">        <span class="string">'faction'</span>: <span class="string">'decepticon'</span></span><br><span class="line">    &#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> key, group <span class="keyword">in</span> itertools.groupby(robots, key=<span class="keyword">lambda</span> x: x[<span class="string">'faction'</span>]):</span><br><span class="line">    print(key)</span><br><span class="line">    print(list(group))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">autobot</span><br><span class="line">[&#123;&apos;name&apos;: &apos;blaster&apos;, &apos;faction&apos;: &apos;autobot&apos;&#125;]</span><br><span class="line">decepticon</span><br><span class="line">[&#123;&apos;name&apos;: &apos;galvatron&apos;, &apos;faction&apos;: &apos;decepticon&apos;&#125;]</span><br><span class="line">autobot</span><br><span class="line">[&#123;&apos;name&apos;: &apos;jazz&apos;, &apos;faction&apos;: &apos;autobot&apos;&#125;, &#123;&apos;name&apos;: &apos;metroplex&apos;, &apos;faction&apos;: &apos;autobot&apos;&#125;]</span><br><span class="line">decepticon</span><br><span class="line">[&#123;&apos;name&apos;: &apos;megatron&apos;, &apos;faction&apos;: &apos;decepticon&apos;&#125;, &#123;&apos;name&apos;: &apos;starcream&apos;, &apos;faction&apos;: &apos;decepticon&apos;&#125;]</span><br></pre></td></tr></table></figure>
+<h3 id="filterfalse"><a href="#filterfalse" class="headerlink" title="filterfalse()"></a>filterfalse()</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">itertools.filterfalse(predicate, iterable)</span><br></pre></td></tr></table></figure>
+<p>这个函数使迭代器从<code>iterable</code>中过滤元素，只返回的元素<code>False</code></p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">result = itertools.filterfalse(<span class="keyword">lambda</span> x: x &lt; <span class="number">5</span>, data)</span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> result:</span><br><span class="line">    print(each)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Debug</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1 &lt; 5:  True,  drop</span><br><span class="line">2 &lt; 5:  True,  drop</span><br><span class="line">3 &lt; 5:  True,  drop</span><br><span class="line">4 &lt; 5:  True,  drop</span><br><span class="line">5 &lt; 5:  False, keep</span><br><span class="line">6 &lt; 5:  False, keep</span><br><span class="line">7 &lt; 5:  False, keep</span><br><span class="line">8 &lt; 5:  False, keep</span><br><span class="line">9 &lt; 5:  False, keep</span><br><span class="line">10 &lt; 5:  False, keep</span><br><span class="line">1 &lt; 5:  True,  drop</span><br></pre></td></tr></table></figure>
+<h3 id="islice"><a href="#islice" class="headerlink" title="islice()"></a>islice()</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">itertools.islice(iterable, start, stop[, step])</span><br></pre></td></tr></table></figure>
+<p>这个功能非常像切片，此功能允许您剪切一个可迭代的片段</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">colors = [<span class="string">'red'</span>, <span class="string">'orange'</span>, <span class="string">'yellow'</span>, <span class="string">'green'</span>, <span class="string">'blue'</span>]</span><br><span class="line">few_colors = itertools.islice(colors, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> few_colors:</span><br><span class="line">    print(each)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">red</span><br><span class="line">orange</span><br></pre></td></tr></table></figure>
+<h3 id="starmap"><a href="#starmap" class="headerlink" title="starmap()"></a>starmap()</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">itertools.starmap(function, iterable)</span><br></pre></td></tr></table></figure>
+<p>此函数使迭代器使用从<code>iterable</code>获取的参数来计算函数</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = [(<span class="number">2</span>, <span class="number">6</span>), (<span class="number">8</span>, <span class="number">4</span>), (<span class="number">7</span>, <span class="number">3</span>)]</span><br><span class="line"></span><br><span class="line">result = itertools.starmap(operator.mul, data)</span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> result:</span><br><span class="line">    print(each)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">12</span><br><span class="line">32</span><br><span class="line">21</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Step Through</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>operator.mul(<span class="number">2</span>, <span class="number">6</span>)</span><br><span class="line"><span class="number">12</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>operator.mul(<span class="number">8</span>, <span class="number">4</span>)</span><br><span class="line"><span class="number">32</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>operator.mul(<span class="number">7</span>, <span class="number">3</span>)</span><br><span class="line"><span class="number">21</span></span><br></pre></td></tr></table></figure>
+<h3 id="tee"><a href="#tee" class="headerlink" title="tee()"></a>tee()</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">itertools.tee(iterable, n=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p>从单个迭代中返回<code>n</code>个独立迭代器</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">colors = [<span class="string">'red'</span>, <span class="string">'orange'</span>, <span class="string">'yellow'</span>, <span class="string">'green'</span>, <span class="string">'blue'</span>]</span><br><span class="line">alpha_colors, beta_colors = itertools.tee(colors)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> alpha_colors:</span><br><span class="line">    print(each)</span><br><span class="line"></span><br><span class="line">print(<span class="string">'..'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> beta_colors:</span><br><span class="line">    print(each)</span><br></pre></td></tr></table></figure>
+<p>默认值为2，但您可以根据需要进行许多操作。</p>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">red</span><br><span class="line">orange</span><br><span class="line">yellow</span><br><span class="line">green</span><br><span class="line">blue</span><br><span class="line">..</span><br><span class="line">red</span><br><span class="line">orange</span><br><span class="line">yellow</span><br><span class="line">green</span><br><span class="line">blue</span><br></pre></td></tr></table></figure>
+<h3 id="takewhile"><a href="#takewhile" class="headerlink" title="takewhile()"></a>takewhile()</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">itertools.takwwhile(predicate, iterable)</span><br></pre></td></tr></table></figure>
+<p>这是相反的<code>dropwhile()</code>，只要返回为<code>true</code>，该函数就可以使用迭代器并从<code>iterable</code>返回元素</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">1</span>]</span><br><span class="line">result = itertools.takewhile(<span class="keyword">lambda</span> x: x &lt; <span class="number">5</span>, data)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> result:</span><br><span class="line">    print(each)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Step Through It</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1 &lt; 5:  True,  keep going</span><br><span class="line">2 &lt; 5:  True,   keep going</span><br><span class="line">3 &lt; 5:  True,   keep going</span><br><span class="line">4 &lt; 5:  True,   keep going</span><br><span class="line">5 &lt; 5:  False, stop and drop</span><br></pre></td></tr></table></figure>
+<h3 id="zip-longest"><a href="#zip-longest" class="headerlink" title="zip_longest()"></a>zip_longest()</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">itertools.zip_longest(*iterables, fillvalue=<span class="keyword">None</span>)</span><br></pre></td></tr></table></figure>
+<p>此函数使迭代器聚合每个迭代的元素，如果迭代长度不均匀，则缺少的值将被填充为<code>fillvalue</code>。迭代继续，直到最长的迭代耗尽。</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">colors = [<span class="string">'red'</span>, <span class="string">'orange'</span>, <span class="string">'yellow'</span>, <span class="string">'green'</span>, <span class="string">'blue'</span>]</span><br><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> itertools.zip_longest(colors, data, fillvalue=<span class="keyword">None</span>):</span><br><span class="line">    print(each)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(&apos;red&apos;, 1)</span><br><span class="line">(&apos;orange&apos;, 2)</span><br><span class="line">(&apos;yellow&apos;, 3)</span><br><span class="line">(&apos;green&apos;, 4)</span><br><span class="line">(&apos;blue&apos;, 5)</span><br><span class="line">(None, 6)</span><br><span class="line">(None, 7)</span><br><span class="line">(None, 8)</span><br><span class="line">(None, 9)</span><br><span class="line">(None, 10)</span><br></pre></td></tr></table></figure>
+<h3 id="product"><a href="#product" class="headerlink" title="product()"></a>product()</h3><p>此函数从一系列迭代创建<a href="https://en.wikipedia.org/wiki/Cartesian_product" target="_blank" rel="noopener">笛卡尔乘积</a>。</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">num_data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">alpha_data = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>]</span><br><span class="line">result = itertools.product(num_data, alpha_data)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> result:</span><br><span class="line">    print(each)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(1, &apos;a&apos;)</span><br><span class="line">(1, &apos;b&apos;)</span><br><span class="line">(1, &apos;c&apos;)</span><br><span class="line">(2, &apos;a&apos;)</span><br><span class="line">(2, &apos;b&apos;)</span><br><span class="line">(2, &apos;c&apos;)</span><br><span class="line">(3, &apos;a&apos;)</span><br><span class="line">(3, &apos;b&apos;)</span><br><span class="line">(3, &apos;c&apos;)</span><br></pre></td></tr></table></figure>
+<p>想象一下这样的桌子：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">      a     b      c</span><br><span class="line">1     a1    b1     c1</span><br><span class="line">2     a2    b2     c3</span><br><span class="line">3     a3    b3     b3</span><br></pre></td></tr></table></figure>
+<h3 id="permutations"><a href="#permutations" class="headerlink" title="permutations()"></a>permutations()</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">itertools.permutations(iterable, r=<span class="keyword">None</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">alpha_data = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>]</span><br><span class="line">result = itertools.permutations(alpha_data)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> result:</span><br><span class="line">    print(each)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(&apos;a&apos;, &apos;b&apos;, &apos;c&apos;)</span><br><span class="line">(&apos;a&apos;, &apos;c&apos;, &apos;b&apos;)</span><br><span class="line">(&apos;b&apos;, &apos;a&apos;, &apos;c&apos;)</span><br><span class="line">(&apos;b&apos;, &apos;c&apos;, &apos;a&apos;)</span><br><span class="line">(&apos;c&apos;, &apos;a&apos;, &apos;b&apos;)</span><br><span class="line">(&apos;c&apos;, &apos;b&apos;, &apos;a&apos;)</span><br></pre></td></tr></table></figure>
+<h3 id="combinations"><a href="#combinations" class="headerlink" title="combinations()"></a>combinations()</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">itertools.combinations(iterable, r)</span><br></pre></td></tr></table></figure>
+<p>此函数需要一个迭代和一个整数，这将创建具有<code>r</code>成员的所有独特组合。</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">shapes = [<span class="string">'circle'</span>, <span class="string">'triangle'</span>, <span class="string">'square'</span>, ]</span><br><span class="line">result = itertools.combinations(shapes, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> result:</span><br><span class="line">    print(each)</span><br></pre></td></tr></table></figure>
+<p>在这段代码中，我们使用2个成员组合所有组合。</p>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">（&apos;circle&apos;，&apos;triangle&apos;）</span><br><span class="line">（&apos;circle&apos;，&apos;square&apos;）</span><br><span class="line">（&apos;triangle&apos;，&apos;square&apos;）</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">result = itertools.combinations(shapes, <span class="number">3</span>)</span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> result:</span><br><span class="line">    print(each)</span><br></pre></td></tr></table></figure>
+<p>在这段代码中，我们使用3个成员组合所有组合。这有点不太令人兴奋。</p>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(&apos;circle&apos;, &apos;triangle&apos;, &apos;square&apos;)</span><br></pre></td></tr></table></figure>
+<h3 id="combinations-with-replacement"><a href="#combinations-with-replacement" class="headerlink" title="combinations_with_replacement()"></a>combinations_with_replacement()</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">itertools.combinations_with_replacement(iterable, r)</span><br></pre></td></tr></table></figure>
+<p>这一个就像<code>combinations()</code>功能一样，但是这个可以让单个元素重复一次。</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">shapes = [<span class="string">'circle'</span>, <span class="string">'triangle'</span>, <span class="string">'square'</span>, ]</span><br><span class="line"></span><br><span class="line">result = itertools.combinations_with_replacement(shapes, <span class="number">2</span>)</span><br><span class="line"><span class="keyword">for</span> each <span class="keyword">in</span> result:</span><br><span class="line">    print(each)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(&apos;circle&apos;, &apos;circle&apos;)</span><br><span class="line">(&apos;circle&apos;, &apos;triangle&apos;)</span><br><span class="line">(&apos;circle&apos;, &apos;square&apos;)</span><br><span class="line">(&apos;triangle&apos;, &apos;triangle&apos;)</span><br><span class="line">(&apos;triangle&apos;, &apos;square&apos;)</span><br><span class="line">(&apos;square&apos;, &apos;square&apos;)</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是迭代？"><span class="toc-number">1.</span> <span class="toc-text">什么是迭代？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#要求"><span class="toc-number">2.</span> <span class="toc-text">要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#itertools"><span class="toc-number">3.</span> <span class="toc-text">itertools</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#accumulate"><span class="toc-number">3.1.</span> <span class="toc-text">accumulate()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#count"><span class="toc-number">3.2.</span> <span class="toc-text">count()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cycle"><span class="toc-number">3.3.</span> <span class="toc-text">cycle()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#repeat"><span class="toc-number">3.4.</span> <span class="toc-text">repeat()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chain"><span class="toc-number">3.5.</span> <span class="toc-text">chain()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#compress"><span class="toc-number">3.6.</span> <span class="toc-text">compress()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dropwhile"><span class="toc-number">3.7.</span> <span class="toc-text">dropwhile()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#groupby"><span class="toc-number">3.8.</span> <span class="toc-text">groupby()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#filterfalse"><span class="toc-number">3.9.</span> <span class="toc-text">filterfalse()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#islice"><span class="toc-number">3.10.</span> <span class="toc-text">islice()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#starmap"><span class="toc-number">3.11.</span> <span class="toc-text">starmap()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tee"><span class="toc-number">3.12.</span> <span class="toc-text">tee()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#takewhile"><span class="toc-number">3.13.</span> <span class="toc-text">takewhile()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zip-longest"><span class="toc-number">3.14.</span> <span class="toc-text">zip_longest()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#product"><span class="toc-number">3.15.</span> <span class="toc-text">product()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#permutations"><span class="toc-number">3.16.</span> <span class="toc-text">permutations()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#combinations"><span class="toc-number">3.17.</span> <span class="toc-text">combinations()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#combinations-with-replacement"><span class="toc-number">3.18.</span> <span class="toc-text">combinations_with_replacement()</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

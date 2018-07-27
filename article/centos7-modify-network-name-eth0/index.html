@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="CentOS7默认的网卡名称是和设备名称是随机的，如果要修改网卡名称以eth开头，有两种方式 第一种方式这种方式适合在安装操作系统的时候进行设置， 点击 Tab，打开kernel启动选项，  增加内核参数：net.ifnames=0 biosdevname=0  输入完成之后回车正常安装操作系统就好了。 第二种方式修改网卡配置文件中的DEVICE=参数的关于eth0 [root@ansheng ~">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS7修改默认网卡名称为eth0">
+<meta property="og:url" content="https://blog.ansheng.me/article/centos7-modify-network-name-eth0/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="CentOS7默认的网卡名称是和设备名称是随机的，如果要修改网卡名称以eth开头，有两种方式 第一种方式这种方式适合在安装操作系统的时候进行设置， 点击 Tab，打开kernel启动选项，  增加内核参数：net.ifnames=0 biosdevname=0  输入完成之后回车正常安装操作系统就好了。 第二种方式修改网卡配置文件中的DEVICE=参数的关于eth0 [root@ansheng ~">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://blog.ansheng.me/images/2016/12/1483017802.png">
+<meta property="og:image" content="https://blog.ansheng.me/images/2016/12/1483017825.png">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.062Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS7修改默认网卡名称为eth0">
+<meta name="twitter:description" content="CentOS7默认的网卡名称是和设备名称是随机的，如果要修改网卡名称以eth开头，有两种方式 第一种方式这种方式适合在安装操作系统的时候进行设置， 点击 Tab，打开kernel启动选项，  增加内核参数：net.ifnames=0 biosdevname=0  输入完成之后回车正常安装操作系统就好了。 第二种方式修改网卡配置文件中的DEVICE=参数的关于eth0 [root@ansheng ~">
+<meta name="twitter:image" content="https://blog.ansheng.me/images/2016/12/1483017802.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>CentOS7修改默认网卡名称为eth0</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/examples-of-linux-regular-expressions/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/django-rest-framework-token-expiring/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一种方式"><span class="toc-number">1.</span> <span class="toc-text">第一种方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第二种方式"><span class="toc-number">2.</span> <span class="toc-text">第二种方式</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CentOS7修改默认网卡名称为eth0
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+    <div class="postdate">
+        <time datetime="2017-05-23T16:00:00.000Z" itemprop="datePublished">2017-05-24</time>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>CentOS7默认的网卡名称是和设备名称是随机的，如果要修改网卡名称以<code>eth</code>开头，有两种方式</p>
+<h2 id="第一种方式"><a href="#第一种方式" class="headerlink" title="第一种方式"></a>第一种方式</h2><p>这种方式适合在安装操作系统的时候进行设置，</p>
+<p>点击 Tab，打开kernel启动选项，</p>
+<p><img src="/images/2016/12/1483017802.png" alt="1483017802"></p>
+<p>增加内核参数：<code>net.ifnames=0</code> <code>biosdevname=0</code></p>
+<p><img src="/images/2016/12/1483017825.png" alt="1483017802"></p>
+<p>输入完成之后回车正常安装操作系统就好了。</p>
+<h2 id="第二种方式"><a href="#第二种方式" class="headerlink" title="第二种方式"></a>第二种方式</h2><p>修改网卡配置文件中的<code>DEVICE=</code>参数的关于<code>eth0</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@ansheng ~]<span class="comment"># cd /etc/sysconfig/network-scripts/</span></span><br><span class="line">[root@ansheng network-scripts]<span class="comment"># vi ifcfg-eno16777728</span></span><br><span class="line">TYPE=Ethernet</span><br><span class="line">BOOTPROTO=dhcp</span><br><span class="line">DEFROUTE=yes</span><br><span class="line">PEERDNS=yes</span><br><span class="line">PEERROUTES=yes</span><br><span class="line">IPV4_FAILURE_FATAL=no</span><br><span class="line">IPV6INIT=yes</span><br><span class="line">IPV6_AUTOCONF=yes</span><br><span class="line">IPV6_DEFROUTE=yes</span><br><span class="line">IPV6_PEERDNS=yes</span><br><span class="line">IPV6_PEERROUTES=yes</span><br><span class="line">IPV6_FAILURE_FATAL=no</span><br><span class="line">NAME=eno16777728</span><br><span class="line">UUID=8a3eade8-005c-46df-81f2-6e2598457bac</span><br><span class="line"><span class="comment">#DEVICE=eno16777728</span></span><br><span class="line">DEVICE=eth0</span><br><span class="line">ONBOOT=yes</span><br></pre></td></tr></table></figure>
+<p>网卡配置文件名称改为<code>ifcfg-eth0</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@ansheng network-scripts]<span class="comment"># mv ifcfg-eno16777728 ifcfg-eth0</span></span><br></pre></td></tr></table></figure>
+<p>因<code>CentOS7</code>采用<code>grub2</code>引导，还需要对<code>grub2</code>进行修改，编辑<code>/etc/default/grub</code>配置文件，在<code>GRUB_CMDLINE_LINUX</code>这个参数后面加入<code>net.ifnames=0 biosdevname=0</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@ansheng network-scripts]<span class="comment"># vi /etc/default/grub</span></span><br><span class="line">GRUB_TIMEOUT=5</span><br><span class="line">GRUB_DISTRIBUTOR=<span class="string">"<span class="variable">$(sed 's, release .*$,,g' /etc/system-release)</span>"</span></span><br><span class="line">GRUB_DEFAULT=saved</span><br><span class="line">GRUB_DISABLE_SUBMENU=<span class="literal">true</span></span><br><span class="line">GRUB_TERMINAL_OUTPUT=<span class="string">"console"</span></span><br><span class="line">GRUB_CMDLINE_LINUX=<span class="string">"rd.lvm.lv=centos/root rd.lvm.lv=centos/swap rhgb quiet net.ifnames=0 biosdevname=0"</span></span><br><span class="line">GRUB_DISABLE_RECOVERY=<span class="string">"true"</span></span><br></pre></td></tr></table></figure>
+<p>用<code>grub2-mkconfig</code>命令重新生成GRUB配置并更新内核</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@ansheng network-scripts]<span class="comment"># grub2-mkconfig -o /boot/grub2/grub.cfg</span></span><br><span class="line">Generating grub configuration file ...</span><br><span class="line">Found linux image: /boot/vmlinuz-3.10.0-327.el7.x86_64</span><br><span class="line">Found initrd image: /boot/initramfs-3.10.0-327.el7.x86_64.img</span><br><span class="line">Found linux image: /boot/vmlinuz-0-rescue-4dd6b54f74c94bff9e92c61d669fc195</span><br><span class="line">Found initrd image: /boot/initramfs-0-rescue-4dd6b54f74c94bff9e92c61d669fc195.img</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p>重启系统</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@ansheng network-scripts]<span class="comment"># reboot</span></span><br></pre></td></tr></table></figure>
+<p>重启之后验证网卡名称:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[root@ansheng ~]<span class="comment"># ifconfig </span></span><br><span class="line">eth0: flags=<span class="number">4163</span>&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu <span class="number">1500</span></span><br><span class="line">        inet <span class="number">192.168</span><span class="number">.56</span><span class="number">.130</span>  netmask <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span>  broadcast <span class="number">192.168</span><span class="number">.56</span><span class="number">.255</span></span><br><span class="line">        inet6 fe80::<span class="number">20</span>c:<span class="number">29</span>ff:fe6d:d894  prefixlen <span class="number">64</span>  scopeid <span class="number">0x20</span>&lt;link&gt;</span><br><span class="line">        ether <span class="number">00</span>:<span class="number">0</span>c:<span class="number">29</span>:<span class="number">6</span>d:d8:<span class="number">94</span>  txqueuelen <span class="number">1000</span>  (Ethernet)</span><br><span class="line">        RX packets <span class="number">27413</span>  bytes <span class="number">38532163</span> (<span class="number">36.7</span> MiB)</span><br><span class="line">        RX errors <span class="number">0</span>  dropped <span class="number">0</span>  overruns <span class="number">0</span>  frame <span class="number">0</span></span><br><span class="line">        TX packets <span class="number">7727</span>  bytes <span class="number">702194</span> (<span class="number">685.7</span> KiB)</span><br><span class="line">        TX errors <span class="number">0</span>  dropped <span class="number">0</span> overruns <span class="number">0</span>  carrier <span class="number">0</span>  collisions <span class="number">0</span></span><br><span class="line"></span><br><span class="line">lo: flags=<span class="number">73</span>&lt;UP,LOOPBACK,RUNNING&gt;  mtu <span class="number">65536</span></span><br><span class="line">        inet <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>  netmask <span class="number">255.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line">        inet6 ::<span class="number">1</span>  prefixlen <span class="number">128</span>  scopeid <span class="number">0x10</span>&lt;host&gt;</span><br><span class="line">        loop  txqueuelen <span class="number">0</span>  (Local Loopback)</span><br><span class="line">        RX packets <span class="number">0</span>  bytes <span class="number">0</span> (<span class="number">0.0</span> B)</span><br><span class="line">        RX errors <span class="number">0</span>  dropped <span class="number">0</span>  overruns <span class="number">0</span>  frame <span class="number">0</span></span><br><span class="line">        TX packets <span class="number">0</span>  bytes <span class="number">0</span> (<span class="number">0.0</span> B)</span><br><span class="line">        TX errors <span class="number">0</span>  dropped <span class="number">0</span> overruns <span class="number">0</span>  carrier <span class="number">0</span>  collisions <span class="number">0</span></span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一种方式"><span class="toc-number">1.</span> <span class="toc-text">第一种方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第二种方式"><span class="toc-number">2.</span> <span class="toc-text">第二种方式</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

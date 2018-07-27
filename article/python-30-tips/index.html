@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Tips#1. 变量交换 Example  x, y = 10, 20print(x, y)x, y = y, xprint(x, y)  Output  10 2020 10 Tips#2. 链接比较运算符有时候比较运算符的聚合是另一个可以方便的手段  Example  n = 10result = 1 &amp;lt; n &amp;lt; 20print(result)result = 1 &amp;gt; n &amp;">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Python的30个技巧">
+<meta property="og:url" content="https://blog.ansheng.me/article/python-30-tips/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="Tips#1. 变量交换 Example  x, y = 10, 20print(x, y)x, y = y, xprint(x, y)  Output  10 2020 10 Tips#2. 链接比较运算符有时候比较运算符的聚合是另一个可以方便的手段  Example  n = 10result = 1 &amp;lt; n &amp;lt; 20print(result)result = 1 &amp;gt; n &amp;">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.072Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Python的30个技巧">
+<meta name="twitter:description" content="Tips#1. 变量交换 Example  x, y = 10, 20print(x, y)x, y = y, xprint(x, y)  Output  10 2020 10 Tips#2. 链接比较运算符有时候比较运算符的聚合是另一个可以方便的手段  Example  n = 10result = 1 &amp;lt; n &amp;lt; 20print(result)result = 1 &amp;gt; n &amp;">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>使用Python的30个技巧</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/python-itertools-guide/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/django-orm-gets-several-ways-to-specify-day-data/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-1-变量交换"><span class="toc-number">1.</span> <span class="toc-text">Tips#1. 变量交换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-2-链接比较运算符"><span class="toc-number">2.</span> <span class="toc-text">Tips#2. 链接比较运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-3-使用三元运算符进行条件判断"><span class="toc-number">3.</span> <span class="toc-text">Tips#3. 使用三元运算符进行条件判断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-4-使用多行字符串"><span class="toc-number">4.</span> <span class="toc-text">Tips#4. 使用多行字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-5-将列表的元素存储到新变量中"><span class="toc-number">5.</span> <span class="toc-text">Tips#5. 将列表的元素存储到新变量中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-6-输出导入模块的文件路径"><span class="toc-number">6.</span> <span class="toc-text">Tips#6. 输出导入模块的文件路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-7-使用交互式-运算符"><span class="toc-number">7.</span> <span class="toc-text">Tips#7. 使用交互式_运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-8-词典-集合推导"><span class="toc-number">8.</span> <span class="toc-text">Tips#8. 词典/集合推导</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-9-调试脚本"><span class="toc-number">9.</span> <span class="toc-text">Tips#9. 调试脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-10-文件共享"><span class="toc-number">10.</span> <span class="toc-text">Tips#10. 文件共享</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-11-检查Python中的对象"><span class="toc-number">11.</span> <span class="toc-text">Tips#11. 检查Python中的对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-12-简化if语句"><span class="toc-number">12.</span> <span class="toc-text">Tips#12. 简化if语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-13-在运行时检测Python版本"><span class="toc-number">13.</span> <span class="toc-text">Tips#13. 在运行时检测Python版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-14-组合多个字符串"><span class="toc-number">14.</span> <span class="toc-text">Tips#14. 组合多个字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-15-四种方式来反转字符串-列表"><span class="toc-number">15.</span> <span class="toc-text">Tips#15. 四种方式来反转字符串/列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-16-枚举"><span class="toc-number">16.</span> <span class="toc-text">Tips#16. 枚举</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-17-在Python中使用枚举"><span class="toc-number">17.</span> <span class="toc-text">Tips#17. 在Python中使用枚举</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-18-从函数中返回多个值"><span class="toc-number">18.</span> <span class="toc-text">Tips#18. 从函数中返回多个值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-19-使用Splat运算符解包函数参数"><span class="toc-number">19.</span> <span class="toc-text">Tips#19. 使用Splat运算符解包函数参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-20-使用字典存储开关"><span class="toc-number">20.</span> <span class="toc-text">Tips#20. 使用字典存储开关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-21-计算一行中任何数字的阶乘"><span class="toc-number">21.</span> <span class="toc-text">Tips#21. 计算一行中任何数字的阶乘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-22-查找列表中最常见的值"><span class="toc-number">22.</span> <span class="toc-text">Tips#22. 查找列表中最常见的值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-23-重置递归限制"><span class="toc-number">23.</span> <span class="toc-text">Tips#23. 重置递归限制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-24-检查对象的内存使用情况"><span class="toc-number">24.</span> <span class="toc-text">Tips#24. 检查对象的内存使用情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-25-使用-slots-来减少内存开销"><span class="toc-number">25.</span> <span class="toc-text">Tips#25. 使用__slots__来减少内存开销</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-26-Lambda模仿打印功能"><span class="toc-number">26.</span> <span class="toc-text">Tips#26. Lambda模仿打印功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-27-从两个序列创建一个字典"><span class="toc-number">27.</span> <span class="toc-text">Tips#27. 从两个序列创建一个字典</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-28-在字符串中搜索多个前缀"><span class="toc-number">28.</span> <span class="toc-text">Tips#28. 在字符串中搜索多个前缀</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-29-形成统一列表，而不使用任何循环"><span class="toc-number">29.</span> <span class="toc-text">Tips#29. 形成统一列表，而不使用任何循环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-30-在Python中实现真正的Switch-Case语句"><span class="toc-number">30.</span> <span class="toc-text">Tips#30. 在Python中实现真正的Switch-Case语句</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        使用Python的30个技巧
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+    <div class="postdate">
+        <time datetime="2017-09-29T16:00:00.000Z" itemprop="datePublished">2017-09-30</time>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Tips-1-变量交换"><a href="#Tips-1-变量交换" class="headerlink" title="Tips#1. 变量交换"></a>Tips#1. 变量交换</h2><ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">x, y = <span class="number">10</span>, <span class="number">20</span></span><br><span class="line">print(x, y)</span><br><span class="line"></span><br><span class="line">x, y = y, x</span><br><span class="line">print(x, y)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">10 20</span><br><span class="line">20 10</span><br></pre></td></tr></table></figure>
+<h2 id="Tips-2-链接比较运算符"><a href="#Tips-2-链接比较运算符" class="headerlink" title="Tips#2. 链接比较运算符"></a>Tips#2. 链接比较运算符</h2><p>有时候比较运算符的聚合是另一个可以方便的手段</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n = <span class="number">10</span></span><br><span class="line">result = <span class="number">1</span> &lt; n &lt; <span class="number">20</span></span><br><span class="line">print(result)</span><br><span class="line"></span><br><span class="line">result = <span class="number">1</span> &gt; n &lt;= <span class="number">9</span></span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">True</span><br><span class="line">False</span><br></pre></td></tr></table></figure>
+<h2 id="Tips-3-使用三元运算符进行条件判断"><a href="#Tips-3-使用三元运算符进行条件判断" class="headerlink" title="Tips#3. 使用三元运算符进行条件判断"></a>Tips#3. 使用三元运算符进行条件判断</h2><p>三元运算符是if-else语句的快捷方式，也称为条件运算符</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[on_true] <span class="keyword">if</span> [expression] <span class="keyword">else</span> [on_false]</span><br></pre></td></tr></table></figure>
+<p>以下是您可以使用的一些示例，使您的代码紧凑简洁</p>
+<ul>
+<li>Example</li>
+</ul>
+<p>如果<code>y</code>为<code>9</code>，则将<code>10</code>分配给<code>x</code>，否则将<code>20</code>分配给<code>x</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">x = <span class="number">10</span> <span class="keyword">if</span> (y == <span class="number">9</span>) <span class="keyword">else</span> <span class="number">20</span></span><br></pre></td></tr></table></figure>
+<p>同样，我们可以对类对象做同样的事情</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">x = (classA <span class="keyword">if</span> y == <span class="number">1</span> <span class="keyword">else</span> classB)(param1, param2)</span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，<code>classA</code>和<code>classB</code>是两个类，一个类构造函数将被调用。</p>
+<ul>
+<li>Example</li>
+</ul>
+<p>算出最小的数量</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">small</span><span class="params">(a, b, c)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> a <span class="keyword">if</span> a &lt;= b <span class="keyword">and</span> a &lt;= c <span class="keyword">else</span>(b <span class="keyword">if</span> b &lt;= a <span class="keyword">and</span> b &lt;= c <span class="keyword">else</span> c)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">print(small(<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>))</span><br><span class="line">print(small(<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line">print(small(<span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line">print(small(<span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">0</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
+<p>我们甚至可以使用具有列表理解的三元运算符</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>[m**<span class="number">2</span> <span class="keyword">if</span> m &gt; <span class="number">10</span> <span class="keyword">else</span> m**<span class="number">4</span> <span class="keyword">for</span> m <span class="keyword">in</span> range(<span class="number">10</span>)]</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">16</span>, <span class="number">81</span>, <span class="number">256</span>, <span class="number">625</span>, <span class="number">1296</span>, <span class="number">2401</span>, <span class="number">4096</span>, <span class="number">6561</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="Tips-4-使用多行字符串"><a href="#Tips-4-使用多行字符串" class="headerlink" title="Tips#4. 使用多行字符串"></a>Tips#4. 使用多行字符串</h2><p>基本的方法是使用C语言导出的<code>反斜杠</code></p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"select * from multi_row \</span></span><br><span class="line"><span class="string">... where row_id &lt; 5"</span></span><br><span class="line"><span class="string">'select * from multi_row where row_id &lt; 5'</span></span><br></pre></td></tr></table></figure>
+<p>另外一个诀窍就是使用三个引号</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"""select * from multi_row </span></span><br><span class="line"><span class="string"><span class="meta">... </span>where row_id &lt; 5"""</span></span><br><span class="line"><span class="string">'select * from multi_row \nwhere row_id &lt; 5'</span></span><br></pre></td></tr></table></figure>
+<p>又或者你可以将字符串放在括号中</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>(<span class="string">"select * from multi_row "</span></span><br><span class="line"><span class="meta">... </span><span class="string">"where row_id &lt; 5 "</span></span><br><span class="line"><span class="meta">... </span><span class="string">"order by age"</span>) </span><br><span class="line"><span class="string">'select * from multi_row where row_id &lt; 5 order by age'</span></span><br></pre></td></tr></table></figure>
+<h2 id="Tips-5-将列表的元素存储到新变量中"><a href="#Tips-5-将列表的元素存储到新变量中" class="headerlink" title="Tips#5. 将列表的元素存储到新变量中"></a>Tips#5. 将列表的元素存储到新变量中</h2><p>我们可以使用一个列表来初始化一个<code>no</code>的变量。在拆包列表时，变量的数量不应超过<code>no</code>的列表中的元素。</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">testList = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">x, y, z = testList</span><br><span class="line"></span><br><span class="line">print(x, y, z)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1 2 3</span><br></pre></td></tr></table></figure>
+<h2 id="Tips-6-输出导入模块的文件路径"><a href="#Tips-6-输出导入模块的文件路径" class="headerlink" title="Tips#6. 输出导入模块的文件路径"></a>Tips#6. 输出导入模块的文件路径</h2><p>如果您想知道在代码中导入模块的绝对位置，则使用以下技巧</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">print(threading)</span><br><span class="line">print(socket)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;module &apos;threading&apos; from &apos;/home/ansheng/.pyenv/versions/3.6.2/lib/python3.6/threading.py&apos;&gt;</span><br><span class="line">&lt;module &apos;socket&apos; from &apos;/home/ansheng/.pyenv/versions/3.6.2/lib/python3.6/socket.py&apos;&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="Tips-7-使用交互式-运算符"><a href="#Tips-7-使用交互式-运算符" class="headerlink" title="Tips#7. 使用交互式_运算符"></a>Tips#7. 使用交互式<code>_</code>运算符</h2><p>在Python控制台中，每当我们测试一个表达式或者调用一个函数时，结果将分派到一个临时名称<code>_（一个下划线）</code></p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">2</span> + <span class="number">1</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>_</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>_</code>引用最后执行的表达式的输出</p>
+</blockquote>
+<h2 id="Tips-8-词典-集合推导"><a href="#Tips-8-词典-集合推导" class="headerlink" title="Tips#8. 词典/集合推导"></a>Tips#8. 词典/集合推导</h2><p>像列表推导一样，字典/集合同样也有推导，它们使用简单，同样有效</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>&#123;i: i * i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>)&#125;</span><br><span class="line">&#123;<span class="number">0</span>: <span class="number">0</span>, <span class="number">1</span>: <span class="number">1</span>, <span class="number">2</span>: <span class="number">4</span>, <span class="number">3</span>: <span class="number">9</span>, <span class="number">4</span>: <span class="number">16</span>, <span class="number">5</span>: <span class="number">25</span>, <span class="number">6</span>: <span class="number">36</span>, <span class="number">7</span>: <span class="number">49</span>, <span class="number">8</span>: <span class="number">64</span>, <span class="number">9</span>: <span class="number">81</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>&#123;i * <span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>)&#125;</span><br><span class="line">&#123;<span class="number">0</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">10</span>, <span class="number">12</span>, <span class="number">14</span>, <span class="number">16</span>, <span class="number">18</span>&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Tips-9-调试脚本"><a href="#Tips-9-调试脚本" class="headerlink" title="Tips#9. 调试脚本"></a>Tips#9. 调试脚本</h2><p>我们可以借助于<code>pdb</code>模块在Python脚本中设置断点</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pdb</span><br><span class="line">pdb.set_trace()</span><br></pre></td></tr></table></figure>
+<h2 id="Tips-10-文件共享"><a href="#Tips-10-文件共享" class="headerlink" title="Tips#10. 文件共享"></a>Tips#10. 文件共享</h2><p>Python允许运行一个HTTP服务器，您可以使用它来从服务器根目录共享文件</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">~$ python -m http.server</span><br><span class="line">Serving HTTP on <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span> port <span class="number">8000</span> (http://<span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">8000</span>/) ...</span><br></pre></td></tr></table></figure>
+<p>以上命令将启动默认端口即<code>8000</code>的服务器，也可以通过将自定义端口作为上一个参数传递给上述命令</p>
+<h2 id="Tips-11-检查Python中的对象"><a href="#Tips-11-检查Python中的对象" class="headerlink" title="Tips#11. 检查Python中的对象"></a>Tips#11. 检查Python中的对象</h2><p>我们可以通过调用<code>dir()</code>方法来检查Python中的对象。</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>test = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dir(test)</span><br><span class="line">[<span class="string">'__add__'</span>, <span class="string">'__class__'</span>, <span class="string">'__contains__'</span>, <span class="string">'__delattr__'</span>, <span class="string">'__delitem__'</span>, <span class="string">'__dir__'</span>, <span class="string">'__doc__'</span>, <span class="string">'__eq__'</span>, <span class="string">'__format__'</span>, <span class="string">'__ge__'</span>, <span class="string">'__getattribute__'</span>, <span class="string">'__getitem__'</span>, <span class="string">'__gt__'</span>, <span class="string">'__hash__'</span>, <span class="string">'__iadd__'</span>, <span class="string">'__imul__'</span>, <span class="string">'__init__'</span>, <span class="string">'__init_subclass__'</span>, <span class="string">'__iter__'</span>, <span class="string">'__le__'</span>, <span class="string">'__len__'</span>, <span class="string">'__lt__'</span>, <span class="string">'__mul__'</span>, <span class="string">'__ne__'</span>, <span class="string">'__new__'</span>, <span class="string">'__reduce__'</span>, <span class="string">'__reduce_ex__'</span>, <span class="string">'__repr__'</span>, <span class="string">'__reversed__'</span>, <span class="string">'__rmul__'</span>, <span class="string">'__setattr__'</span>, <span class="string">'__setitem__'</span>, <span class="string">'__sizeof__'</span>, <span class="string">'__str__'</span>, <span class="string">'__subclasshook__'</span>, <span class="string">'append'</span>, <span class="string">'clear'</span>, <span class="string">'copy'</span>, <span class="string">'count'</span>, <span class="string">'extend'</span>, <span class="string">'index'</span>, <span class="string">'insert'</span>, <span class="string">'pop'</span>, <span class="string">'remove'</span>, <span class="string">'reverse'</span>, <span class="string">'sort'</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="Tips-12-简化if语句"><a href="#Tips-12-简化if语句" class="headerlink" title="Tips#12. 简化if语句"></a>Tips#12. 简化if语句</h2><p>要验证多个值，我们可以通过以下方式进行。</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> m <span class="keyword">in</span> [<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">7</span>]:</span><br></pre></td></tr></table></figure>
+<p>或者，我们可以使用<code>{1,3,5,7}</code>而不是<code>[1,3,5,7]</code>用于<code>in</code>运算符，因为<code>set</code>可以通过<code>O（1）</code>访问每个元素</p>
+<h2 id="Tips-13-在运行时检测Python版本"><a href="#Tips-13-在运行时检测Python版本" class="headerlink" title="Tips#13. 在运行时检测Python版本"></a>Tips#13. 在运行时检测Python版本</h2><p>有时如果当前运行的<code>Python</code>小于受支持的版本，我们可能不想执行我们的程序，要实现这一点，您可以使用下面的代码片段，它还以可读格式打印当前使用的Python版本。</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> sys</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(<span class="string">"Current Python version: "</span>, sys.version)</span><br><span class="line">Current Python version:  <span class="number">3.6</span><span class="number">.2</span> (default, Aug <span class="number">25</span> <span class="number">2017</span>, <span class="number">09</span>:<span class="number">52</span>:<span class="number">18</span>) </span><br><span class="line">[GCC <span class="number">6.3</span><span class="number">.0</span> <span class="number">20170406</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">if</span> <span class="keyword">not</span> hasattr(sys, <span class="string">"hexversion"</span>) <span class="keyword">or</span> sys.hexversion != <span class="number">50660080</span>:</span><br><span class="line"><span class="meta">... </span>    print(<span class="string">"Sorry, you aren't running on Python 3.5\n"</span>)</span><br><span class="line"><span class="meta">... </span>    print(<span class="string">"Please upgrade to 3.5.\n"</span>)</span><br><span class="line"><span class="meta">... </span>    sys.exit(<span class="number">1</span>)</span><br><span class="line"><span class="meta">... </span></span><br><span class="line">Sorry, you aren<span class="string">'t running on Python 3.5</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Please upgrade to 3.5.</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>sys.version_info &gt;= (3, 5) sys.hexversion!= 50660080</p>
+</blockquote>
+<h2 id="Tips-14-组合多个字符串"><a href="#Tips-14-组合多个字符串" class="headerlink" title="Tips#14. 组合多个字符串"></a>Tips#14. 组合多个字符串</h2><p>如果要连接列表中可用的所有元素，请参见以下示例。</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>test = [<span class="string">'I'</span>, <span class="string">'Like'</span>, <span class="string">'Python'</span>, <span class="string">'automation'</span>]</span><br></pre></td></tr></table></figure>
+<p>现在，我们从上面给出的列表中的元素创建一个单一的字符串。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">''</span>.join(test)</span><br><span class="line"><span class="string">'ILikePythonautomation'</span></span><br></pre></td></tr></table></figure>
+<h2 id="Tips-15-四种方式来反转字符串-列表"><a href="#Tips-15-四种方式来反转字符串-列表" class="headerlink" title="Tips#15. 四种方式来反转字符串/列表"></a>Tips#15. 四种方式来反转字符串/列表</h2><ul>
+<li>Example</li>
+</ul>
+<p>反转列表本身</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>testList = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>testList.reverse()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>testList</span><br><span class="line">[<span class="number">5</span>, <span class="number">3</span>, <span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+<p>再循环中反复循环</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> element <span class="keyword">in</span> reversed([<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>]): print(element)</span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>反转一行字符串</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"Test Python"</span>[::<span class="number">-1</span>]</span><br><span class="line"><span class="string">'nohtyP tseT'</span></span><br></pre></td></tr></table></figure>
+<p>使用切片翻转列表</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>[<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>][::<span class="number">-1</span>]</span><br><span class="line">[<span class="number">5</span>, <span class="number">3</span>, <span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="Tips-16-枚举"><a href="#Tips-16-枚举" class="headerlink" title="Tips#16. 枚举"></a>Tips#16. 枚举</h2><p>使用枚举器，在循环中找到索引很容易</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>testlist = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> i, value <span class="keyword">in</span> enumerate(testlist):</span><br><span class="line"><span class="meta">... </span>    print(i, <span class="string">': '</span>, value)</span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="number">0</span> :  <span class="number">10</span></span><br><span class="line"><span class="number">1</span> :  <span class="number">20</span></span><br><span class="line"><span class="number">2</span> :  <span class="number">30</span></span><br></pre></td></tr></table></figure>
+<h2 id="Tips-17-在Python中使用枚举"><a href="#Tips-17-在Python中使用枚举" class="headerlink" title="Tips#17. 在Python中使用枚举"></a>Tips#17. 在Python中使用枚举</h2><p>我们可以使用以下方法来创建枚举定义</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">Shapes</span>:</span></span><br><span class="line"><span class="meta">... </span>    Circle, Square, Triangle, Quadrangle = range(<span class="number">4</span>)</span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Shapes.Circle</span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Shapes.Square</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Shapes.Triangle</span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Shapes.Quadrangle</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h2 id="Tips-18-从函数中返回多个值"><a href="#Tips-18-从函数中返回多个值" class="headerlink" title="Tips#18. 从函数中返回多个值"></a>Tips#18. 从函数中返回多个值</h2><ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">x</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">a, b, c, d = x()</span><br><span class="line"></span><br><span class="line">print(a, b, c, d)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1 2 3 4</span><br></pre></td></tr></table></figure>
+<h2 id="Tips-19-使用Splat运算符解包函数参数"><a href="#Tips-19-使用Splat运算符解包函数参数" class="headerlink" title="Tips#19. 使用Splat运算符解包函数参数"></a>Tips#19. 使用Splat运算符解包函数参数</h2><ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(x, y, z)</span>:</span></span><br><span class="line">    print(x, y, z)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">testDict = &#123;<span class="string">'x'</span>: <span class="number">1</span>, <span class="string">'y'</span>: <span class="number">2</span>, <span class="string">'z'</span>: <span class="number">3</span>&#125;</span><br><span class="line">testList = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>]</span><br><span class="line"></span><br><span class="line">test(*testDict)</span><br><span class="line">test(**testDict)</span><br><span class="line">test(*testList)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">x y z</span><br><span class="line">1 2 3</span><br><span class="line">10 20 30</span><br></pre></td></tr></table></figure>
+<h2 id="Tips-20-使用字典存储开关"><a href="#Tips-20-使用字典存储开关" class="headerlink" title="Tips#20. 使用字典存储开关"></a>Tips#20. 使用字典存储开关</h2><ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">stdcalc = &#123;</span><br><span class="line">    <span class="string">'sum'</span>: <span class="keyword">lambda</span> x, y: x + y,</span><br><span class="line">    <span class="string">'subtract'</span>: <span class="keyword">lambda</span> x, y: x - y</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">print(stdcalc[<span class="string">'sum'</span>](<span class="number">9</span>, <span class="number">3</span>))</span><br><span class="line">print(stdcalc[<span class="string">'subtract'</span>](<span class="number">9</span>, <span class="number">3</span>))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">12</span><br><span class="line">6</span><br></pre></td></tr></table></figure>
+<h2 id="Tips-21-计算一行中任何数字的阶乘"><a href="#Tips-21-计算一行中任何数字的阶乘" class="headerlink" title="Tips#21. 计算一行中任何数字的阶乘"></a>Tips#21. 计算一行中任何数字的阶乘</h2><ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> functools</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>result = (<span class="keyword">lambda</span> k: functools.reduce(int.__mul__, range(<span class="number">1</span>,k+<span class="number">1</span>),<span class="number">1</span>))(<span class="number">3</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>result</span><br><span class="line"><span class="number">6</span></span><br></pre></td></tr></table></figure>
+<h2 id="Tips-22-查找列表中最常见的值"><a href="#Tips-22-查找列表中最常见的值" class="headerlink" title="Tips#22. 查找列表中最常见的值"></a>Tips#22. 查找列表中最常见的值</h2><ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>test = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">4</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(max(set(test), key=test.count))</span><br><span class="line"><span class="number">4</span></span><br></pre></td></tr></table></figure>
+<h2 id="Tips-23-重置递归限制"><a href="#Tips-23-重置递归限制" class="headerlink" title="Tips#23. 重置递归限制"></a>Tips#23. 重置递归限制</h2><p>Python将递归限制限制为<code>1000</code>，我们可以重置其值</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> sys</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = <span class="number">1001</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(sys.getrecursionlimit())</span><br><span class="line"><span class="number">1000</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sys.setrecursionlimit(x)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(sys.getrecursionlimit())</span><br><span class="line"><span class="number">1001</span></span><br></pre></td></tr></table></figure>
+<h2 id="Tips-24-检查对象的内存使用情况"><a href="#Tips-24-检查对象的内存使用情况" class="headerlink" title="Tips#24. 检查对象的内存使用情况"></a>Tips#24. 检查对象的内存使用情况</h2><p>在<code>Python 3.5</code>中<code>32</code>位整数使用<code>28字节</code>，要验证内存使用情况，我们可以调用<code>&lt;getsizeof&gt;</code>方法</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> sys</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x=<span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(sys.getsizeof(x))</span><br><span class="line"><span class="number">28</span></span><br></pre></td></tr></table></figure>
+<h2 id="Tips-25-使用-slots-来减少内存开销"><a href="#Tips-25-使用-slots-来减少内存开销" class="headerlink" title="Tips#25. 使用__slots__来减少内存开销"></a>Tips#25. 使用__slots__来减少内存开销</h2><p>你有没有观察过你的Python应用程序消耗大量资源，特别是内存？</p>
+<p>这是使用<code>&lt;__ slots __&gt;</code>类变量在一定程度上减少内存开销的一个技巧</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileSystem</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, files, folders, devices)</span>:</span></span><br><span class="line">        self.files = files</span><br><span class="line">        self.folders = folders</span><br><span class="line">        self.devices = devices</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">print(sys.getsizeof(FileSystem))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileSystem1</span><span class="params">(object)</span>:</span></span><br><span class="line">    __slots__ = [<span class="string">'files'</span>, <span class="string">'folders'</span>, <span class="string">'devices'</span>]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, files, folders, devices)</span>:</span></span><br><span class="line">        self.files = files</span><br><span class="line">        self.folders = folders</span><br><span class="line">        self.devices = devices</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">print(sys.getsizeof(FileSystem1))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1056</span><br><span class="line">888</span><br></pre></td></tr></table></figure>
+<h2 id="Tips-26-Lambda模仿打印功能"><a href="#Tips-26-Lambda模仿打印功能" class="headerlink" title="Tips#26. Lambda模仿打印功能"></a>Tips#26. Lambda模仿打印功能</h2><ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> sys</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lprint=<span class="keyword">lambda</span> *args:sys.stdout.write(<span class="string">" "</span>.join(map(str,args)))</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lprint(<span class="string">"python"</span>, <span class="string">"tips"</span>,<span class="number">1000</span>,<span class="number">1001</span>)</span><br><span class="line">python tips <span class="number">1000</span> <span class="number">100121</span></span><br></pre></td></tr></table></figure>
+<h2 id="Tips-27-从两个序列创建一个字典"><a href="#Tips-27-从两个序列创建一个字典" class="headerlink" title="Tips#27. 从两个序列创建一个字典"></a>Tips#27. 从两个序列创建一个字典</h2><ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>t1 = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>t2 = (<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(dict (zip(t1,t2)))</span><br><span class="line">&#123;<span class="number">1</span>: <span class="number">10</span>, <span class="number">2</span>: <span class="number">20</span>, <span class="number">3</span>: <span class="number">30</span>&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Tips-28-在字符串中搜索多个前缀"><a href="#Tips-28-在字符串中搜索多个前缀" class="headerlink" title="Tips#28. 在字符串中搜索多个前缀"></a>Tips#28. 在字符串中搜索多个前缀</h2><ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(<span class="string">"http://www.google.com"</span>.startswith((<span class="string">"http://"</span>, <span class="string">"https://"</span>)))</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(<span class="string">"http://www.google.co.uk"</span>.endswith((<span class="string">".com"</span>, <span class="string">".co.uk"</span>)))</span><br><span class="line"><span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+<h2 id="Tips-29-形成统一列表，而不使用任何循环"><a href="#Tips-29-形成统一列表，而不使用任何循环" class="headerlink" title="Tips#29. 形成统一列表，而不使用任何循环"></a>Tips#29. 形成统一列表，而不使用任何循环</h2><ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> itertools</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>test = [[<span class="number">-1</span>, <span class="number">-2</span>], [<span class="number">30</span>, <span class="number">40</span>], [<span class="number">25</span>, <span class="number">35</span>]]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(list(itertools.chain.from_iterable(test)))</span><br><span class="line">[<span class="number">-1</span>, <span class="number">-2</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">25</span>, <span class="number">35</span>]</span><br></pre></td></tr></table></figure>
+<p>如果您有一个包含嵌套列表或元组的输入列表作为元素，那么请使用以下技巧。然而，这里的限制是它使用一个for循环。</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">unifylist</span><span class="params">(l_input, l_target)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> it <span class="keyword">in</span> l_input:</span><br><span class="line">        <span class="keyword">if</span> isinstance(it, list):</span><br><span class="line">            unifylist(it, l_target)</span><br><span class="line">        <span class="keyword">elif</span> isinstance(it, tuple):</span><br><span class="line">            unifylist(list(it), l_target)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            l_target.append(it)</span><br><span class="line">    <span class="keyword">return</span> l_target</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">test = [[<span class="number">-1</span>, <span class="number">-2</span>], [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, [<span class="number">4</span>, (<span class="number">5</span>, [<span class="number">6</span>, <span class="number">7</span>])]], (<span class="number">30</span>, <span class="number">40</span>), [<span class="number">25</span>, <span class="number">35</span>]]</span><br><span class="line"></span><br><span class="line">print(unifylist(test, []))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[-1, -2, 1, 2, 3, 4, 5, 6, 7, 30, 40, 25, 35]</span><br></pre></td></tr></table></figure>
+<p>统一包含列表和元组的列表的另一个更简单的方法是使用Python的<code>more_itertools</code>包。</p>
+<p>它不需要循环。只要做一个<code>pip install more_itertools</code>，如果还没有</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> more_itertools</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>test = [[<span class="number">-1</span>, <span class="number">-2</span>], [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, [<span class="number">4</span>, (<span class="number">5</span>, [<span class="number">6</span>, <span class="number">7</span>])]], (<span class="number">30</span>, <span class="number">40</span>), [<span class="number">25</span>, <span class="number">35</span>]]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(list(more_itertools.collapse(test)))</span><br><span class="line">[<span class="number">-1</span>, <span class="number">-2</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">25</span>, <span class="number">35</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="Tips-30-在Python中实现真正的Switch-Case语句"><a href="#Tips-30-在Python中实现真正的Switch-Case语句" class="headerlink" title="Tips#30. 在Python中实现真正的Switch-Case语句"></a>Tips#30. 在Python中实现真正的Switch-Case语句</h2><p>以下是使用字典来模拟开关案例构造的代码</p>
+<ul>
+<li>Example</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">xswitch</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> xswitch._system_dict.get(x, <span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">xswitch._system_dict = &#123;<span class="string">'files'</span>: <span class="number">10</span>, <span class="string">'folders'</span>: <span class="number">5</span>, <span class="string">'devices'</span>: <span class="number">2</span>&#125;</span><br><span class="line"></span><br><span class="line">print(xswitch(<span class="string">'default'</span>))</span><br><span class="line">print(xswitch(<span class="string">'devices'</span>))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Output</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">None</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-1-变量交换"><span class="toc-number">1.</span> <span class="toc-text">Tips#1. 变量交换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-2-链接比较运算符"><span class="toc-number">2.</span> <span class="toc-text">Tips#2. 链接比较运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-3-使用三元运算符进行条件判断"><span class="toc-number">3.</span> <span class="toc-text">Tips#3. 使用三元运算符进行条件判断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-4-使用多行字符串"><span class="toc-number">4.</span> <span class="toc-text">Tips#4. 使用多行字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-5-将列表的元素存储到新变量中"><span class="toc-number">5.</span> <span class="toc-text">Tips#5. 将列表的元素存储到新变量中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-6-输出导入模块的文件路径"><span class="toc-number">6.</span> <span class="toc-text">Tips#6. 输出导入模块的文件路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-7-使用交互式-运算符"><span class="toc-number">7.</span> <span class="toc-text">Tips#7. 使用交互式_运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-8-词典-集合推导"><span class="toc-number">8.</span> <span class="toc-text">Tips#8. 词典/集合推导</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-9-调试脚本"><span class="toc-number">9.</span> <span class="toc-text">Tips#9. 调试脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-10-文件共享"><span class="toc-number">10.</span> <span class="toc-text">Tips#10. 文件共享</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-11-检查Python中的对象"><span class="toc-number">11.</span> <span class="toc-text">Tips#11. 检查Python中的对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-12-简化if语句"><span class="toc-number">12.</span> <span class="toc-text">Tips#12. 简化if语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-13-在运行时检测Python版本"><span class="toc-number">13.</span> <span class="toc-text">Tips#13. 在运行时检测Python版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-14-组合多个字符串"><span class="toc-number">14.</span> <span class="toc-text">Tips#14. 组合多个字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-15-四种方式来反转字符串-列表"><span class="toc-number">15.</span> <span class="toc-text">Tips#15. 四种方式来反转字符串/列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-16-枚举"><span class="toc-number">16.</span> <span class="toc-text">Tips#16. 枚举</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-17-在Python中使用枚举"><span class="toc-number">17.</span> <span class="toc-text">Tips#17. 在Python中使用枚举</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-18-从函数中返回多个值"><span class="toc-number">18.</span> <span class="toc-text">Tips#18. 从函数中返回多个值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-19-使用Splat运算符解包函数参数"><span class="toc-number">19.</span> <span class="toc-text">Tips#19. 使用Splat运算符解包函数参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-20-使用字典存储开关"><span class="toc-number">20.</span> <span class="toc-text">Tips#20. 使用字典存储开关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-21-计算一行中任何数字的阶乘"><span class="toc-number">21.</span> <span class="toc-text">Tips#21. 计算一行中任何数字的阶乘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-22-查找列表中最常见的值"><span class="toc-number">22.</span> <span class="toc-text">Tips#22. 查找列表中最常见的值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-23-重置递归限制"><span class="toc-number">23.</span> <span class="toc-text">Tips#23. 重置递归限制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-24-检查对象的内存使用情况"><span class="toc-number">24.</span> <span class="toc-text">Tips#24. 检查对象的内存使用情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-25-使用-slots-来减少内存开销"><span class="toc-number">25.</span> <span class="toc-text">Tips#25. 使用__slots__来减少内存开销</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-26-Lambda模仿打印功能"><span class="toc-number">26.</span> <span class="toc-text">Tips#26. Lambda模仿打印功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-27-从两个序列创建一个字典"><span class="toc-number">27.</span> <span class="toc-text">Tips#27. 从两个序列创建一个字典</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-28-在字符串中搜索多个前缀"><span class="toc-number">28.</span> <span class="toc-text">Tips#28. 在字符串中搜索多个前缀</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-29-形成统一列表，而不使用任何循环"><span class="toc-number">29.</span> <span class="toc-text">Tips#29. 形成统一列表，而不使用任何循环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips-30-在Python中实现真正的Switch-Case语句"><span class="toc-number">30.</span> <span class="toc-text">Tips#30. 在Python中实现真正的Switch-Case语句</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

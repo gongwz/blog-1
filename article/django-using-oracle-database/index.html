@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="本文假设你已经安装好了Docker与Python的虚拟环境。 环境 Ubuntu Linux 17.04 Docker version 17.09.0-ce, build afdb6d4 Oracle Database 12.2.0.1 Enterprise Edition Python 3.6.3 Django 1.11.6 djangorestframework 3.7.0  安装Oracle">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django中使用Oracle数据库">
+<meta property="og:url" content="https://blog.ansheng.me/article/django-using-oracle-database/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="本文假设你已经安装好了Docker与Python的虚拟环境。 环境 Ubuntu Linux 17.04 Docker version 17.09.0-ce, build afdb6d4 Oracle Database 12.2.0.1 Enterprise Edition Python 3.6.3 Django 1.11.6 djangorestframework 3.7.0  安装Oracle">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://blog.ansheng.me/images/2017/10/1508145733930382.png">
+<meta property="og:updated_time" content="2018-07-27T05:55:54.234Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django中使用Oracle数据库">
+<meta name="twitter:description" content="本文假设你已经安装好了Docker与Python的虚拟环境。 环境 Ubuntu Linux 17.04 Docker version 17.09.0-ce, build afdb6d4 Oracle Database 12.2.0.1 Enterprise Edition Python 3.6.3 Django 1.11.6 djangorestframework 3.7.0  安装Oracle">
+<meta name="twitter:image" content="https://blog.ansheng.me/images/2017/10/1508145733930382.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Django中使用Oracle数据库</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/ssh-tunnel/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/recursive-model-relationships-in-django/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#环境"><span class="toc-number">1.</span> <span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Oracle"><span class="toc-number">2.</span> <span class="toc-text">安装Oracle</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载所需软件包"><span class="toc-number">2.1.</span> <span class="toc-text">下载所需软件包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#准备工作"><span class="toc-number">2.2.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构建Docker镜像"><span class="toc-number">2.3.</span> <span class="toc-text">构建Docker镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动一个Oracle容器"><span class="toc-number">2.4.</span> <span class="toc-text">启动一个Oracle容器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置Django项目"><span class="toc-number">3.</span> <span class="toc-text">配置Django项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置Oracle数据库"><span class="toc-number">3.1.</span> <span class="toc-text">配置Oracle数据库</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试"><span class="toc-number">4.</span> <span class="toc-text">测试</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Django中使用Oracle数据库
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+    <div class="postdate">
+        <time datetime="2017-10-15T16:00:00.000Z" itemprop="datePublished">2017-10-16</time>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>本文假设你已经安装好了<code>Docker</code>与<code>Python</code>的虚拟环境。</p>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
+<li>Ubuntu Linux 17.04</li>
+<li>Docker version 17.09.0-ce, build afdb6d4</li>
+<li>Oracle Database 12.2.0.1 Enterprise Edition</li>
+<li>Python 3.6.3</li>
+<li>Django 1.11.6</li>
+<li>djangorestframework 3.7.0</li>
+</ul>
+<h2 id="安装Oracle"><a href="#安装Oracle" class="headerlink" title="安装Oracle"></a>安装Oracle</h2><p>借助于强力的<code>Docker</code>，让我们安装<code>Oracle</code>数据库变得更简单，而不是花很久的时间来安装数据库，让我们来体验一下<code>Docker</code>的强大之处吧。</p>
+<h3 id="下载所需软件包"><a href="#下载所需软件包" class="headerlink" title="下载所需软件包"></a>下载所需软件包</h3><ul>
+<li>Download the Oracle Docker build files.</li>
+</ul>
+<blockquote>
+<p>Repo URL: <a href="https://github.com/oracle/docker-images" target="_blank" rel="noopener">https://github.com/oracle/docker-images</a></p>
+</blockquote>
+<ul>
+<li>Download <code>Oracle Database 12c Release 2</code> for Linux x86-64</li>
+</ul>
+<blockquote>
+<p>Download URL：<a href="http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html" target="_blank" rel="noopener">http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html</a></p>
+</blockquote>
+<ul>
+<li>你现在应该有两个文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">~/Downloads$ ls -l</span><br><span class="line">总用量 3379844</span><br><span class="line">-rw-r--r-- 1 ansheng ansheng    7248413 10月 16 15:55 docker-images-master.zip</span><br><span class="line">-rw-r--r-- 1 ansheng ansheng 3453696911 10月 15 16:22 linuxx64_12201_database.zip</span><br></pre></td></tr></table></figure>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>解压<code>docker-images-master.zip</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">~/Downloads$ unzip docker-images-master.zip</span><br></pre></td></tr></table></figure>
+<p>拷贝<code>linuxx64_12201_database.zip</code>文件到<code>docker-images-master/OracleDatabase/dockerfiles/12.2.0.1</code>目录下，因为我们下载的是<code>12.2.0.1</code>版本，所以需要拷贝到<code>12.2.0.1</code>目录下。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">~/Downloads$ cp linuxx64_12201_database.zip docker-images-master/OracleDatabase/dockerfiles/12.2.0.1/</span><br></pre></td></tr></table></figure>
+<h3 id="构建Docker镜像"><a href="#构建Docker镜像" class="headerlink" title="构建Docker镜像"></a>构建Docker镜像</h3><p><code>Oracle</code>为我们提供了快速构建镜像的脚本，我们只需要指定构建的版本即可，但请确保你的网络是流畅的，因为在构建的过程中会更新和安装一些软件包。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">~/Downloads$ <span class="built_in">cd</span> docker-images-master/OracleDatabase/dockerfiles/</span><br><span class="line">~/Downloads/docker-images-master/OracleDatabase/dockerfiles$ sudo ./buildDockerImage.sh -v 12.2.0.1 -e</span><br></pre></td></tr></table></figure>
+<p>然后就会开始构建镜像了，这个过程是漫长的，因为我用的是<code>Ubuntu</code>，所以执行的时候需要加<code>sudo</code>权限，脚本的参数<code>-v</code>指定要构建的版本，<code>-e</code>根据<code>企业版</code>创建镜像。</p>
+<blockquote>
+<p>更多的参数请访问：<a href="https://github.com/oracle/docker-images/tree/master/OracleDatabase#building-oracle-database-docker-install-images" target="_blank" rel="noopener">https://github.com/oracle/docker-images/tree/master/OracleDatabase#building-oracle-database-docker-install-images</a></p>
+</blockquote>
+<p>当构建完毕之后我们通过<code>sudo docker images</code>指令来查看构建好的镜像</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">~/Downloads/docker-images-master/OracleDatabase/dockerfiles$ sudo docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE</span><br><span class="line">oracle/database     12.2.0.1-ee         7ace5bfa1100        About a minute ago   13.2GB</span><br><span class="line">oraclelinux         7-slim              a6e9e9e5ddc1        2 weeks ago          118MB</span><br></pre></td></tr></table></figure>
+<p>上面的镜像中，<code>oracle/database</code>就是根据<code>oraclelinux</code>来构建的，构建出来的镜像还是挺大的</p>
+<h3 id="启动一个Oracle容器"><a href="#启动一个Oracle容器" class="headerlink" title="启动一个Oracle容器"></a>启动一个Oracle容器</h3><p>执行以下指令启动容器</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">~/Downloads/docker-images-master/OracleDatabase/dockerfiles$ <span class="built_in">cd</span></span><br><span class="line">~$ sudo docker run -d --name oracle -p 1521:1521 -p 5500:5500 -e ORACLE_SID=ansheng -e ORACLE_PWD=ansheng.me oracle/database:12.2.0.1-ee</span><br><span class="line">affc07af4da51f03c67db1cb7266bd66aef442c71793a216ce2be4e5349b0cbd</span><br></pre></td></tr></table></figure>
+<p>启动参数解释如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>-d</code></td>
+<td style="text-align:left">后台运行</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--name</code></td>
+<td style="text-align:left">指定容器运行的名称</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>-p</code></td>
+<td style="text-align:left">制定映射的端口</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>-e ORACLE_SID</code></td>
+<td style="text-align:left">第一次创建容器创建一个默认的SID</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>-e ORACLE_PWD</code></td>
+<td style="text-align:left">密码</td>
+</tr>
+</tbody>
+</table>
+<p>上面的启动参数可以有更多，请参考<a href="https://github.com/oracle/docker-images/tree/master/OracleDatabase#building-oracle-database-docker-install-images" target="_blank" rel="noopener">https://github.com/oracle/docker-images/tree/master/OracleDatabase#building-oracle-database-docker-install-images</a></p>
+<p>你还可以通过<code>docker logs</code>来查看启动日志，启动过程有点慢…</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">~$ sudo docker logs -f oracle</span><br></pre></td></tr></table></figure>
+<p>容器启动完成之后可以测试连接</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo docker <span class="built_in">exec</span> oracle sqlplus sys/ansheng.me@//localhost:1521/ansheng as sysdba</span><br></pre></td></tr></table></figure>
+<p>你还可以执行以下执行来更改密码</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">～$ docker <span class="built_in">exec</span> oracle ./setPassword.sh &lt;Your Password&gt;</span><br></pre></td></tr></table></figure>
+<p>容器内的<code>Oracle数据库</code>还配置了<code>Oracle Enterprise Manager Express</code>，要访问<code>OEM Express</code>，请启动浏览器并按照以下URL：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https://localhost:5500/em/</span><br></pre></td></tr></table></figure>
+<h2 id="配置Django项目"><a href="#配置Django项目" class="headerlink" title="配置Django项目"></a>配置Django项目</h2><p>请先切换到虚拟环境在进行以下操作，我使用的是<code>pyenv</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">~$ pyenv activate venv </span><br><span class="line">(venv) ~$</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装django与djangorestframework</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">(venv) ~$ pip install django djangorestframework</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建项目</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">(venv) ~$ django-admin startproject ansheng</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建app</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">(venv) ~$ <span class="built_in">cd</span> ansheng/</span><br><span class="line">(venv) ~/ansheng$ python manage.py startapp july</span><br></pre></td></tr></table></figure>
+<ul>
+<li>july/models.py</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Create your models here.</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Love</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">12</span>, null=<span class="keyword">True</span>, blank=<span class="keyword">True</span>, help_text=<span class="string">'名称'</span>)</span><br><span class="line">    username = models.CharField(max_length=<span class="number">32</span>, help_text=<span class="string">'用户名'</span>)</span><br><span class="line">    email = models.EmailField(help_text=<span class="string">'邮箱'</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>july/views.py </li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Account</span><br><span class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> serializers, viewsets</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Create your serializers here.</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AccountSerializer</span><span class="params">(serializers.ModelSerializer)</span>:</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        model = Account</span><br><span class="line">        fields = <span class="string">'__all__'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Create your views here.</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AccountViewSet</span><span class="params">(viewsets.ModelViewSet)</span>:</span></span><br><span class="line">    queryset = Account.objects.all()</span><br><span class="line">    serializer_class = AccountSerializer</span><br></pre></td></tr></table></figure>
+<ul>
+<li>ansheng/urls.py</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url, include</span><br><span class="line"><span class="keyword">from</span> rest_framework.routers <span class="keyword">import</span> DefaultRouter</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> july.views <span class="keyword">import</span> AccountViewSet</span><br><span class="line"></span><br><span class="line">router = DefaultRouter()</span><br><span class="line">router.register(<span class="string">'accounts'</span>, AccountViewSet, base_name=<span class="string">'accounts'</span>)</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(<span class="string">r'^'</span>, include(router.urls)),</span><br><span class="line">    url(<span class="string">r'^api-auth/'</span>, include(<span class="string">'rest_framework.urls'</span>, namespace=<span class="string">'rest_framework'</span>))</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>ansheng/settings.py</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">INSTALLED_APPS = [</span><br><span class="line">    ...</span><br><span class="line">    <span class="string">'rest_framework'</span>,</span><br><span class="line">    <span class="string">'july'</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h3 id="配置Oracle数据库"><a href="#配置Oracle数据库" class="headerlink" title="配置Oracle数据库"></a>配置Oracle数据库</h3><p><code>cx-Oracle</code>是<code>django</code>连接<code>oracle</code>的一个库</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">(venv) ~/ansheng$ pip3 install cx-Oracle</span><br></pre></td></tr></table></figure>
+<p>将<code>ansheng/settings.py</code>中的<code>DATABASES</code>替换为</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">DATABASES = &#123;</span><br><span class="line">    <span class="string">'default'</span>: &#123;</span><br><span class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.oracle'</span>,</span><br><span class="line">        <span class="string">'NAME'</span>: <span class="string">'ansheng'</span>,</span><br><span class="line">        <span class="string">'USER'</span>: <span class="string">'system'</span>,</span><br><span class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'ansheng.me'</span>,</span><br><span class="line">        <span class="string">'HOST'</span>: <span class="string">'127.0.0.1'</span>,</span><br><span class="line">        <span class="string">'PORT'</span>: <span class="string">'1521'</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>要在<code>Linux</code>上面连接<code>Oracle</code>，你还需要安装客户端的一些lib，可以在<a href="http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html中下载，下载后的文件如下：" target="_blank" rel="noopener">http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html中下载，下载后的文件如下：</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">(venv) ~/ansheng$ <span class="built_in">cd</span> ~/Downloads/</span><br><span class="line">(venv) ~/Downloads$ ls -l</span><br><span class="line">-rw-r--r--  1 ansheng ansheng   52826628 10月 16 17:06 oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm</span><br><span class="line">-rw-r--r--  1 ansheng ansheng     606864 10月 16 17:00 oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm</span><br><span class="line">-rw-r--r--  1 ansheng ansheng     708104 10月 16 17:00 oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<p>因为我用的是<code>Ubuntu</code>不能直接安装<code>rpm</code>,所以需要借助<code>alien</code>来把<code>rpm</code>包转换为<code>deb</code>包</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装alien</span></span><br><span class="line">(venv) ~/Downloads$ sudo apt-get install alien</span><br><span class="line"><span class="comment"># 借助alien进行安装</span></span><br><span class="line">(venv) ~/Downloads$ sudo alien -i oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm</span><br><span class="line">(venv) ~/Downloads$ sudo alien -i oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm</span><br><span class="line">(venv) ~/Downloads$ sudo alien -i oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm</span><br><span class="line"><span class="comment"># 安装所需要的库</span></span><br><span class="line">(venv) ~/Downloads$ sudo apt-get install libaio1</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我们使用的Oracle是12.2版本的，所以一定要下载和Oracle一样的版本，不然是不能使用的</p>
+</blockquote>
+<p>环境配置</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">(venv) ~/Downloads$ vim /etc/ld.so.conf</span><br><span class="line">......</span><br><span class="line">/usr/lib/oracle/12.2/client64/lib/</span><br></pre></td></tr></table></figure>
+<p>重新加载库文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">(venv) ~/Downloads$ sudo ldconfig</span><br></pre></td></tr></table></figure>
+<p>执行以下执行生成临时变量，这些配置都是针对当前窗口生效的，如果你想永久生效，可以加入用户的<code>~/.bashrc</code>文件中</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">(venv) ~/Downloads$ <span class="built_in">export</span> ORACLE_HOME=/usr/lib/oracle/12.2/client64</span><br><span class="line">(venv) ~/Downloads$ <span class="built_in">export</span> ORACLE_BASE=/usr/lib/oracle/12.2</span><br><span class="line">(venv) ~/Downloads$ <span class="built_in">export</span> LD_LIBRARY_PATH=<span class="variable">$&#123;LD_LIBRARY_PATH&#125;</span>:<span class="variable">$ORACLE_HOME</span>/lib</span><br><span class="line">(venv) ~/Downloads$ <span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$ORACLE_HOME</span>/bin</span><br></pre></td></tr></table></figure>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>进入项目目录，生成数据库表</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">(venv) ~/Downloads$ <span class="built_in">cd</span> ~/ansheng/</span><br><span class="line">(venv) ~/ansheng$ python manage.py migrate</span><br></pre></td></tr></table></figure>
+<p>生成<code>july</code>表结构</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">(venv) ~/ansheng$ python manage.py makemigrations july</span><br><span class="line">(venv) ~/ansheng$ python manage.py migrate</span><br></pre></td></tr></table></figure>
+<p>启动项目</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">(venv) ~/ansheng$ python manage.py runserver</span><br></pre></td></tr></table></figure>
+<p>然后浏览器打开<code>http://127.0.0.1:8000/accounts/</code>，进行增删改查试下呗</p>
+<p><img src="/images/2017/10/1508145733930382.png" alt="1508145733930382"></p>
+
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#环境"><span class="toc-number">1.</span> <span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Oracle"><span class="toc-number">2.</span> <span class="toc-text">安装Oracle</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载所需软件包"><span class="toc-number">2.1.</span> <span class="toc-text">下载所需软件包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#准备工作"><span class="toc-number">2.2.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构建Docker镜像"><span class="toc-number">2.3.</span> <span class="toc-text">构建Docker镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动一个Oracle容器"><span class="toc-number">2.4.</span> <span class="toc-text">启动一个Oracle容器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置Django项目"><span class="toc-number">3.</span> <span class="toc-text">配置Django项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置Oracle数据库"><span class="toc-number">3.1.</span> <span class="toc-text">配置Oracle数据库</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试"><span class="toc-number">4.</span> <span class="toc-text">测试</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

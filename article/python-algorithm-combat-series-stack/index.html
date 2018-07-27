@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="栈(stack)又称之为堆栈是一个特殊的有序表，其插入和删除操作都在栈顶进行操作，并且按照先进后出，后进先出的规则进行运作。 如下图所示  例如枪的弹匣，第一颗放进弹匣的子弹反而在发射出去的时候是最后一个，而最后放入弹匣的一颗子弹在打出去的时候是第一颗发射出去的。 栈的接口如果你创建了一个栈，那么那么应该具有以下接口来进行对栈的操作    接口 描述     push() 入栈   pop() 出">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python数据结构与算法系列之栈">
+<meta property="og:url" content="https://blog.ansheng.me/article/python-algorithm-combat-series-stack/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="栈(stack)又称之为堆栈是一个特殊的有序表，其插入和删除操作都在栈顶进行操作，并且按照先进后出，后进先出的规则进行运作。 如下图所示  例如枪的弹匣，第一颗放进弹匣的子弹反而在发射出去的时候是最后一个，而最后放入弹匣的一颗子弹在打出去的时候是第一颗发射出去的。 栈的接口如果你创建了一个栈，那么那么应该具有以下接口来进行对栈的操作    接口 描述     push() 入栈   pop() 出">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://blog.ansheng.me/images/2017/01/1484725410.png">
+<meta property="og:image" content="https://blog.ansheng.me/images/2017/01/1484725431.png">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.073Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python数据结构与算法系列之栈">
+<meta name="twitter:description" content="栈(stack)又称之为堆栈是一个特殊的有序表，其插入和删除操作都在栈顶进行操作，并且按照先进后出，后进先出的规则进行运作。 如下图所示  例如枪的弹匣，第一颗放进弹匣的子弹反而在发射出去的时候是最后一个，而最后放入弹匣的一颗子弹在打出去的时候是第一颗发射出去的。 栈的接口如果你创建了一个栈，那么那么应该具有以下接口来进行对栈的操作    接口 描述     push() 入栈   pop() 出">
+<meta name="twitter:image" content="https://blog.ansheng.me/images/2017/01/1484725410.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Python数据结构与算法系列之栈</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/python-data-structure-and-algorithm-series-insertion-sort/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/python-algorithm-combat-series-bubble/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#栈的接口"><span class="toc-number">1.</span> <span class="toc-text">栈的接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一大波实例"><span class="toc-number">2.</span> <span class="toc-text">一大波实例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#括号匹配"><span class="toc-number">2.1.</span> <span class="toc-text">括号匹配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#迷宫问题"><span class="toc-number">2.2.</span> <span class="toc-text">迷宫问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后缀表达式求值"><span class="toc-number">2.3.</span> <span class="toc-text">后缀表达式求值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#背包问题"><span class="toc-number">2.4.</span> <span class="toc-text">背包问题</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Python数据结构与算法系列之栈
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>栈(stack)又称之为堆栈是一个特殊的有序表，其插入和删除操作都在栈顶进行操作，并且按照先进后出，后进先出的规则进行运作。</p>
+<p>如下图所示</p>
+<p><img src="/images/2017/01/1484725410.png" alt="zhan" title="zhan"></p>
+<p>例如枪的弹匣，第一颗放进弹匣的子弹反而在发射出去的时候是最后一个，而最后放入弹匣的一颗子弹在打出去的时候是第一颗发射出去的。</p>
+<h2 id="栈的接口"><a href="#栈的接口" class="headerlink" title="栈的接口"></a>栈的接口</h2><p>如果你创建了一个栈，那么那么应该具有以下接口来进行对栈的操作</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">接口</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">push()</td>
+<td style="text-align:left">入栈</td>
+</tr>
+<tr>
+<td style="text-align:left">pop()</td>
+<td style="text-align:left">出栈</td>
+</tr>
+<tr>
+<td style="text-align:left">isEmpty()</td>
+<td style="text-align:left">判断是否为空栈</td>
+</tr>
+<tr>
+<td style="text-align:left">length()</td>
+<td style="text-align:left">获取栈的长度</td>
+</tr>
+<tr>
+<td style="text-align:left">getTop()</td>
+<td style="text-align:left">取栈顶的元素，元素不出栈</td>
+</tr>
+</tbody>
+</table>
+<p>知道栈需要上述的接口后，那么在Python中，列表就类似是一个栈，提供接口如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">操作</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">s = []</td>
+<td style="text-align:left">创建一个栈</td>
+</tr>
+<tr>
+<td style="text-align:left">s.append(x)</td>
+<td style="text-align:left">往栈内添加一个元素</td>
+</tr>
+<tr>
+<td style="text-align:left">s.pop()</td>
+<td style="text-align:left">在栈内删除一个元素</td>
+</tr>
+<tr>
+<td style="text-align:left">not s</td>
+<td style="text-align:left">判断是否为空栈</td>
+</tr>
+<tr>
+<td style="text-align:left">len(s)</td>
+<td style="text-align:left">获取栈内元素的数量</td>
+</tr>
+<tr>
+<td style="text-align:left">s[-1]</td>
+<td style="text-align:left">获取栈顶的元素</td>
+</tr>
+</tbody>
+</table>
+<p>Python中的栈接口使用实例：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建一个栈</span></span><br><span class="line">In [<span class="number">1</span>]: s = []</span><br><span class="line"><span class="comment"># 往栈内添加一个元素</span></span><br><span class="line">In [<span class="number">2</span>]: s.append(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">In [<span class="number">3</span>]: s</span><br><span class="line">Out[<span class="number">3</span>]: [<span class="number">1</span>]</span><br><span class="line"><span class="comment"># 删除栈内的一个元素</span></span><br><span class="line">In [<span class="number">4</span>]: s.pop()</span><br><span class="line">Out[<span class="number">4</span>]: <span class="number">1</span></span><br><span class="line"></span><br><span class="line">In [<span class="number">5</span>]: s</span><br><span class="line">Out[<span class="number">5</span>]: []</span><br><span class="line"><span class="comment"># 判断栈是否为空</span></span><br><span class="line">In [<span class="number">6</span>]: <span class="keyword">not</span> s</span><br><span class="line">Out[<span class="number">6</span>]: <span class="keyword">True</span></span><br><span class="line"></span><br><span class="line">In [<span class="number">7</span>]: s.append(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">In [<span class="number">8</span>]: <span class="keyword">not</span> s</span><br><span class="line">Out[<span class="number">8</span>]: <span class="keyword">False</span></span><br><span class="line"><span class="comment"># 获取栈内元素的数量</span></span><br><span class="line">In [<span class="number">9</span>]: len(s)</span><br><span class="line">Out[<span class="number">9</span>]: <span class="number">1</span></span><br><span class="line"></span><br><span class="line">In [<span class="number">10</span>]: s.append(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">In [<span class="number">11</span>]: s.append(<span class="number">3</span>)</span><br><span class="line"><span class="comment"># 取栈顶的元素</span></span><br><span class="line">In [<span class="number">12</span>]: s[<span class="number">-1</span>]</span><br><span class="line">Out[<span class="number">12</span>]: <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h2 id="一大波实例"><a href="#一大波实例" class="headerlink" title="一大波实例"></a>一大波实例</h2><p>在了解栈的基本概念之后，让我们再来看几个实例，以便于理解栈。</p>
+<h3 id="括号匹配"><a href="#括号匹配" class="headerlink" title="括号匹配"></a>括号匹配</h3><p><strong>题目</strong></p>
+<p>假如表达式中允许包含三中括号<code>()</code>、<code>[]</code>、<code>{}</code>，其嵌套顺序是任意的，例如：</p>
+<p>正确的格式</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&#123;()[()]&#125;,[&#123;(&#123;&#125;)&#125;]</span><br></pre></td></tr></table></figure>
+<p>错误的格式</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[(]),[()),(()&#125;</span><br></pre></td></tr></table></figure>
+<p>编写一个函数，判断一个表达式字符串，括号匹配是否正确</p>
+<p><strong>思路</strong></p>
+<ol>
+<li>创建一个空栈，用来存储尚未找到的左括号；</li>
+<li>便利字符串，遇到左括号则压栈，遇到右括号则出栈一个左括号进行匹配；</li>
+<li>在第二步骤过程中，如果空栈情况下遇到右括号，说明缺少左括号，不匹配；</li>
+<li>在第二步骤遍历结束时，栈不为空，说明缺少右括号，不匹配；</li>
+</ol>
+<p><strong>解决代码</strong></p>
+<p>建议在<code>pycharm</code>中打断点，以便于更好的理解</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/use/bin/env python</span></span><br><span class="line"><span class="comment"># _*_ coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line">LEFT = &#123;<span class="string">'('</span>, <span class="string">'['</span>, <span class="string">'&#123;'</span>&#125;  <span class="comment"># 左括号</span></span><br><span class="line">RIGHT = &#123;<span class="string">')'</span>, <span class="string">']'</span>, <span class="string">'&#125;'</span>&#125;  <span class="comment"># 右括号</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">match</span><span class="params">(expr)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :param expr:  传过来的字符串</span></span><br><span class="line"><span class="string">    :return:  返回是否是正确的</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    stack = []  <span class="comment"># 创建一个栈</span></span><br><span class="line">    <span class="keyword">for</span> brackets <span class="keyword">in</span> expr:  <span class="comment"># 迭代传过来的所有字符串</span></span><br><span class="line">        <span class="keyword">if</span> brackets <span class="keyword">in</span> LEFT:  <span class="comment"># 如果当前字符在左括号内</span></span><br><span class="line">            stack.append(brackets)  <span class="comment"># 把当前左括号入栈</span></span><br><span class="line">        <span class="keyword">elif</span> brackets <span class="keyword">in</span> RIGHT:  <span class="comment"># 如果是右括号</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> stack <span class="keyword">or</span> <span class="keyword">not</span> <span class="number">1</span> &lt;= ord(brackets) - ord(stack[<span class="number">-1</span>]) &lt;= <span class="number">2</span>:</span><br><span class="line">                <span class="comment"># 如果当前栈为空，()]</span></span><br><span class="line">                <span class="comment"># 如果右括号减去左括号的值不是小于等于2大于等于1</span></span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">False</span>  <span class="comment"># 返回False</span></span><br><span class="line">            stack.pop()  <span class="comment"># 删除左括号</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">not</span> stack  <span class="comment"># 如果栈内没有值则返回True，否则返回False</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">result = match(<span class="string">'[()&#123;()&#125;]'</span>)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+<h3 id="迷宫问题"><a href="#迷宫问题" class="headerlink" title="迷宫问题"></a>迷宫问题</h3><p><strong>题目</strong></p>
+<p>用一个二维数组表示一个简单的迷宫，用0表示通路，用1表示阻断，老鼠在每个点上可以移动相邻的东南西北四个点，设计一个算法，模拟老鼠走迷宫，找到从入口到出口的一条路径。</p>
+<p>如图所示</p>
+<p><img src="/images/2017/01/1484725431.png" alt="migong" title="migong"></p>
+<p>出去的正确线路如图中的红线所示</p>
+<p><strong>思路</strong></p>
+<ol>
+<li>用一个栈来记录老鼠从入口到出口的路径</li>
+<li>走到某点后，将该点左边压栈，并把该点值置为1，表示走过了；</li>
+<li>从临近的四个点中可到达的点中任意选取一个，走到该点；</li>
+<li>如果在到达某点后临近的4个点都不走，说明已经走入死胡同，此时退栈，退回一步尝试其他点；</li>
+<li>反复执行第二、三、四步骤直到找到出口；</li>
+</ol>
+<p><strong>解决代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/use/bin/env python</span></span><br><span class="line"><span class="comment"># _*_ coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">initMaze</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :return: 初始化迷宫</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    maze = [[<span class="number">0</span>] * <span class="number">7</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">5</span> + <span class="number">2</span>)]  <span class="comment"># 用列表解析创建一个7*7的二维数组，为了确保迷宫四周都是墙</span></span><br><span class="line">    walls = [  <span class="comment"># 记录了墙的位置</span></span><br><span class="line">        (<span class="number">1</span>, <span class="number">3</span>),</span><br><span class="line">        (<span class="number">2</span>, <span class="number">1</span>), (<span class="number">2</span>, <span class="number">5</span>),</span><br><span class="line">        (<span class="number">3</span>, <span class="number">3</span>), (<span class="number">3</span>, <span class="number">4</span>),</span><br><span class="line">        (<span class="number">4</span>, <span class="number">2</span>),  <span class="comment"># (4, 3),  # 如果把(4, 3)点也设置为墙，那么整个迷宫是走不出去的，所以会返回一个空列表</span></span><br><span class="line">        (<span class="number">5</span>, <span class="number">4</span>)</span><br><span class="line">    ]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>):  <span class="comment"># 把迷宫的四周设置成墙</span></span><br><span class="line">        maze[i][<span class="number">0</span>] = maze[i][<span class="number">-1</span>] = <span class="number">1</span></span><br><span class="line">        maze[<span class="number">0</span>][i] = maze[<span class="number">-1</span>][i] = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i, j <span class="keyword">in</span> walls:  <span class="comment"># 把所有墙的点设置为1</span></span><br><span class="line">        maze[i][j] = <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> maze</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">[1, 1, 1, 1, 1, 1, 1]</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[1, 0, 0, 1, 0, 0, 1]</span></span><br><span class="line"><span class="string">[1, 1, 0, 0, 0, 1, 1]</span></span><br><span class="line"><span class="string">[1, 0, 0, 1, 1, 0, 1]</span></span><br><span class="line"><span class="string">[1, 0, 1, 0, 0, 0, 1]</span></span><br><span class="line"><span class="string">[1, 0, 0, 0, 1, 0, 1]</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[1, 1, 1, 1, 1, 1, 1]</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">path</span><span class="params">(maze, start, end)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :param maze: 迷宫</span></span><br><span class="line"><span class="string">    :param start: 起始点</span></span><br><span class="line"><span class="string">    :param end: 结束点</span></span><br><span class="line"><span class="string">    :return: 行走的每个点</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    i, j = start  <span class="comment"># 分解起始点的坐标</span></span><br><span class="line">    ei, ej = end  <span class="comment"># 分解结束点的左边</span></span><br><span class="line">    stack = [(i, j)]  <span class="comment"># 创建一个栈，并让老鼠站到起始点的位置</span></span><br><span class="line">    maze[i][j] = <span class="number">1</span>  <span class="comment"># 走过的路置为1</span></span><br><span class="line">    <span class="keyword">while</span> stack:  <span class="comment"># 栈不为空的时候继续走，否则退出</span></span><br><span class="line">        i, j = stack[<span class="number">-1</span>]  <span class="comment"># 获取当前老鼠所站的位置点</span></span><br><span class="line">        <span class="keyword">if</span> (i, j) == (ei, ej): <span class="keyword">break</span>  <span class="comment"># 如果老鼠找到了出口</span></span><br><span class="line">        <span class="keyword">for</span> di, dj <span class="keyword">in</span> [(<span class="number">0</span>, <span class="number">-1</span>), (<span class="number">0</span>, <span class="number">1</span>), (<span class="number">-1</span>, <span class="number">0</span>), (<span class="number">1</span>, <span class="number">0</span>)]:  <span class="comment"># 左右上下</span></span><br><span class="line">            <span class="keyword">if</span> maze[i + di][j + dj] == <span class="number">0</span>:  <span class="comment"># 如果当前点可走</span></span><br><span class="line">                maze[i + di][j + dj] = <span class="number">1</span>  <span class="comment"># 把当前点置为1</span></span><br><span class="line">                stack.append((i + di, j + dj))  <span class="comment"># 把当前的位置添加到栈里面</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:  <span class="comment"># 如果所有的点都不可走</span></span><br><span class="line">            stack.pop()  <span class="comment"># 退回上一步</span></span><br><span class="line">    <span class="keyword">return</span> stack  <span class="comment"># 如果迷宫不能走则返回空栈</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Maze = initMaze()  <span class="comment"># 初始化迷宫</span></span><br><span class="line">result = path(maze=Maze, start=(<span class="number">1</span>, <span class="number">1</span>), end=(<span class="number">5</span>, <span class="number">5</span>))  <span class="comment"># 老鼠开始走迷宫</span></span><br><span class="line">print(result)</span><br><span class="line"><span class="comment"># [(1, 1), (1, 2), (2, 2), (3, 2), (3, 1), (4, 1), (5, 1), (5, 2), (5, 3), (4, 3), (4, 4), (4, 5), (5, 5)]</span></span><br></pre></td></tr></table></figure>
+<h3 id="后缀表达式求值"><a href="#后缀表达式求值" class="headerlink" title="后缀表达式求值"></a>后缀表达式求值</h3><p><strong>题目</strong></p>
+<p>计算一个表达式时，编译器通常使用后缀表达式，这种表达式不需要括号：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">中缀表达式</th>
+<th style="text-align:left">后缀表达式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">2 + 3 * 4</td>
+<td style="text-align:left">2 3 4 * +</td>
+</tr>
+<tr>
+<td style="text-align:left">( 1 + 2 ) * ( 6 / 3 ) + 2</td>
+<td style="text-align:left">1 2 + 6 3 / * 2 +</td>
+</tr>
+<tr>
+<td style="text-align:left">18 / ( 3 * ( 1 + 2 ) )</td>
+<td style="text-align:left">18 3 1 2 + * /</td>
+</tr>
+</tbody>
+</table>
+<p>编写程序实现后缀表达式求值函数。</p>
+<p><strong>思路</strong></p>
+<ol>
+<li>建立一个栈来存储待计算的操作数；</li>
+<li>遍历字符串，遇到操作数则压入栈中，遇到操作符号则出栈操作数(n次)，进行相应的计算，计算结果是新的操作数压回栈中，等待计算</li>
+<li>按上述过程，遍历完整个表达式，栈中只剩下最终结果；</li>
+</ol>
+<p><strong>解决代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/use/bin/env python</span></span><br><span class="line"><span class="comment"># _*_ coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line">operators = &#123;  <span class="comment"># 运算符操作表</span></span><br><span class="line">    <span class="string">'+'</span>: <span class="keyword">lambda</span> op1, op2: op1 + op2,</span><br><span class="line">    <span class="string">'-'</span>: <span class="keyword">lambda</span> op1, op2: op1 - op2,</span><br><span class="line">    <span class="string">'*'</span>: <span class="keyword">lambda</span> op1, op2: op1 * op2,</span><br><span class="line">    <span class="string">'/'</span>: <span class="keyword">lambda</span> op1, op2: op1 / op2,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">evalPostfix</span><span class="params">(e)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :param e: 后缀表达式</span></span><br><span class="line"><span class="string">    :return: 正常情况下栈内的第一个元素就是计算好之后的值</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    tokens = e.split()  <span class="comment"># 把传过来的后缀表达式切分成列表</span></span><br><span class="line">    stack = []</span><br><span class="line">    <span class="keyword">for</span> token <span class="keyword">in</span> tokens:  <span class="comment"># 迭代列表中的元素</span></span><br><span class="line">        <span class="keyword">if</span> token.isdigit():  <span class="comment"># 如果当前元素是数字</span></span><br><span class="line">            stack.append(int(token))  <span class="comment"># 就追加到栈里边</span></span><br><span class="line">        <span class="keyword">elif</span> token <span class="keyword">in</span> operators.keys():  <span class="comment"># 如果当前元素是操作符</span></span><br><span class="line">            f = operators[token]  <span class="comment"># 获取运算符操作表中对应的lambda表达式</span></span><br><span class="line">            op2 = stack.pop()  <span class="comment"># 根据先进后出的原则，先让第二个元素出栈</span></span><br><span class="line">            op1 = stack.pop()  <span class="comment"># 在让第一个元素出栈</span></span><br><span class="line">            stack.append(f(op1, op2))  <span class="comment"># 把计算的结果在放入到栈内</span></span><br><span class="line">    <span class="keyword">return</span> stack.pop()  <span class="comment"># 返回栈内的第一个元素</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">result = evalPostfix(<span class="string">'2 3 4 * +'</span>)</span><br><span class="line">print(result)</span><br><span class="line"><span class="comment"># 14</span></span><br></pre></td></tr></table></figure>
+<h3 id="背包问题"><a href="#背包问题" class="headerlink" title="背包问题"></a>背包问题</h3><p><strong>题目</strong></p>
+<p>有一个背包能装10kg的物品，现在有6件物品分别为：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">物品名称</th>
+<th style="text-align:left">重量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">物品0</td>
+<td style="text-align:left">1kg</td>
+</tr>
+<tr>
+<td style="text-align:left">物品1</td>
+<td style="text-align:left">8kg</td>
+</tr>
+<tr>
+<td style="text-align:left">物品2</td>
+<td style="text-align:left">4kg</td>
+</tr>
+<tr>
+<td style="text-align:left">物品3</td>
+<td style="text-align:left">3kg</td>
+</tr>
+<tr>
+<td style="text-align:left">物品4</td>
+<td style="text-align:left">5kg</td>
+</tr>
+<tr>
+<td style="text-align:left">物品5</td>
+<td style="text-align:left">2kg</td>
+</tr>
+</tbody>
+</table>
+<p>编写找出所有能将背包装满的解，如物品1+物品5。</p>
+<p><strong>解决代码</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/use/bin/env python</span></span><br><span class="line"><span class="comment"># _*_ coding:utf-8 _*_</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">knapsack</span><span class="params">(t, w)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :param t: 背包总容量</span></span><br><span class="line"><span class="string">    :param w: 物品重量列表</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    n = len(w)  <span class="comment"># 可选的物品数量</span></span><br><span class="line">    stack = []  <span class="comment"># 创建一个栈</span></span><br><span class="line">    k = <span class="number">0</span>  <span class="comment"># 当前所选择的物品游标</span></span><br><span class="line">    <span class="keyword">while</span> stack <span class="keyword">or</span> k &lt; n:  <span class="comment"># 栈不为空或者k&lt;n</span></span><br><span class="line">        <span class="keyword">while</span> t &gt; <span class="number">0</span> <span class="keyword">and</span> k &lt; n:  <span class="comment"># 还有剩余空间并且有物品可装</span></span><br><span class="line">            <span class="keyword">if</span> t &gt;= w[k]:  <span class="comment"># 剩余空间大于等于当前物品重量</span></span><br><span class="line">                stack.append(k)  <span class="comment"># 把物品装备背包</span></span><br><span class="line">                t -= w[k]  <span class="comment"># 背包空间减少</span></span><br><span class="line">            k += <span class="number">1</span>  <span class="comment"># 继续向后找</span></span><br><span class="line">        <span class="keyword">if</span> t == <span class="number">0</span>:  <span class="comment"># 找到了解</span></span><br><span class="line">            print(stack)</span><br><span class="line">        <span class="comment"># 回退过程</span></span><br><span class="line">        k = stack.pop()  <span class="comment"># 把最后一个物品拿出来</span></span><br><span class="line">        t += w[k]  <span class="comment"># 背包总容量加上w[k]</span></span><br><span class="line">        k += <span class="number">1</span>  <span class="comment"># 装入下一个物品</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">knapsack(<span class="number">10</span>, [<span class="number">1</span>, <span class="number">8</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">2</span>])</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">[0, 2, 3, 5]</span></span><br><span class="line"><span class="string">[0, 2, 4]</span></span><br><span class="line"><span class="string">[1, 5]</span></span><br><span class="line"><span class="string">[3, 4, 5]</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#栈的接口"><span class="toc-number">1.</span> <span class="toc-text">栈的接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一大波实例"><span class="toc-number">2.</span> <span class="toc-text">一大波实例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#括号匹配"><span class="toc-number">2.1.</span> <span class="toc-text">括号匹配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#迷宫问题"><span class="toc-number">2.2.</span> <span class="toc-text">迷宫问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后缀表达式求值"><span class="toc-number">2.3.</span> <span class="toc-text">后缀表达式求值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#背包问题"><span class="toc-number">2.4.</span> <span class="toc-text">背包问题</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

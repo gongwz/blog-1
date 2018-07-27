@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="列表(list)同字符串一样都是有序的，因为他们都可以通过切片和索引进行数据访问，且列表是可变的。 创建列表的几种方法第一种 name_list = [&apos;Python&apos;, &apos;PHP&apos;, &apos;JAVA&apos;] 第二种 name_list ＝ list([&apos;Python&apos;, &apos;PHP&apos;, &apos;JAVA&apos;]) 创建一个空列表 &amp;gt;&amp;gt;&amp;gt; li = list() &amp;gt;&amp;gt;&amp;gt; type(">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python全栈之路系列之列表数据类型">
+<meta property="og:url" content="https://blog.ansheng.me/article/python-full-stack-way-list-data-type/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="列表(list)同字符串一样都是有序的，因为他们都可以通过切片和索引进行数据访问，且列表是可变的。 创建列表的几种方法第一种 name_list = [&apos;Python&apos;, &apos;PHP&apos;, &apos;JAVA&apos;] 第二种 name_list ＝ list([&apos;Python&apos;, &apos;PHP&apos;, &apos;JAVA&apos;]) 创建一个空列表 &amp;gt;&amp;gt;&amp;gt; li = list() &amp;gt;&amp;gt;&amp;gt; type(">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.077Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python全栈之路系列之列表数据类型">
+<meta name="twitter:description" content="列表(list)同字符串一样都是有序的，因为他们都可以通过切片和索引进行数据访问，且列表是可变的。 创建列表的几种方法第一种 name_list = [&apos;Python&apos;, &apos;PHP&apos;, &apos;JAVA&apos;] 第二种 name_list ＝ list([&apos;Python&apos;, &apos;PHP&apos;, &apos;JAVA&apos;]) 创建一个空列表 &amp;gt;&amp;gt;&amp;gt; li = list() &amp;gt;&amp;gt;&amp;gt; type(">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Python全栈之路系列之列表数据类型</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/python-full-stack-way-object-oriented-advanced/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/python-full-stack-way-exception-handling/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建列表的几种方法"><span class="toc-number">1.</span> <span class="toc-text">创建列表的几种方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表所提供的方法"><span class="toc-number">2.</span> <span class="toc-text">列表所提供的方法</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Python全栈之路系列之列表数据类型
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>列表(list)同字符串一样都是有序的，因为他们都可以通过切片和索引进行数据访问，且列表是可变的。</p>
+<h2 id="创建列表的几种方法"><a href="#创建列表的几种方法" class="headerlink" title="创建列表的几种方法"></a>创建列表的几种方法</h2><p>第一种</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">name_list = [<span class="string">'Python'</span>, <span class="string">'PHP'</span>, <span class="string">'JAVA'</span>]</span><br></pre></td></tr></table></figure>
+<p>第二种</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">name_list ＝ list([<span class="string">'Python'</span>, <span class="string">'PHP'</span>, <span class="string">'JAVA'</span>])</span><br></pre></td></tr></table></figure>
+<p>创建一个空列表</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>li = list() </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(li)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">list</span>'&gt;</span></span><br></pre></td></tr></table></figure>
+<p>把一个字符串转换成一个列表</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>var=<span class="string">"abc"</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>li = list(var)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>li</span><br><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>]</span><br></pre></td></tr></table></figure>
+<p>list在把字符串转换成列表的时候，会把字符串用for循环迭代一下，然后把每个值当作list的一个元素。</p>
+<p>把一个元组转换成列表</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup=(<span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"c"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>li=list(tup)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(li)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">list</span>'&gt;</span></span><br><span class="line"><span class="class">&gt;&gt;&gt; <span class="title">li</span></span></span><br><span class="line">['a', 'b', 'c']</span><br></pre></td></tr></table></figure>
+<p>把字典转换成列表</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>dic=&#123;<span class="string">"k1"</span>:<span class="string">"a"</span>,<span class="string">"k2"</span>:<span class="string">"b"</span>,<span class="string">"k3"</span>:<span class="string">"c"</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>li=list(dic)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(li)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">list</span>'&gt;</span></span><br><span class="line"><span class="class">&gt;&gt;&gt; <span class="title">li</span></span></span><br><span class="line">['k3', 'k1', 'k2']</span><br></pre></td></tr></table></figure>
+<p>字典默认循环的时候就是key，所以会把key当作列表的元素</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>dic=&#123;<span class="string">"k1"</span>:<span class="string">"a"</span>,<span class="string">"k2"</span>:<span class="string">"b"</span>,<span class="string">"k3"</span>:<span class="string">"c"</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>li=list(dic.values())</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>li</span><br><span class="line">[<span class="string">'c'</span>, <span class="string">'a'</span>, <span class="string">'b'</span>]</span><br></pre></td></tr></table></figure>
+<p>如果指定循环的是values，那么就会把values当作列表的元素</p>
+<h2 id="列表所提供的方法"><a href="#列表所提供的方法" class="headerlink" title="列表所提供的方法"></a>列表所提供的方法</h2><p>在列表末尾添加新的对象</p>
+<blockquote>
+<p>append(self, p_object): </p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list = [<span class="string">'Python'</span>, <span class="string">'PHP'</span>, <span class="string">'JAVA'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list.append(<span class="string">"C#"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list</span><br><span class="line">[<span class="string">'Python'</span>, <span class="string">'PHP'</span>, <span class="string">'JAVA'</span>, <span class="string">'C#'</span>]</span><br></pre></td></tr></table></figure>
+<p>统计某个元素在列表中出现的次数</p>
+<blockquote>
+<p>count(self, value): </p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">obj</td>
+<td style="text-align:left">列表中统计的对象</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list = [<span class="string">'Python'</span>, <span class="string">'PHP'</span>, <span class="string">'PHP'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list.count(<span class="string">"PHP"</span>)</span><br><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>用于在列表末尾一次性追加另一个序列中的多个值</p>
+<blockquote>
+<p>extend(self, iterable): </p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">seq</td>
+<td style="text-align:left">元素列表</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list = [<span class="string">'Python'</span>, <span class="string">'PHP'</span>, <span class="string">'Python'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_OS = [<span class="string">'Windows'</span>, <span class="string">'Linux'</span>, <span class="string">'Unix'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list</span><br><span class="line">[<span class="string">'Python'</span>, <span class="string">'PHP'</span>, <span class="string">'Python'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_OS</span><br><span class="line">[<span class="string">'Windows'</span>, <span class="string">'Linux'</span>, <span class="string">'Unix'</span>]</span><br><span class="line"><span class="comment"># 把列表`name_OS`中的内容添加到`name_list`的尾部</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list.extend(name_OS)</span><br><span class="line"><span class="comment"># 输出的结果</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list</span><br><span class="line">[<span class="string">'Python'</span>, <span class="string">'PHP'</span>, <span class="string">'Python'</span>, <span class="string">'Windows'</span>, <span class="string">'Linux'</span>, <span class="string">'Unix'</span>]</span><br></pre></td></tr></table></figure>
+<p>从列表中找出某个值第一个匹配项的索引位置</p>
+<blockquote>
+<p>index(self, value, start=None, stop=None): </p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">value</td>
+<td style="text-align:left">列表中统计的对象</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查找对象所在的位置</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list = [<span class="string">'Python'</span>, <span class="string">'PHP'</span>, <span class="string">'JAVA'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list.index(<span class="string">"PHP"</span>)</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>将指定对象插入列表</p>
+<blockquote>
+<p>insert(self, index, p_object): </p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">index</td>
+<td style="text-align:left">对象obj需要插入的索引位置</td>
+</tr>
+<tr>
+<td style="text-align:left">obj</td>
+<td style="text-align:left">要出入列表中的对象</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list = [<span class="string">'Python'</span>, <span class="string">'PHP'</span>, <span class="string">'JAVA'</span>]</span><br><span class="line"><span class="comment"># 把位置`1`的内容换成`C`，后面的自动退格一个位置</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list.insert(<span class="number">1</span>,<span class="string">"C"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list</span><br><span class="line">[<span class="string">'Python'</span>, <span class="string">'C'</span>, <span class="string">'PHP'</span>, <span class="string">'JAVA'</span>]</span><br></pre></td></tr></table></figure>
+<p>移除列表中的一个元素，并且返回该元素的值</p>
+<blockquote>
+<p>pop(self, index=None):</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">index</td>
+<td style="text-align:left">可选参数，要移除列表元素的位置</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list = [<span class="string">'Python'</span>, <span class="string">'PHP'</span>, <span class="string">'JAVA'</span>]</span><br><span class="line"><span class="comment"># 删除位置1上面的内容，并且返回删除的字符串</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list.pop(<span class="number">1</span>)</span><br><span class="line"><span class="string">'PHP'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list</span><br><span class="line">[<span class="string">'Python'</span>, <span class="string">'JAVA'</span>]</span><br></pre></td></tr></table></figure>
+<p>移除列表中某个值的第一个匹配项</p>
+<blockquote>
+<p>remove(self, value): </p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">value</td>
+<td style="text-align:left">列表中要移除的对象</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list = [<span class="string">'Python'</span>, <span class="string">'PHP'</span>, <span class="string">'JAVA'</span>, <span class="string">'Python'</span>]</span><br><span class="line"><span class="comment"># 每次删除的时候只会把第一次匹配到的值删除，第二个值不会被删除</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list.remove(<span class="string">"Python"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list</span><br><span class="line">[<span class="string">'PHP'</span>, <span class="string">'JAVA'</span>, <span class="string">'Python'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list.remove(<span class="string">"Python"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list</span><br><span class="line">[<span class="string">'PHP'</span>, <span class="string">'JAVA'</span>]</span><br></pre></td></tr></table></figure>
+<p>当然删除元素还可以直接使用<code>del</code>进行删除：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>L = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">del</span> L[<span class="number">1</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>L</span><br><span class="line">[<span class="number">1</span>, <span class="number">3</span>]</span><br></pre></td></tr></table></figure>
+<p>又或者使用切片赋值进行元素删除</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>L = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>L[<span class="number">1</span>:<span class="number">2</span>] = []</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>L</span><br><span class="line">[<span class="number">1</span>, <span class="number">3</span>]</span><br></pre></td></tr></table></figure>
+<p>反向输出列表中的元素</p>
+<blockquote>
+<p>reverse(self):</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list = [<span class="string">'Python'</span>, <span class="string">'PHP'</span>, <span class="string">'JAVA'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list</span><br><span class="line">[<span class="string">'Python'</span>, <span class="string">'PHP'</span>, <span class="string">'JAVA'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list.reverse()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list</span><br><span class="line">[<span class="string">'JAVA'</span>, <span class="string">'PHP'</span>, <span class="string">'Python'</span>]</span><br></pre></td></tr></table></figure>
+<p>对原列表进行排序，如果指定参数，则使用比较函数指定的比较函数</p>
+<blockquote>
+<p>sort(self, cmp=None, key=None, reverse=False):</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list = [<span class="string">'Python'</span>, <span class="string">'PHP'</span>, <span class="string">'JAVA'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list</span><br><span class="line">[<span class="string">'Python'</span>, <span class="string">'PHP'</span>, <span class="string">'JAVA'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list.sort()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_list</span><br><span class="line">[<span class="string">'JAVA'</span>, <span class="string">'PHP'</span>, <span class="string">'Python'</span>]</span><br></pre></td></tr></table></figure>
+<p>清除列表内所有元素</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>li</span><br><span class="line">[<span class="string">'Ansheng'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>li.clear()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>li</span><br><span class="line">[]</span><br></pre></td></tr></table></figure>
+<p>同字符串一样，列表也支持解析，称为列表解析</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>li = [x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">20</span>)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>li</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>, <span class="number">14</span>, <span class="number">15</span>, <span class="number">16</span>, <span class="number">17</span>, <span class="number">18</span>, <span class="number">19</span>]</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建列表的几种方法"><span class="toc-number">1.</span> <span class="toc-text">创建列表的几种方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表所提供的方法"><span class="toc-number">2.</span> <span class="toc-text">列表所提供的方法</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

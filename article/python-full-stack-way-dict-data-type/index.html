@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="字典(dict)在基本的数据类型中使用频率也是相当高的，而且它的访问方式是通过键来获取到对应的值，当然存储的方式也是键值对了，属于可变类型。 其中字典的Key必须是不可变类型，比如字符串、数字、元组都可以作为字典的Key。 创建字典的两种方式第一种 &amp;gt;&amp;gt;&amp;gt; dic = &amp;#123;&quot;k1&quot;:&quot;123&quot;,&quot;k2&quot;:&quot;456&quot;&amp;#125;&amp;gt;&amp;gt;&amp;gt; dic&amp;#123;&apos;">
+<meta name="keywords" content="安生,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python全栈之路系列之字典数据类型">
+<meta property="og:url" content="https://blog.ansheng.me/article/python-full-stack-way-dict-data-type/index.html">
+<meta property="og:site_name" content="Welcome to ansheng’s blog!">
+<meta property="og:description" content="字典(dict)在基本的数据类型中使用频率也是相当高的，而且它的访问方式是通过键来获取到对应的值，当然存储的方式也是键值对了，属于可变类型。 其中字典的Key必须是不可变类型，比如字符串、数字、元组都可以作为字典的Key。 创建字典的两种方式第一种 &amp;gt;&amp;gt;&amp;gt; dic = &amp;#123;&quot;k1&quot;:&quot;123&quot;,&quot;k2&quot;:&quot;456&quot;&amp;#125;&amp;gt;&amp;gt;&amp;gt; dic&amp;#123;&apos;">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-07-27T03:26:40.075Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python全栈之路系列之字典数据类型">
+<meta name="twitter:description" content="字典(dict)在基本的数据类型中使用频率也是相当高的，而且它的访问方式是通过键来获取到对应的值，当然存储的方式也是键值对了，属于可变类型。 其中字典的Key必须是不可变类型，比如字符串、数字、元组都可以作为字典的Key。 创建字典的两种方式第一种 &amp;gt;&amp;gt;&amp;gt; dic = &amp;#123;&quot;k1&quot;:&quot;123&quot;,&quot;k2&quot;:&quot;456&quot;&amp;#125;&amp;gt;&amp;gt;&amp;gt; dic&amp;#123;&apos;">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Python全栈之路系列之字典数据类型</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg active"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible;">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/article/python-full-stack-way-coroutine/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/article/python-full-stack-way-depth-copy/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+    </span>
+    <br/>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建字典的两种方式"><span class="toc-number">1.</span> <span class="toc-text">创建字典的两种方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字典所提供的常用方法"><span class="toc-number">2.</span> <span class="toc-text">字典所提供的常用方法</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Python全栈之路系列之字典数据类型
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="postdate">创建日期：</span>
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>字典(dict)在基本的数据类型中使用频率也是相当高的，而且它的访问方式是通过键来获取到对应的值，当然存储的方式也是<code>键值</code>对了，属于可变类型。</p>
+<p>其中字典的Key必须是不可变类型，比如字符串、数字、元组都可以作为字典的Key。</p>
+<h2 id="创建字典的两种方式"><a href="#创建字典的两种方式" class="headerlink" title="创建字典的两种方式"></a>创建字典的两种方式</h2><p>第一种</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>dic = &#123;<span class="string">"k1"</span>:<span class="string">"123"</span>,<span class="string">"k2"</span>:<span class="string">"456"</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dic</span><br><span class="line">&#123;<span class="string">'k1'</span>: <span class="string">'123'</span>, <span class="string">'k2'</span>: <span class="string">'456'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(dic)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">dict</span>'&gt;</span></span><br></pre></td></tr></table></figure>
+<p>第二种</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>dic = dict(&#123;<span class="string">"k1"</span>:<span class="string">"123"</span>,<span class="string">"k2"</span>:<span class="string">"456"</span>&#125;)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dic</span><br><span class="line">&#123;<span class="string">'k1'</span>: <span class="string">'123'</span>, <span class="string">'k2'</span>: <span class="string">'456'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(dic)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">dict</span>'&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在创建字典的时候，<code>__init__</code>初始化的时候还可以接受一个可迭代的变量作为值</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>li = [<span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"c"</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dic = dict(enumerate(li))</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dic</span><br><span class="line">&#123;<span class="number">0</span>: <span class="string">'a'</span>, <span class="number">1</span>: <span class="string">'b'</span>, <span class="number">2</span>: <span class="string">'c'</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>默认dict在添加元素的时候会把li列表中的元素for循环一遍，添加的时候列表中的内容是字典的值，而键默认是没有的，可以通过enumerate方法给他加一个序列，也就是键。</p>
+<p>与其变量不同的是，字典的键不仅仅支持字符串，而且还支持其他数据类型，譬如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 数字</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>D = &#123;<span class="number">1</span>:<span class="number">3</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>D[<span class="number">1</span>]</span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="comment"># 元组</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>D = &#123;(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>):<span class="number">3</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>D[(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)]</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>字典解析</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>D = &#123;x: x*<span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">10</span>)&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>D</span><br><span class="line">&#123;<span class="number">0</span>: <span class="number">0</span>, <span class="number">1</span>: <span class="number">2</span>, <span class="number">2</span>: <span class="number">4</span>, <span class="number">3</span>: <span class="number">6</span>, <span class="number">4</span>: <span class="number">8</span>, <span class="number">5</span>: <span class="number">10</span>, <span class="number">6</span>: <span class="number">12</span>, <span class="number">7</span>: <span class="number">14</span>, <span class="number">8</span>: <span class="number">16</span>, <span class="number">9</span>: <span class="number">18</span>&#125;</span><br><span class="line"><span class="comment"># 可以使用zip</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>D = &#123;k:v <span class="keyword">for</span> (k, v) <span class="keyword">in</span> zip([<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>],[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>D</span><br><span class="line">&#123;<span class="string">'a'</span>: <span class="number">1</span>, <span class="string">'c'</span>: <span class="number">3</span>, <span class="string">'b'</span>: <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="字典所提供的常用方法"><a href="#字典所提供的常用方法" class="headerlink" title="字典所提供的常用方法"></a>字典所提供的常用方法</h2><p>删除字典中的所有元素</p>
+<blockquote>
+<p>clear(self):</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>person = dict(&#123;<span class="string">"name"</span>: <span class="string">"ansheng"</span>, <span class="string">'age'</span>: <span class="number">18</span>&#125;)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>person</span><br><span class="line">&#123;<span class="string">'age'</span>: <span class="number">18</span>, <span class="string">'name'</span>: <span class="string">'ansheng'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>person.clear()</span><br><span class="line"><span class="comment"># 清空字典的内容之后字典会变成一个空字典</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>person</span><br><span class="line">&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>返回一个字典的浅复制</p>
+<blockquote>
+<p>copy(self): </p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>person = dict(&#123;<span class="string">"name"</span>: <span class="string">"ansheng"</span>, <span class="string">'age'</span>: <span class="number">18</span>&#125;)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>person.copy()</span><br><span class="line">&#123;<span class="string">'age'</span>: <span class="number">18</span>, <span class="string">'name'</span>: <span class="string">'ansheng'</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>创建一个新字典，以序列seq中元素做字典的键，value为字典所有键对应的初始值</p>
+<blockquote>
+<p>fromkeys(S, v=None): </p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">S</td>
+<td style="text-align:left">字典键值列表</td>
+</tr>
+<tr>
+<td style="text-align:left">v</td>
+<td style="text-align:left">可选参数, 设置键序列（seq）的值</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>seq = (<span class="string">'name'</span>, <span class="string">'age'</span>, <span class="string">'sex'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dict = dict.fromkeys(seq)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dict</span><br><span class="line">&#123;<span class="string">'age'</span>: <span class="keyword">None</span>, <span class="string">'name'</span>: <span class="keyword">None</span>, <span class="string">'sex'</span>: <span class="keyword">None</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>fromkeys方法就是把一个字典的key更新到另外一个字典中，默认的值可以设置</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>dic=&#123;<span class="string">"k1"</span>:<span class="number">123</span>,<span class="string">"k2"</span>:<span class="number">456</span>,<span class="string">"k4"</span>:<span class="number">111</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dic</span><br><span class="line">&#123;<span class="string">'k1'</span>: <span class="number">123</span>, <span class="string">'k4'</span>: <span class="number">111</span>, <span class="string">'k2'</span>: <span class="number">456</span>&#125;</span><br><span class="line"><span class="comment"># 创建一个新的字典，默认值是`123`</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dic.fromkeys([<span class="string">"k1"</span>,<span class="string">"k2"</span>,<span class="string">"k3"</span>],<span class="string">"123"</span>)</span><br><span class="line">&#123;<span class="string">'k1'</span>: <span class="string">'123'</span>, <span class="string">'k3'</span>: <span class="string">'123'</span>, <span class="string">'k2'</span>: <span class="string">'123'</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>返回指定键的值，如果值不在字典中返回默认值</p>
+<blockquote>
+<p>get(self, k, d=None):</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">key</td>
+<td style="text-align:left">字典中要查找的键</td>
+</tr>
+<tr>
+<td style="text-align:left">default</td>
+<td style="text-align:left">如果指定键的值不存在时，返回该默认值值</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>person = &#123;<span class="string">"name"</span>: <span class="string">"ansheng"</span>, <span class="string">'age'</span>: <span class="number">18</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>person.get(<span class="string">"name"</span>)</span><br><span class="line"><span class="string">'ansheng'</span></span><br></pre></td></tr></table></figure>
+<p>成员运算符in可以判断键是否存在于字典中，如果键在字典dict里返回true，否则返回false</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>person = &#123;<span class="string">"name"</span>: <span class="string">"mr"</span>, <span class="string">'age'</span>: <span class="number">18</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'name'</span> <span class="keyword">in</span> person</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'aname'</span> <span class="keyword">in</span> person</span><br><span class="line"><span class="keyword">False</span></span><br></pre></td></tr></table></figure>
+<p>以列表返回可遍历的(键, 值)元组数组</p>
+<blockquote>
+<p>items(self):</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>person = &#123;<span class="string">"name"</span>: <span class="string">"mr.wu"</span>, <span class="string">'age'</span>: <span class="number">18</span>&#125;</span><br><span class="line"><span class="comment"># 以元组的方式输出出来</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>person.items()</span><br><span class="line">[(<span class="string">'age'</span>, <span class="number">18</span>), (<span class="string">'name'</span>, <span class="string">'mr.wu'</span>)]</span><br></pre></td></tr></table></figure>
+<p>以列表的形式返回一个字典所有的键</p>
+<blockquote>
+<p>keys(self):</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>person = &#123;<span class="string">"name"</span>: <span class="string">"ansheng"</span>, <span class="string">'age'</span>: <span class="number">18</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>person.keys()</span><br><span class="line">[<span class="string">'age'</span>, <span class="string">'name'</span>]</span><br></pre></td></tr></table></figure>
+<p>删除指定给定键所对应的值，返回这个值并从字典中把它移除</p>
+<blockquote>
+<p>pop(self, k, d=None): </p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>person = &#123;<span class="string">"name"</span>: <span class="string">"ansheng"</span>, <span class="string">'age'</span>: <span class="number">18</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>person</span><br><span class="line">&#123;<span class="string">'age'</span>: <span class="number">18</span>, <span class="string">'name'</span>: <span class="string">'ansheng'</span>&#125;</span><br><span class="line"><span class="comment"># 返回删除键对应的值</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>person.pop(<span class="string">"age"</span>)</span><br><span class="line"><span class="number">18</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>person</span><br><span class="line">&#123;<span class="string">'name'</span>: <span class="string">'ansheng'</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>随机返回并删除字典中的一对键和值，因为字典是无序的，没有所谓的”最后一项”或是其它顺序。</p>
+<blockquote>
+<p>popitem(self): </p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>person = &#123;<span class="string">"name"</span>: <span class="string">"ansheng"</span>, <span class="string">'age'</span>: <span class="number">18</span>&#125;</span><br><span class="line"><span class="comment"># 随即删除并显示所删除的键和值</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>person.popitem()</span><br><span class="line">(<span class="string">'age'</span>, <span class="number">18</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>person</span><br><span class="line">&#123;<span class="string">'name'</span>: <span class="string">'ansheng'</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>如果key不存在，则创建，如果存在，则返回已存在的值且不修改</p>
+<blockquote>
+<p>setdefault(self, k, d=None): </p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">key</td>
+<td style="text-align:left">查找的键值</td>
+</tr>
+<tr>
+<td style="text-align:left">default</td>
+<td style="text-align:left">键不存在时，设置的默认键值</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>person = &#123;<span class="string">"name"</span>: <span class="string">"ansheng"</span>, <span class="string">'age'</span>: <span class="number">18</span>&#125;</span><br><span class="line"><span class="comment"># 如果字典中有这个键，那么就输出这个键的值</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>person.setdefault(<span class="string">"name"</span>)</span><br><span class="line"><span class="string">'ansheng'</span></span><br><span class="line"><span class="comment"># 如果没有则不输出，但是会创建一个键，值为默认的'None'，值是可以指定的</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>person.setdefault(<span class="string">"sex"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>person</span><br><span class="line">&#123;<span class="string">'age'</span>: <span class="number">18</span>, <span class="string">'name'</span>: <span class="string">'ansheng'</span>, <span class="string">'sex'</span>: <span class="keyword">None</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>把字典dic2的键/值对更新到dic1里</p>
+<blockquote>
+<p>update(self, E=None, **F): </p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>dic1 = &#123;<span class="string">"name"</span>:<span class="string">"ansheng"</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dic2 = &#123;<span class="string">"age"</span>:<span class="string">"18"</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dic1</span><br><span class="line">&#123;<span class="string">'name'</span>: <span class="string">'ansheng'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dic2</span><br><span class="line">&#123;<span class="string">'age'</span>: <span class="string">'18'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dic1.update(dic2)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dic1</span><br><span class="line">&#123;<span class="string">'age'</span>: <span class="string">'18'</span>, <span class="string">'name'</span>: <span class="string">'ansheng'</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>显示字典中所有的值</p>
+<blockquote>
+<p>values(self): </p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>person = &#123;<span class="string">"name"</span>: <span class="string">"ansheng"</span>, <span class="string">'age'</span>: <span class="number">18</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>person.values()</span><br><span class="line">[<span class="number">18</span>, <span class="string">'ansheng'</span>]</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+<div style="text-align:center">
+  <hr>
+  <img src="/images/wechat.jpg" alt="wechat" style="width:450px;">
+</div>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建字典的两种方式"><span class="toc-number">1.</span> <span class="toc-text">创建字典的两种方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字典所提供的常用方法"><span class="toc-number">2.</span> <span class="toc-text">字典所提供的常用方法</span></a></li></ol>
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ansheng
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="//notes.ansheng.me">Notes</a></li>
+         
+          <li><a href="/article/python-full-stack-way/">PythonFullStackWay</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89592236-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'blog-ansheng-me';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
